@@ -1,0 +1,176 @@
+page {
+	background-color: #F4F4FC;
+}
+
+.wrap {
+	padding: 20rpx;
+	box-sizing: border-box;
+}
+
+.address {
+	padding: 40rpx 20rpx;
+	background-color: #fff;
+	margin: 20rpx 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.address .left {
+	display: flex;
+	align-items: center;
+}
+
+.address .left image {
+	width: 60rpx;
+	height: 60rpx;
+	margin-right: 10rpx;
+}
+
+.address .info .name {
+	font-size: 34rpx;
+}
+
+.address .info .name text {
+	font-size: 28rpx;
+	color: #999;
+	margin-left: 20rpx;
+}
+
+.address .add {
+	margin-top: 10rpx;
+}
+
+.goodsBox {
+	padding: 20rpx;
+	box-sizing: border-box;
+	background-color: #fff;
+}
+
+.goodsBox .goods {
+	display: flex;
+}
+
+.goods image {
+	width: 190rpx;
+	height: 190rpx;
+	margin-right: 20rpx;
+	flex-shrink: 0;
+}
+
+.goods .goodsInfo {
+	width: 100%;
+}
+
+.goods .goodsInfo .xinghao {
+	background-color: #F6F6F6;
+	padding: 10rpx 20rpx;
+	color: #999;
+	font-size: 24rpx;
+	margin: 15rpx 0;
+}
+
+.goods .goodsInfo .price {
+	font-size: 34rpx;
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
+	padding: 20rpx 0;
+}
+
+.hui {
+	color: #999;
+}
+
+.row .pri {
+	font-size: 34rpx;
+	font-weight: bold;
+}
+
+.beizhu {
+	padding-top: 20rpx;
+}
+
+.btm {
+	background-color: #fff;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 750rpx;
+	padding-bottom: constant(safe-area-inset-bottom);
+	padding-bottom: env(safe-area-inset-bottom);
+}
+.btmbox{
+	display: flex;
+	justify-content: flex-end;
+	padding: 20rpx;
+	box-sizing: border-box;
+}
+.btmbox .text{
+	font-size: 36rpx;
+	font-weight: bold;
+}
+.btmbox button{
+	background-color: #00E1DB;
+	color: #fff;
+	margin-left: 20rpx;
+	width: 250rpx;
+}
+.btmbox .yun{
+	color: #999;
+	font-size: 24rpx;
+	text-align: right;
+}
+
+.box1 {
+	padding: 20rpx;
+	box-sizing: border-box;
+	background-color: #fff;
+}
+
+.rowitem {
+	padding: 20rpx 0;
+}
+.payrow {
+	/* width: 670rpx; */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.rowitem image {
+	width: 45rpx;
+	height: 45rpx;
+	margin-right: 10rpx;
+}
+
+.rowitem .l {
+	display: flex;
+	align-items: center;
+}
+.box1 {
+	padding: 20rpx;
+	box-sizing: border-box;
+	background-color: #fff;
+}
+
+.rowitem {
+	padding: 20rpx 0;
+}
+.payrow {
+	/* width: 670rpx; */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.rowitem image {
+	width: 45rpx;
+	height: 45rpx;
+	margin-right: 10rpx;
+}
+
+.rowitem .l {
+	display: flex;
+	align-items: center;
+}

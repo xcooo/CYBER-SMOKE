@@ -1,0 +1,59 @@
+<template>
+  <scroll-view class="container" scroll-y>
+    <view class="tower-background">
+      <view class="tower">
+        <view class="floor" v-for="floor in floors" :key="floor" :style="{ top: `${-20 * (floor - 1)}px` }">
+          <image src="../../static/home/climb_status3.png" class="floor-image"></image>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      floors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // 指定需要的楼层
+    };
+  },
+};
+</script>
+
+<style>
+.container {
+  width: 100%;
+  height: 100vh; /* 视口高度 */
+  overflow: hidden;
+}
+.tower-background {
+  position: relative;
+  width: 100%;
+  height: 2000px; /* 设置背景图高度为2000px */
+  background-image: url('http://www.ckmh.com/static/index/static/web/tower.png');
+  background-size: cover; /* 使背景图片覆盖整个容器 */
+  background-repeat: no-repeat; /* 防止背景图片重复 */
+  background-position: top; /* 背景图片从顶部开始 */
+}
+.tower {
+  position: absolute; /* 绝对定位 */
+  width: 80%; /* 调整塔身宽度为背景图的80% */
+  height: 80%; /* 调整塔身高度为背景图的80% */
+  left: 10%; /* 居中塔身 */
+  top: 15%; /* 将塔身置于背景图片的中间区域 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 从顶部开始排列 */
+  align-items: center; /* 水平居中 */
+}
+.floor {
+  width: 100%;
+  height: calc(10% + 20px); /* 每层高度设置为塔容器总高度的10%加20px */
+  position: relative;
+}
+.floor-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+</style>
