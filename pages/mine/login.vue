@@ -756,7 +756,8 @@ export default {
   width: 100%;
   height: 100vh;
   // background-image: url("https://img.50api.cn/vx.tongbayun.v3/loginbg.jpg");
-  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
+  background-image: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN0108Lrj124NdcYjxn2S_!!2200676927379.jpg");
+  // background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
   background-size: 100% 100%;
   position: relative;
 }
@@ -818,7 +819,7 @@ export default {
   display: flex;
 
   .agree-box-text {
-    color: #fff;
+    color: #000;
     font-size: 24rpx;
     line-height: 36rpx;
   }
@@ -1048,11 +1049,11 @@ export default {
   padding: 0 30rpx;
 
   ::v-deep .uni-input-wrapper {
-    color: #fff;
+    color: #000;
   }
 
   ::v-deep .u-label-text {
-    color: #fff;
+    color: #000;
   }
 
   .h5-biaodan {
@@ -1067,7 +1068,7 @@ export default {
     }
 
     .btn {
-      width: 90%;
+      width: 100%;
       height: 50px;
       display: flex;
       justify-content: center;

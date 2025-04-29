@@ -37,14 +37,14 @@
           </view>
         </view>
       </view>
-      <view class="free-play" @click="tryPlay">
+      <!-- <view class="free-play" @click="tryPlay">
         <view class="free-play-bg">
           <image class="" src="../../static/home/11.png" mode="widthFix" lazy-load="false" binderror="" bindload="" />
         </view>
         <view class="free-play-img">
           <image class="" src="../../static/home/12.png" mode="widthFix" lazy-load="false" binderror="" bindload="" />
         </view>
-      </view>
+      </view> -->
     </view>
 
     <view class="rule-btn-wrap">
@@ -94,7 +94,7 @@
                 src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01aSrqRl24NdcW9CkVj_!!2200676927379.png"
                 mode="widthFix" lazy-load="false" binderror="" bindload="" />
               <view class="mh-goods-rate-text">
-                {{ item.shang_title }}
+                {{ item.mark_title }}
               </view>
             </view>
 
@@ -108,7 +108,7 @@
             <view class="mh-title">{{ item.title }}</view>
 
             <view class="mh-rate"
-              v-if="item.shang_id == 1 || item.shang_id == 2 || item.shang_id == 3 || item.shang_id == 4">只赠不售
+              v-if="item.mark_id == 1 || item.mark_id == 2 || item.mark_id == 3 || item.mark_id == 4|| item.mark_id == 5" >只赠不售
             </view>
             <view class="mh-rate" v-else>概率: {{ item.real_rate }}%</view>
 
@@ -471,18 +471,27 @@
           规则说明
         </view>
         <scroll-view class="rule-pop-bd" scroll-y>
-          <view class="rule-content"> 1、“一番赏”为开赏类商品，-经购买不可退货，请谨慎、理性购买
-            其中FIRST赏在池子总数抽完一半后发出，A中奖概率=A在奖池前一半抽的发数/奖池前一半的总数;其中LAST赏在池子后一半总数抽完后送出，A中奖概率-A在奖池后-半抽的发数/奖池后一半的总数;
-            其中全局赏在奖池总数抽完后发出，A中奖概率=A在整个奖池抽的发数/整个奖池总数;
-            其中最终赏为最后奖池最后一抽抽赏人获得;其中冲锋赏为整个奖池抽赏发数最多人获得</view>
-          <view class="rule-content">
-            2、未成年人禁止购买;
+          <view class="rule-content"> 1、“一番赏”为开赏类商品，有一定概率性，请谨慎、理性购买,  保证绝无空包;</view>
+            <view class="rule-content">
+            2、FIRST赏只要抽完池子第一发就赠送;
           </view>
           <view class="rule-content">
-            3、用户根据需求点击[抽1发][抽3发]或[抽5发]或[抽10发]或[抽50发]或[全收]等购买按钮;
+            3、LAST赏在池子后一半总数抽完后送出，A中奖概率-A在奖池后-半抽的发数/奖池后一半的总数;
           </view>
           <view class="rule-content">
-            4、本平台只保证发出的货品内容物全新未拆，不保任何商品的运输
+            4、最终赏为最后奖池最后一抽抽赏用户获得;
+          </view>
+          <view class="rule-content">
+            5、全局赏在奖池总数抽完后发出，A中奖概率=A在整个奖池抽的发数/整个奖池总数;
+          </view>
+          <view class="rule-content">
+            6、冲锋赏为整个奖池抽赏发数最多用户获得;
+          </view>
+          <view class="rule-content">
+            7、用户根据需求点击[抽1发][抽3发]或[抽5发]或[全收]等购买按钮;
+          </view>
+          <view class="rule-content">
+            8、本平台保证发出的货品内容全新未拆，请多多支持！
           </view>
         </scroll-view>
       </view>
@@ -922,20 +931,20 @@ export default {
           success: res => {
             if (res.code == 200) {
               this.boxInfo = res.data.box
-              this.awardList = res.data.awardList.map(item => {
-                if (item.mark_id == 1) {
-                  item.image = '../../static/home/grade1.png'
-                } else if (item.mark_id == 2) {
-                  item.image = '../../static/home/grade2.png'
-                }
-                else if (item.mark_id == 3) {
-                  item.image = '../../static/home/grade3.png'
-                } else if (item.mark_id == 4) {
-                  item.image = '../../static/home/grade4.png'
-                }
-                return item
-              })
-
+              this.awardList = res.data.awardList
+              // this.awardList = res.data.awardList.map(item => {
+              //   if (item.mark_id == 1) {
+              //     item.image = '../../static/home/grade1.png'
+              //   } else if (item.mark_id == 2) {
+              //     item.image = '../../static/home/grade2.png'
+              //   }
+              //   else if (item.mark_id == 3) {
+              //     item.image = '../../static/home/grade3.png'
+              //   } else if (item.mark_id == 4) {
+              //     item.image = '../../static/home/grade4.png'
+              //   }
+              //   return item
+              // })
 
               this.markList = res.data.box ? res.data.box.markList : []
               this.getDraw()
@@ -1226,7 +1235,6 @@ export default {
 
       uni.switchTab({
         url: '/pages/tabBar/home',
-
       });
     },
     prev () {
@@ -1699,8 +1707,6 @@ page {
         padding: 20rpx 20rpx;
         border-radius: 20rpx;
         border-top-left-radius: 0;
-
-
 
         .mh-goods-rate-wrap {
           position: absolute;
@@ -2675,6 +2681,7 @@ page {
   background: linear-gradient(to right, #5dfda1, #baf828);
   border-radius: 20rpx;
   padding: 20rpx;
+  padding-bottom: 40rpx;
 
   .rule-title {
     text-align: center;
@@ -2687,14 +2694,15 @@ page {
 
   .rule-pop-bd {
     background: #eefed9;
-    padding: 40rpx;
+    padding: 30rpx 20rpx;
     border-radius: 20rpx;
-
+    height: 700rpx; // 改成固定高度
+    overflow: hidden; // 防止外面内容溢出
     .rule-content {
       line-height: 50rpx;
       color: #696969;
       font-weight: 700;
-      font-size: 26rpx;
+      font-size: 28rpx;
     }
   }
 }

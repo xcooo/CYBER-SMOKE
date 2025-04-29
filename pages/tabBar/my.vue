@@ -3,7 +3,8 @@
     <view class="top-box">
       <view class="userInfo-box">
         <view class="left">
-          <image class="avatar" :src="userInfo.avatar ? userInfo.avatar : '../../static/home/defaultavatar.png'"
+          <image class="avatar"
+            :src="userInfo.avatar ? userInfo.avatar : 'https://img.alicdn.com/imgextra/i1/2215984279448/O1CN01Hd1yTg2JfEt36ZLP7_!!2215984279448.png'"
             mode="widthFix" lazy-load="false" binderror="" bindload="" />
           <!-- <view class="get-proto">
             点击头像
@@ -25,19 +26,19 @@
           </view>
         </view>
         <view class="right">
-          <view class="news-btn">
+          <!-- <view class="news-btn">
             <view @click="editUserInfo">
-              <image style="height: 20px; width: 20px;" class="" src="../../static/home/right.png" mode="widthFix"
+              <image style="height: 20px; width: 20px;" class="" src="https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01zQAk9d24NdcU3Oojt_!!2200676927379.png" mode="widthFix"
                 lazy-load="false" binderror="" bindload="" />
             </view>
-          </view>
-          <!-- <view class="edit" @click="editUserInfo">
+          </view> -->
+          <view class="edit" @click="editUserInfo">
             <image class="edit-img" src="https://www.img.xcooo.cn/uploads/2024/02/52c8deca2d219576.png" mode="widthFix"
               lazy-load="false" binderror="" bindload="" />
-            <text class="" selectable="false" space="false" decode="false">
+            <view class="" selectable="false" space="false" decode="false">
               编辑资料
-            </text>
-          </view> -->
+            </view>
+          </view>
         </view>
       </view>
     </view>
@@ -74,30 +75,32 @@
 
       <view class="other-view">
         <view class="other-view-0">
-          <view class="other-view-img">
-            <image class="" src="https://www.img.xcooo.cn/uploads/2024/02/9ac10f683ab85ce7.png" mode="widthFix"
-              lazy-load="false" binderror="" bindload="" />
-          </view>
           <view class="other-view-right" @click="toWallet(1)">
-            <view class="other-view-right-0">
-              佣金
-            </view>
-            <view class="other-view-right-1">
-              {{ userInfo.gold || '' }}
-            </view>
-          </view>
-        </view>
-        <view class="other-view-0 other-view-1">
-          <view class="other-view-img">
-            <image class="" src="https://www.img.xcooo.cn/uploads/2024/02/231fcebf5c7a968d.png" mode="widthFix"
-              lazy-load="false" binderror="" bindload="" />
-          </view>
-          <view class="other-view-right" @click="recharge">
             <view class="other-view-right-0">
               余额
             </view>
             <view class="other-view-right-1">
               {{ userInfo.money || '' }}
+            </view>
+          </view>
+        </view>
+        <view class="other-view-0 other-view-1">
+          <view class="other-view-right" @click="recharge">
+            <view class="other-view-right-0">
+              积分
+            </view>
+            <view class="other-view-right-1">
+              {{ userInfo.coin || '' }}
+            </view>
+          </view>
+        </view>
+        <view class="other-view-0 other-view-2">
+          <view class="other-view-right" @click="recharge">
+            <view class="other-view-right-0">
+              佣金
+            </view>
+            <view class="other-view-right-1">
+              {{ userInfo.gold || '' }}
             </view>
           </view>
         </view>
@@ -295,8 +298,9 @@ export default {
         {
           id: 3,
           icon: '../../static/mine/bankCard.png',
-          title: '积分订单',
-          url: '/package/mine/score-order'
+          title: '任务签到',
+          // url: '/package/mine/score-order'
+          url: '/pages/index/sign'
         },
         {
           id: 5,
@@ -581,13 +585,13 @@ page {
 .my {
   padding-bottom: 150px;
   background: url("https://img.alicdn.com/imgextra/i2/2200676927379/O1CN011bNx0v24NdcXV4o5Y_!!2200676927379.png") no-repeat;
+  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN014XOtNY24NdcXgC3Z6_!!2200676927379.png") no-repeat;
   background-size: cover;
   min-height: calc(100vh - 50px);
 
   .top-box {
     width: 100%;
     height: 400rpx;
-
 
     padding-top: 60rpx;
     box-sizing: border-box;
@@ -649,7 +653,7 @@ page {
           }
 
           .userName {
-            color: #fff;
+            color: #000;
             font-weight: 700;
             font-size: 16px;
           }
@@ -666,16 +670,14 @@ page {
         .edit {
           display: flex;
           align-items: center;
-          border-radius: 31px;
-          height: 31px;
+          border-radius: 50rpx;
           border: 1rpx solid #000;
-          padding: 0 10px;
-          margin-top: 15px;
-          color: #fff;
+          padding: 10rpx 20rpx;
+          color: #000;
 
           .edit-img {
-            width: 18px;
-            height: 18px;
+            width: 32rpx;
+            margin-right: 10rpx;
           }
         }
       }
@@ -944,7 +946,7 @@ page {
     padding: 10px 15px 15px;
     padding: 20rpx;
     background: linear-gradient(to right, #5dfda1, #baf828);
-    
+
     .tit {
       font-size: 15px;
       font-weight: 700;
@@ -1080,7 +1082,7 @@ page {
   // }
 
   .other-view-0 {
-    width: calc(750rpx/2);
+    width: calc(750rpx/3);
     color: #fff;
     display: flex;
     height: 100%;
@@ -1113,7 +1115,7 @@ page {
       }
 
       .other-view-right-1 {
-        max-width: calc(500rpx/2);
+        max-width: calc(500rpx/3);
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -1129,7 +1131,7 @@ page {
   }
 
   .other-view-2 {
-    width: calc(750rpx/2);
+    width: calc(750rpx/3);
     color: #fff;
     display: flex;
     height: 100%;

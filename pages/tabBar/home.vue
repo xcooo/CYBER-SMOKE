@@ -245,7 +245,6 @@ export default {
     ...mapGetters(['sysConfig'])
   },
   methods: {
-
     changeIndex (item, index) {
       this.currentIndex = index
       if (item.sort) {
@@ -444,7 +443,8 @@ export default {
         per_page: size,
         sort_type: '',
         is_new: this.is_new,
-        type: 1
+        type: 1,
+        box_type: this.cateList[this.currentIndex].id
       }
       if (this.cateList[this.currentIndex].id != 4) {
         data.sort_type = this.cateList[this.currentIndex].id
@@ -471,7 +471,7 @@ export default {
     toDetail (item) {
       switch (item.box_type) {
         case 1:
-        this.$common.to({
+          this.$common.to({
             url: '/pages/box/firstReward',
             query: {
               id: item.id
@@ -503,8 +503,15 @@ export default {
       console.log(item)
       switch (item.type) {
         case 1:
+          this.$common.to({
+            url: '/pages/index/sign',
+          })
           break
         case 2:
+          this.$common.to({
+            type: 3,
+            url: '/pages/tabBar/charts',
+          })
           break
         case 3:
           if (!this.userInfo) {

@@ -671,14 +671,14 @@ export default {
               this.boxLogList = []
             }
             let newArr = res.data.data.map(item => {
-              if (item.mark_id == 1) {
+              if (item.mark_id == 33) {
                 item.image = '../../static/home/200.png'
-              } else if (item.mark_id == 2) {
+              } else if (item.mark_id == 34) {
                 item.image = '../../static/home/300.png'
               }
-              else if (item.mark_id == 3) {
+              else if (item.mark_id == 35) {
                 item.image = '../../static/home/400.png'
-              } else if (item.mark_id == 4) {
+              } else if (item.mark_id == 36) {
                 item.image = '../../static/home/100.png'
               }
               return item
@@ -695,7 +695,9 @@ export default {
       return new Promise((resolve, reject) => {
         this.req({
           url: '/v1/box/mark',
-          data: {},
+          data: {
+            type: 2
+          },
           Loading: true,
           success: res => {
             if (res.code == 200) {
@@ -820,23 +822,9 @@ export default {
           success: res => {
             if (res.code == 200) {
               this.boxInfo = res.data.box
-
-              this.awardList = res.data.awardList.map(item => {
-                if (item.mark_id == 1) {
-                  item.image = '../../static/home/grade1.png'
-                } else if (item.mark_id == 2) {
-                  item.image = '../../static/home/grade2.png'
-                }
-                else if (item.mark_id == 3) {
-                  item.image = '../../static/home/grade3.png'
-                } else if (item.mark_id == 4) {
-                  item.image = '../../static/home/grade4.png'
-                }
-                return item
-              })
+              this.awardList = res.data.awardList
 
               this.markList = res.data.box ? res.data.box.markList : []
-
               // 生成最终的 marks 数组
               this.marks = this.markList.map(mark => {
                 return {

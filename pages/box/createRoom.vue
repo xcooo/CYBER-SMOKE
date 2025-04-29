@@ -85,7 +85,7 @@
         <view class="order-title">创建房间</view>
         <view class="order-pay">
           <view class="order-type">
-            星币抵扣
+            余额抵扣
           </view>
           <view class="order-price">
             -￥{{ room_price }}<text style="margin-left:5px">(余额:{{ money }})</text>

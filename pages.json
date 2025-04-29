@@ -17,6 +17,12 @@
       }
     },
     {
+      "path": "pages/index/sign",
+      "style": {
+        "enablePullDownRefresh": false
+      }
+    },
+    {
       "path": "pages/tabBar/mall",
       "style": {
         "enablePullDownRefresh": false
@@ -219,7 +225,7 @@
         "pagePath": "pages/tabBar/charts",
         "iconPath": "static/tabbar/tabb.png",
         "selectedIconPath": "static/tabbar/tabb_o.png",
-        "text": "积分赏"
+        "text": "排行榜"
       },
       {
         "pagePath": "pages/index/index",

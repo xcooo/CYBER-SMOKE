@@ -20,6 +20,7 @@
         <swiper-item v-for="(item, index) in awardList" :key="item.id">
           <view class="swiper-item">
             <image class="gd-img" :src="item.thumb" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+            <cimage class="gif" src="/static/gif/shan_dian.gif" mode="scaleToFill" />
           </view>
         </swiper-item>
       </swiper>
@@ -33,10 +34,24 @@
       </view> -->
     </view>
 
-    <view class="setAnimate">
-      <view class="btn" :style="{ 'background-image': 'url(' + `${imgBaseUrl}/static/web/06.png` + ')' }" @click="setAnimate">设置
+    <view class="rule-btn-wrap">
+      <view class="rule-btn-item" @click="openRule">
+        <image class="rule-btn-item-img"
+          src="https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01WhNdaL24NdcWm4MBp_!!2200676927379.png"
+          mode="widthFix" lazy-load="false" binderror="" bindload="" />
+      </view>
+      <view class="rule-btn-item" @click="fresh">
+        <image class="rule-btn-item-img"
+          src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01WJw25c24NdcXfR5bK_!!2200676927379.png"
+          mode="widthFix" lazy-load="false" binderror="" bindload="" />
       </view>
     </view>
+
+    <!-- <view class="setAnimate">
+      <view class="btn" :style="{ 'background-image': 'url(' + `${imgBaseUrl}/static/web/06.png` + ')' }"
+        @click="setAnimate">设置
+      </view>
+    </view> -->
 
     <swiper class="swiper swiper2" easing-function="linear" circular :current="currentBanner" :indicator-dots="false"
       :autoplay="false" :interval="100" :duration="1000" @change="handleSwiperChange">
@@ -60,17 +75,17 @@
             {{ item.rate }}%
           </view>
         </view>
-        <view class="recode-btn" @click="zs">中奖记录</view>
+        <view class="recode-btn" @click="zs">中赏记录</view>
       </view>
 
       <view class="mh-goods-list">
-        <view class="mh-goods-list-item" :style="{ backgroundImage: `url(${item.image})` }"
+        <view class="mh-goods-list-item" :style="{ backgroundImage: `url(${item.mark_bg})` }"
           v-for="(item, index) in awardList" :key="index" @click="openDetailPop(item)">
           <image class="mh-goods-rate" :src="item.mark_icon" mode="widthFix" lazy-load="false" binderror="" bindload="" />
 
           <image class="mh-goods-img" :src="item.thumb" mode="widthFix" lazy-load="false" binderror="" bindload="" />
-
-          <!-- <view class="mh-sale">{{ item.remaining_quantity }}/{{ item.initial_quantity }}</view> -->
+          <view class="mh-title">{{ item.title }}</view>
+          <view class="mh-num">{{ item.remaining_quantity }}/{{ item.initial_quantity }}</view>
 
           <view class="mh-sale">￥{{ item.price }}</view>
 
@@ -81,7 +96,7 @@
     <view class="luckbox">
       <view class="option ">
         <view class="row">
-          <view class="chou" v-for="(item, index) in boxBtnList" :key="index" @click="changeBuyType(item.num - 1)">
+          <view class="chou" v-for="(item, index) in boxBtnList" :key="index" @click="changeBuyType(item.num)">
             <view class="chou-wrap">
               <view class="chou-title">
                 <!-- {{ item.title }} -->
@@ -132,7 +147,7 @@
           </view>
 
           <view class="row">
-            <view class="title">星币抵扣</view>
+            <view class="title">余额抵扣</view>
 
             <view class="right">
               <view class="price red">
@@ -385,6 +400,54 @@
         </view>
       </view>
     </u-popup>
+
+    <!-- 规则说明 -->
+    <u-popup v-model="rulePop" mode="center" width="93%" border-radius="20">
+      <view class="rule-pop">
+        <view class="rule-title">
+          玩法说明
+        </view>
+        <scroll-view class="rule-pop-bd" scroll-y>
+          <view class="rule-content">
+            “无限赏”的所有商品均有图文展示及数量说明，购买赏品具有盲盒的特点，您购买所得赏品可能与您预期不符，您需要根据个人的消费需求对自己消费行为负责，请理性消费，未成年人不得购买。
+          </view>
+          <view class="rule-content"> 1、“无限赏”为开赏类商品，一经购买不可退货，请谨慎、理性购买;</view>
+          <view class="rule-content">
+            2、未成年人禁止购买;
+          </view>
+          <view class="rule-content">
+            3、用户根据需求点击[抽1发][抽3发]或[抽5发]等购买按钮;
+          </view>
+          <view class="rule-content">
+            4、本平台只保证发出的货品内容物全新未拆，不保任何商品的运输
+          </view>
+          <view class="rule-content">
+            5、若收到的商品出现涂装瑕疵、零件错误等官方瑕疵情况，则不包售后，不予退换(如有特殊情况请联系客服);
+          </view>
+          <view class="rule-content">
+            6、收到商品后请先确认封条、外箱完整，并全程拍摄开箱验货视频(照片无效)，该视频将会是定责的唯一证据，若出现运输损坏情况，请联系承运快递发起索赔，或联系客服索要索赔所需的相关材料;
+          </view>
+          <view class="rule-content">
+            7、部分3C电子产品，发货后必须激活产品。本平台保证预激活时间在发货日前后的5-7天内，全新未使用，商品激活无拆封，不接受因商品本身质量问题以外的退换货要求;
+          </view>
+          <view class="rule-content">
+            8、无限赏概率解释:每一次打开盲盒都是从剩下的赏品中提取1个赏品，根据赏品剩余数量，系统会测算出，剩余赏品抽赏概率。
+          </view>
+          <view class="rule-content">
+            9、无限赏不提供任何形式的物品交易和回收渠道，为保障您的资金安全，亦不建议用户进行任何形式的私下交易;
+          </view>
+          <view class="rule-content">
+            10、禁止从事任何形式的赌博/欺诈/作弊/诈骗行为，若有发现，将封禁您的账号并交由相关部门处理:
+          </view>
+          <view class="rule-content">
+            11、无限赏概率解释:例如: 传说概率设置的是0.01%，并不是1万次里有1次出现传说,而是每一次打开盲盒概率都是按照公示概率数值进行抽奖，无论任意次数，也有可能1万次里多次出现或者不出。
+          </view>
+          <view class="rule-content">
+            12、无限赏说明。
+          </view>
+        </scroll-view>
+      </view>
+    </u-popup>
   </view>
 </template>
 
@@ -490,7 +553,8 @@ export default {
       couponShow: false,
       coupon_info: {},
       animateSet: uni.getStorageSync('animateSet') ? uni.getStorageSync('animateSet') : false,
-      setShow: false
+      setShow: false,
+      rulePop: false,
     }
   },
   onLoad (options) {
@@ -642,14 +706,14 @@ export default {
               this.boxLogList = []
             }
             let newArr = res.data.data.map(item => {
-              if (item.mark_id == 1) {
+              if (item.mark_id == 33) {
                 item.image = '../../static/home/200.png'
-              } else if (item.mark_id == 2) {
+              } else if (item.mark_id == 34) {
                 item.image = '../../static/home/300.png'
               }
-              else if (item.mark_id == 3) {
+              else if (item.mark_id == 35) {
                 item.image = '../../static/home/400.png'
-              } else if (item.mark_id == 4) {
+              } else if (item.mark_id == 36) {
                 item.image = '../../static/home/100.png'
               }
               return item
@@ -666,7 +730,9 @@ export default {
       return new Promise((resolve, reject) => {
         this.req({
           url: '/v1/box/mark',
-          data: {},
+          data: {
+            type: 2
+          },
           Loading: true,
           success: res => {
             if (res.code == 200) {
@@ -790,21 +856,7 @@ export default {
           success: res => {
             if (res.code == 200) {
               this.boxInfo = res.data.box
-              this.awardList = res.data.awardList.map(item => {
-                if (item.mark_id == 1) {
-                  item.image = '../../static/home/grade1.png'
-                } else if (item.mark_id == 2) {
-                  item.image = '../../static/home/grade2.png'
-                }
-                else if (item.mark_id == 3) {
-                  item.image = '../../static/home/grade3.png'
-                } else if (item.mark_id == 4) {
-                  item.image = '../../static/home/grade4.png'
-                }
-                return item
-              })
-
-
+              this.awardList = res.data.awardList
               this.markList = res.data.box ? res.data.box.markList : []
               this.getDraw()
               resolve()
@@ -852,9 +904,9 @@ export default {
         this.$refs.loginPopup.open('center')
         return
       }
-      if (this.btnList?.length == 0) {
-        await this.getDraw()
-      }
+      // if (this.btnList?.length == 0) {
+      //   await this.getDraw()
+      // }
 
       if (e == 1 && !this.agree) {
         this.$common.toast({
@@ -868,9 +920,12 @@ export default {
         return
       }
 
+      console.log(this.btnCur)
+
       let data = {
         id: this.boxInfo.id,
-        draw_id: this.btnList[this.btnCur].id || '',
+        // draw_id: this.btnList[this.btnCur].id || '',
+        draw_num: this.btnCur,
         invite_user_id: this.optionsData.userId || '',
         pay_type: this.payTypeList[this.payTypeCur].id,
         coupon_id: this.coupon_info?.id || '',
@@ -1077,18 +1132,39 @@ export default {
         url: '/pages/tabBar/home',
 
       });
-
-    }
+    },
+    fresh () {
+      this.$nextTick(() => {
+        if (switchMusic) {
+          switchMusic.play()
+        }
+      })
+      uni.showToast({
+        title: '刷新成功',
+        icon: 'none',
+        mask: true
+      })
+      this.getData()
+    },
+    openRule () {
+      this.$nextTick(() => {
+        if (switchMusic) {
+          switchMusic.play()
+        }
+      })
+      this.rulePop = true
+    },
   },
 }
 </script>
 
 <style lang='scss' scoped>
 .kaixiang {
-  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
-  background-size: 100vw 100%;
+  // background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
+  // background-size: 100vw 100%;
   background-repeat: no-repeat;
   min-height: calc(100vh - 50px);
+  background: #222333;
 
   .nav {
     ::v-deep .uni-navbar__header {
@@ -1096,7 +1172,7 @@ export default {
     }
 
     ::v-deep .uni-nav-bar-text {
-      font-size: 30px;
+      font-size: 38rpx;
       font-family: xcooo;
     }
 
@@ -1203,6 +1279,31 @@ export default {
         }
       }
 
+      @keyframes bLine {
+        0% {
+          transform: translateY(0);
+        }
+
+        50% {
+          -webkit-transform: translateY(10px);
+          transform: translateY(10px);
+        }
+
+        100% {
+          -webkit-transform: translateY(0);
+          transform: translateY(0);
+        }
+      }
+
+      .gif {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
 
 
       @keyframes bLine {
@@ -1219,6 +1320,11 @@ export default {
           -webkit-transform: translateY(0);
           transform: translateY(0);
         }
+      }
+
+      .card-num {
+        text-align: center;
+        margin-top: 10rpx;
       }
     }
   }
@@ -1470,6 +1576,8 @@ export default {
         justify-content: space-between;
         align-items: center;
         background-size: 100% 100%;
+        font-size: 24rpx;
+        color: #fff;
 
         &:nth-child(3n) {
           margin-right: 0;
@@ -1489,9 +1597,22 @@ export default {
           margin-top: 20rpx;
         }
 
+        .mh-title {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-top: 5rpx;
+        }
+
+        .mh-num {
+          margin: 10rpx 0;
+        }
+
         .mh-sale {
           background-color: rgba(0, 0, 0, 0.2);
-          color: #fff;
+
           width: 100%;
         }
 
@@ -1580,6 +1701,7 @@ export default {
   }
 
 }
+
 .setAnimate {
   position: fixed;
   right: 3px;
@@ -2222,5 +2344,52 @@ export default {
 
 .xx2 {
   background-color: #999;
+}
+
+.rule-btn-wrap {
+  position: fixed;
+  top: 30%;
+  right: 10rpx;
+  z-index: 10;
+
+  .rule-btn-item {
+    width: 100rpx;
+    margin-bottom: 40rpx;
+
+    image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.rule-pop {
+  background: linear-gradient(to right, #5dfda1, #baf828);
+  border-radius: 20rpx;
+  padding: 20rpx;
+  padding-bottom: 40rpx;
+
+  .rule-title {
+    text-align: center;
+    font-size: 48rpx;
+    font-weight: 700;
+    margin: 30rpx 0;
+    margin-top: 20rpx;
+    text-shadow: -1px -1px #fff, 1px 1px #333;
+  }
+
+  .rule-pop-bd {
+    background: #eefed9;
+    padding: 30rpx 20rpx;
+    border-radius: 20rpx;
+    height: 700rpx; // 改成固定高度
+    overflow: hidden; // 防止外面内容溢出
+    .rule-content {
+      line-height: 50rpx;
+      color: #696969;
+      font-weight: 700;
+      font-size: 28rpx;
+    }
+  }
 }
 </style>

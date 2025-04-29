@@ -215,6 +215,7 @@ export default {
 .roomlist {
   background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
   background-size: 100vw 100%;
+
   background-repeat: no-repeat;
   min-height: calc(100vh - 50px);
 
@@ -224,7 +225,7 @@ export default {
     }
 
     ::v-deep .uni-nav-bar-text {
-      font-size: 30px;
+      font-size: 36rpx;
       font-family: xcooo;
     }
 

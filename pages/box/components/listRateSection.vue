@@ -10,7 +10,7 @@
       <scroll-view class="" :scroll-x="true">
         <view class="mh-goods-list">
           <view class="mh-goods-list-item" v-for="(item, index) in awards" :key="index">
-            <view class="mh-goods-img-wrap" :style="{ backgroundImage: `url(${item.image})` }"
+            <view class="mh-goods-img-wrap" :style="{ backgroundImage: `url(${item.mark_bg})` }"
               @click="openDetailPop(item)">
               <image class="mh-goods-img" :src="item.thumb" lazy-load="false" binderror="" bindload="" />
               <image class="mh-goods-rate" :src="item.mark_icon" mode="widthFix" lazy-load="false" binderror=""

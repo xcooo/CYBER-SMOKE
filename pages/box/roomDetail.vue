@@ -449,14 +449,14 @@ export default {
         success: res => {
           if (res.code == 200) {
             this.boxAwardList = res.data.map(item => {
-              if (item.mark_id == 1) {
+              if (item.mark_id == 33) {
                 item.image = '../../static/home/grade1.png'
-              } else if (item.mark_id == 2) {
+              } else if (item.mark_id == 34) {
                 item.image = '../../static/home/grade2.png'
               }
-              else if (item.mark_id == 3) {
+              else if (item.mark_id == 35) {
                 item.image = '../../static/home/grade3.png'
-              } else if (item.mark_id == 4) {
+              } else if (item.mark_id == 36) {
                 item.image = '../../static/home/grade4.png'
               }
               return item
@@ -615,14 +615,14 @@ export default {
             if (res.code == 200) {
               this.boxInfo = res.data.box
               this.awardList = res.data.awardList.map(item => {
-                if (item.mark_id == 1) {
+                if (item.mark_id == 33) {
                   item.image = '../../static/home/grade1.png'
-                } else if (item.mark_id == 2) {
+                } else if (item.mark_id == 34) {
                   item.image = '../../static/home/grade2.png'
                 }
-                else if (item.mark_id == 3) {
+                else if (item.mark_id == 35) {
                   item.image = '../../static/home/grade3.png'
-                } else if (item.mark_id == 4) {
+                } else if (item.mark_id == 36) {
                   item.image = '../../static/home/grade4.png'
                 }
                 return item

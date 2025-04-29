@@ -1,6 +1,6 @@
 <!--
  * @Date: 2022-12-08 13:46:18
- * @LastEditTime: 2024-05-25 17:00:33
+ * @LastEditTime: 2025-04-28 19:06:36
  * @Description: content
 -->
 <template>
@@ -1018,7 +1018,9 @@ export default {
               margin-bottom: 10rpx;
             }
 
-            .dissolve-price {}
+            .dissolve-price {
+              color: #fff;
+            }
           }
 
           .dissolve_has_btn {
@@ -1090,7 +1092,9 @@ export default {
               margin-bottom: 10rpx;
             }
 
-            .dissolve-price {}
+            .dissolve-price {
+              color: #fff;
+            }
           }
 
           .dissolve_has_btn {
@@ -1171,7 +1175,9 @@ export default {
               margin-bottom: 10rpx;
             }
 
-            .dissolve-price {}
+            .dissolve-price {
+              color: #fff;
+            }
           }
 
           .dissolve_has_btn {
