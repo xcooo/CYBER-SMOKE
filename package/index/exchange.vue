@@ -5,41 +5,20 @@
 -->
 <template>
   <view class="page-wrap">
-    <mescroll-body
-      ref="mescrollRef"
-      @init="mescrollInit"
-      @down="downCallback"
-      @up="getList"
-      :down="downOption"
-      :up="upOption"
-    >
-      <uni-nav-bar
-        color="#333"
-        leftIcon="left"
-        backgroundColor="transparent"
-        :border="false"
-        :statusBar="true"
-        :fixed="false"
-        @clickLeft="$common.back()"
-      ></uni-nav-bar>
+    <mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="getList" :down="downOption"
+      :up="upOption">
+      <uni-nav-bar color="#333" leftIcon="left" backgroundColor="transparent" :border="false" :statusBar="true"
+        :fixed="false" @clickLeft="$common.back()"></uni-nav-bar>
 
-      <view
-        class="page-wrap-hd common_bg"
-        :style="{
-          backgroundImage: `url(${imgBaseUrl}${'/static/img/zhi_huan_hd_bg.png'})`,
-          marginTop: `calc(-${sysConfig.statusBarHeight}px - 44px)`
-        }"
-      >
+      <view class="page-wrap-hd common_bg" :style="{
+        backgroundImage: `url(${imgBaseUrl}${'/static/img/zhi_huan_hd_bg.png'})`,
+        marginTop: `calc(-${sysConfig.statusBarHeight}px - 44px)`
+      }">
         <view @click="getRule" class="rule-btn">规则</view>
       </view>
 
       <view class="list">
-        <view
-          @click="toDetail(item)"
-          v-for="(item, i) in listData"
-          :key="i"
-          class="list-item"
-        >
+        <view @click="toDetail(item)" v-for="(item, i) in listData" :key="i" class="list-item">
           <view class="pic">
             <cimage :src="item.thumb[0]" mode="scaleToFill" />
           </view>
@@ -73,8 +52,9 @@
         <view class="rule-pop-hd">{{ ruleData.title }}</view>
 
         <scroll-view scroll-y class="rule-pop-bd">
-          <view class="content">
-            {{ ruleData.editor }}
+          <view class="content" v-html="ruleData.editor">
+            <!-- {{ ruleData.editor }}
+               -->
           </view>
         </scroll-view>
 
@@ -88,7 +68,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       optionsData: '',
       // 下拉刷新的配置(可选, 绝大部分情况无需配置)
@@ -111,7 +91,7 @@ export default {
     ...mapGetters(['sysConfig'])
   },
 
-  onLoad(options) {
+  onLoad (options) {
     this.optionsData = options
   },
 
@@ -120,7 +100,7 @@ export default {
      * @description: 获取规则
      * @return {*}
      */
-    getRule() {
+    getRule () {
       this.$common.getRule(4).then(res => {
         this.ruleData = res
 
@@ -133,7 +113,7 @@ export default {
      * @param {*}
      * @return {*}
      */
-    getList({ num, size }) {
+    getList ({ num, size }) {
       let data = {
         page: num,
         per_page: size
@@ -164,7 +144,7 @@ export default {
      * @description: 关闭规则弹窗
      * @return {*}
      */
-    closeRulePop() {
+    closeRulePop () {
       this.$refs.rulePop.close()
     },
 
@@ -172,7 +152,7 @@ export default {
      * @description: 打开规则弹窗
      * @return {*}
      */
-    openRulePop() {
+    openRulePop () {
       this.$refs.rulePop.open()
     },
 
@@ -180,7 +160,7 @@ export default {
      * @description: 前往置换商城详情
      * @return {*}
      */
-    toDetail(item) {
+    toDetail (item) {
       this.$common.to({
         url: '/package/index/exchange-detail',
         query: {
@@ -197,6 +177,7 @@ export default {
 .page-wrap {
   min-height: 100vh;
   background: #fff;
+
   ::v-deep.uni-navbar__content {
     z-index: 10;
   }

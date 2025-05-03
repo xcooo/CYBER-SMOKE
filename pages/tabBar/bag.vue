@@ -1,6 +1,6 @@
 <!--
  * @Date: 2022-12-07 14:57:46
- * @LastEditTime: 2025-04-27 17:19:14
+ * @LastEditTime: 2025-04-30 12:06:10
  * @Description: content
 -->
 <template>
@@ -670,12 +670,12 @@ export default {
         success: res => {
           if (res.code == 200) {
             let newArr = res.data.map(item => {
-              if (item.type != 4 && item.mark_id == 1) {
-                item.mark_title = '传说'
-              }
-              if (item.type != 4 && item.mark_id == 4) {
-                item.mark_title = '高级'
-              }
+              // if (item.type != 4 && item.mark_id == 1) {
+              //   item.mark_title = '传说'
+              // }
+              // if (item.type != 4 && item.mark_id == 4) {
+              //   item.mark_title = '高级'
+              // }
               return { ...item, checked: false, num: item.total }
             })
 
@@ -750,7 +750,7 @@ page {
   overflow-y: scroll;
 
   ::v-deep .uni-nav-bar-text {
-    font-size: 24px;
+    font-size: 36rpx;
     font-family: xcooo;
   }
 
@@ -885,6 +885,7 @@ page {
         .pic {
           width: 166rpx;
           height: 166rpx;
+          border-radius: 20rpx;
           box-sizing: border-box;
           border: 1rpx solid #f7f7f7;
           position: relative;
@@ -897,6 +898,7 @@ page {
             right: 0;
             bottom: 0;
             background: #0d6bc9;
+            background: #a8f93f;
 
             font-size: 20rpx;
             font-family: PingFang SC;

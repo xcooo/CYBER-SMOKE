@@ -60,7 +60,7 @@
                     shipnum_info.is_ship ? `${shipnum_info.ship_num}` + '/' + `${item.ship_num}` :
                     '领取' }}</view>
                 </template>
-                <view class="serve-desc" v-if="i == 0">每月领{{ item.money }}星币</view>
+                <view class="serve-desc" v-if="i == 0">每月领{{ item.money }}余额</view>
                 <view class="serve-desc" v-if="i == 1">积分抵扣商品</view>
                 <view class="serve-desc" v-if="i == 2">每月{{ item.ship_num }}次包邮</view>
                 <view class="serve-desc" v-if="i == 3">VIP专属客服</view>
@@ -144,7 +144,7 @@ export default {
         //   vip: [7, 8, 9, 10]
         // },
         {
-          name: '月月领星币',
+          name: '月月领余额',
           icon: '../../static/vip/vip06.png',
           activeIcon: '../../static/vip/vip06-active.png',
         },
@@ -227,7 +227,7 @@ export default {
         case 0:
           uni.showModal({
             title: '提示',
-            content: '确认领取星币?',
+            content: '确认领取余额?',
             success: function (res) {
               if (res.confirm) {
                 let data = {

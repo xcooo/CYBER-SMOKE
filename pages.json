@@ -53,6 +53,20 @@
       }
     },
     {
+      "path": "pages/rightTouch/list",
+      "style": {
+        "enablePullDownRefresh": false,
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/rightTouch/detail",
+      "style": {
+        "enablePullDownRefresh": false,
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
       "path": "pages/box/box",
       "style": {
         "enablePullDownRefresh": false,
@@ -124,6 +138,13 @@
     },
     {
       "path": "pages/box/firstReward",
+      "style": {
+        "navigationBarTextStyle": "black",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/box/firstDraw",
       "style": {
         "navigationBarTextStyle": "black",
         "enablePullDownRefresh": false
@@ -203,7 +224,7 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "盲盒商城",
+    "navigationBarTitleText": "",
     "navigationBarBackgroundColor": "#ffffff",
     "backgroundColor": "#F3F8FB",
     "pageOrientation": "portrait",
@@ -275,6 +296,13 @@
         },
         {
           "path": "my-log",
+          "style": {
+            "navigationBarTitleText": "",
+            "enablePullDownRefresh": false
+          }
+        },
+        {
+          "path": "score-list",
           "style": {
             "navigationBarTitleText": "",
             "enablePullDownRefresh": false

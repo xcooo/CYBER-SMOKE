@@ -1,6 +1,6 @@
 <!--
  * @Date: 2022-11-24 14:30:40
- * @LastEditTime: 2025-04-27 16:54:25
+ * @LastEditTime: 2025-05-03 09:48:10
  * @Description: content
 -->
 <template>
@@ -27,6 +27,18 @@
         </view>
 
         <view class="money-card-item">
+          <view class="num">{{ userInfo.coin }}</view>
+
+          <view class="title">积分</view>
+
+          <view @click="$common.to({ type: 2, url: '/package/index/score-list' })" class="btn">
+            积分商城
+
+            <uni-icons type="right" color="#fff" size="12" />
+          </view>
+        </view>
+
+        <view class="money-card-item">
           <view class="num">{{ userInfo.gold }}</view>
 
           <view class="title">佣金</view>
@@ -38,20 +50,7 @@
           </view>
         </view>
 
-        <!-- <view class="money-card-item"> -->
-        <!-- <view class="num">{{ userInfo.coin }}</view>
 
-          <view class="title">积分</view> -->
-
-        <!-- <view
-            @click="$common.to({ type: 2, url: '/package/index/exchange' })"
-            class="btn"
-          >
-            积分好礼
-
-            <uni-icons type="right" color="#fff" size="12" />
-          </view> -->
-        <!-- </view> -->
       </view>
 
       <view class="tab-wrap">
@@ -110,12 +109,13 @@ export default {
         },
         {
           id: 2,
+          name: '积分明细'
+        },
+        {
+          id: 3,
           name: '佣金明细'
         },
-        // {
-        //   id: 2,
-        //   name: '积分明细'
-        // }
+
       ],
       tabCur: 0,
       canRefresh: false
@@ -157,10 +157,10 @@ export default {
         url = '/v1/user/money/list'
       }
       if (this.tabCur == 1) {
-        url = '/v1/user/gold/list'
+        url = '/v1/user/coin/list'
       }
       if (this.tabCur == 2) {
-        url = '/v1/user/coin/list'
+        url = '/v1/user/gold/list'
       }
 
       this.req({

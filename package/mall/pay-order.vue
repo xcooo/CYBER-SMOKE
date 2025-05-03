@@ -122,7 +122,7 @@
         </view> -->
 
         <view class="row">
-          <view class="title">星币抵扣</view>
+          <view class="title">余额抵扣</view>
 
           <view class="right" :class="{
             gray: false

@@ -37,8 +37,10 @@
           <template v-if="top_three[0]">
             <view class="avatar-container">
               <image :src="top_three[0].avatar" class="avatar center-avatar"></image>
+              <cimage class="gif" src="/static/gif/shan_dian.gif" mode="scaleToFill" />
               <image src="https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01eGFDR324NdcbVqDTe_!!2200676927379.png"
                 class="frame center-frame" mode="widthFix"></image>
+
             </view>
             <view class="userinfo-wrap">
               <view class="userinfo-info">
@@ -46,7 +48,6 @@
                 <view class="times">抽赏次数 {{ top_three[0].count }}</view>
               </view>
             </view>
-
           </template>
         </view>
 
@@ -355,8 +356,8 @@ page {
         display: inline-block;
 
         .avatar {
-          width: 80px;
-          height: 80px;
+          width: 160rpx;
+          height: 160rpx;
           border-radius: 50%;
         }
 
@@ -369,6 +370,53 @@ page {
           pointer-events: none;
         }
 
+        .center-avatar {
+          -webkit-animation: bLine 3s linear infinite;
+          animation: bLine 3s linear infinite;
+        }
+
+        @keyframes bLine {
+          0% {
+            transform: translateY(0);
+          }
+
+          50% {
+            -webkit-transform: translateY(10px);
+            transform: translateY(10px);
+          }
+
+          100% {
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+          }
+        }
+
+        .gif {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+
+        @keyframes bLine {
+          0% {
+            transform: translateY(0);
+          }
+
+          50% {
+            -webkit-transform: translateY(10px);
+            transform: translateY(10px);
+          }
+
+          100% {
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+          }
+        }
       }
 
       .userinfo-wrap {
@@ -431,7 +479,7 @@ page {
   }
 
   .footer {
-    margin-top: -200rpx;
+    margin-top: -100rpx;
     flex: 1 1 auto;
     /* 使footer占据剩余空间 */
     overflow: hidden;

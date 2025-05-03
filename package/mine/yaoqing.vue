@@ -380,7 +380,7 @@ page {
         border-radius: 10rpx;
         display: inline;
         flex-shrink: 0;
-        margin: 0 20px;
+        margin: 0 20rpx;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -407,6 +407,7 @@ page {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    color: #fff;
 
     image {
       width: 100%;

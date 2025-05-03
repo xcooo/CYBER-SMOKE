@@ -83,7 +83,7 @@
       <view>说明</view>
     </view>
 
-    <!-- 说明弹窗 -->
+    <!-- 签到说明弹窗 -->
     <u-popup v-model="showRule" mode="center" width="80%" border-radius="20">
       <view class="rule-pop">
         <view class="rule-title">
@@ -104,29 +104,9 @@
       </view>
     </u-popup>
 
-    <!-- 补签弹窗 -->
-    <u-popup v-model="showReSign" mode="center" width="80%" border-radius="20">
-      <section class="resign-popup">
-        <!-- 顶部图片 -->
-        <header class="popup-header">
-          <image class="resign-image"
-            src="https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01Nlfyio24NdcbFbdg8_!!2200676927379.png"
-            mode="widthFix" />
-        </header>
-
-        <!-- 中部提示 -->
-        <main class="popup-main">
-          <view class="resign-text">今天未签到，是否补签？</view>
-        </main>
-
-        <!-- 底部按钮 -->
-        <footer class="popup-footer">
-          <view class="resign-btn" @click="handleReSign">立即补签</view>
-          <view class="cancel-btn" @click="showReSign = false">取消</view>
-        </footer>
-      </section>
-    </u-popup>
     <loginPopup ref="loginPopup"></loginPopup>
+    <semanticModal ref="signModal" title="提示" :content="modalContent" confirmText="继续签到" cancelText="知道了"
+      @confirm="onSignConfirm" @cancel="onSignCancel" />
   </view>
 </template>
 
@@ -141,12 +121,14 @@ export default {
       showRule: false,
       showSign: false,
       coin: 0,
-      showReSign: false,
+
       total_sign_days: 0,
       // 恭喜获得积分展示
       points: 0,
       has_signed_today: false,
-      last_sign_date: ''
+      last_sign_date: '',
+      modalContent: '',
+      tempSignData: null,
     }
   },
   onLoad () {
@@ -198,43 +180,48 @@ export default {
       })
     },
     handleSignIn () {
-      // this.$nextTick(() => {
-      //   if (switchMusic) {
-      //     switchMusic.play()
-      //   }
-      // })
       if (!this.userInfo) {
-        this.$refs.loginPopup.open();
+        this.$refs.loginPopup.open()
         return
       }
+
       if (this.has_signed_today) {
-        return; // 如果今天已经签到，直接返回
+        return
       }
+
       this.req({
         url: '/v1/user/sign',
         success: res => {
-          if (res.code == 200) {
-            console.log(res.data)
-            this.showSign = true
-            this.points = res.data.points
+          if (res.code === 200) {
+            // 判断是否中断
+            if (res.data.interrupted) {
+              this.modalContent = res.data.message || '当前签到已中断，是否继续？'
+              this.tempSignData = res.data // 暂存数据
+              this.$refs.signModal.open()
+            } else {
+              this.handleSignSuccess(res.data)
+            }
           } else {
-            wx.showLoading({
-              title: res.msg,
-              mask: false,
-              success: (result) => {
-
-              },
-              fail: () => {
-
-              },
-              complete: () => { }
-            });
-
+            uni.showToast({
+              title: res.msg || '签到失败',
+              icon: 'none'
+            })
           }
-        },
-        complete: () => {
-
         }
+      })
+    },
+    onSignConfirm () {
+      if (this.tempSignData) {
+        this.handleSignSuccess(this.tempSignData)
+      }
+    },
+    handleSignSuccess (data) {
+      this.showSign = true
+      this.points = data.points
+      this.tempSignData = null
+      uni.showToast({
+        title: data.message || '签到成功',
+        icon: 'success'
       })
     },
     goBack () {
@@ -246,10 +233,6 @@ export default {
       this.showSign = false
       this.getSignInfo()
     },
-    handleReSign () {
-      this.showReSign = false
-      this.showSign = true
-    }
   }
 }
 </script>
@@ -535,38 +518,4 @@ export default {
   }
 }
 
-.resign-popup {
-  padding: 40rpx 20rpx;
-  text-align: center;
-
-  .resign-image {
-    width: 180rpx;
-    margin: 0 auto 20rpx;
-  }
-
-  .resign-text {
-    font-size: 30rpx;
-    color: #333;
-    margin-bottom: 30rpx;
-  }
-
-  .popup-footer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 20rpx;
-
-    .resign-btn {
-      background-color: #ff9900;
-      color: #fff;
-      padding: 20rpx 60rpx;
-      border-radius: 30rpx;
-    }
-
-    .cancel-btn {
-      color: #999;
-      font-size: 26rpx;
-    }
-  }
-}
 </style>

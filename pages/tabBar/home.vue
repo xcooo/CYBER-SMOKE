@@ -491,7 +491,7 @@ export default {
     },
     goRoom () {
       this.$common.to({
-        url: '/pages/box/roomlist'
+        url: '/pages/rightTouch/list'
       })
     },
     goTower () {
@@ -924,8 +924,9 @@ export default {
 .carousel-wrapper {
   margin: 20rpx 0;
   width: 100%;
-  height: 420rpx;
+  height: 430rpx;
   background: url('https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01tjFpM424NdcXuqPIF_!!2200676927379.png') no-repeat center center;
+  background: url('https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01AhqTji24NdccWFycV_!!2200676927379.png') no-repeat center center;
   background-size: cover;
 }
 

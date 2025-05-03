@@ -1,6 +1,6 @@
 <!--
  * @Date: 2022-12-08 13:46:18
- * @LastEditTime: 2024-06-09 19:26:31
+ * @LastEditTime: 2025-04-30 09:29:23
  * @Description: content
 -->
 <template>
@@ -114,7 +114,7 @@
                 <view class="dissolve_btn" @click="duihuan(item.order_list_id)"
                   v-if="!item.is_hs && optionsData.type != 'play'">
                   <!-- <view class="dissolve-title">掉落钻石: {{ item.diamond }}</view> -->
-                  <view class="dissolve-price">退货星币: {{ item.return_price }}</view>
+                  <view class="dissolve-price">退货余额: {{ item.return_price }}</view>
                 </view>
                 <view class="dissolve_btn dissolve_has_btn" v-if="item.is_hs" disabled>已退货</view>
               </view>
@@ -149,11 +149,10 @@
               <view class="dissolve_btn" @click="duihuan(item.order_list_id)"
                 v-if="!item.is_hs && optionsData.type != 'play'">
                 <view class="dissolve-title">退货</view>
-                <view class="dissolve-price">星币: {{ item.return_price }}</view>
+                <view class="dissolve-price">余额: {{ item.return_price }}</view>
               </view>
               <view class="dissolve_btn dissolve_has_btn" v-if="item.is_hs || is_hsa" disabled>已退货</view>
             </view>
-
           </view>
 
           <view v-else-if="prizeResult.length == 3" class="prize-box three">
@@ -186,7 +185,7 @@
                 <view class="dissolve_btn" @click="duihuan(item.order_list_id)"
                   v-if="!item.is_hs && optionsData.type != 'play'">
                   <!-- <view class="dissolve-title">掉落钻石: {{ item.diamond }}</view> -->
-                  <view class="dissolve-price">退货星币: {{ item.return_price }}</view>
+                  <view class="dissolve-price">退货余额: {{ item.return_price }}</view>
                 </view>
                 <view class="dissolve_btn dissolve_has_btn" v-if="item.is_hs || is_hsa" disabled>已退货</view>
               </view>
@@ -222,7 +221,7 @@
             <view class="dissolve_btn" @click="duihuan(item.order_list_id)"
               v-if="!item.is_hs && optionsData.type != 'play'">
               <view class="dissolve-title">退货</view>
-              <view class="dissolve-price">星币: {{ item.return_price }}</view>
+              <view class="dissolve-price">余额: {{ item.return_price }}</view>
             </view>
             <view class="dissolve_btn dissolve_has_btn" v-if="item.is_hs" disabled>已退货</view>
           </view>
@@ -258,7 +257,7 @@
                 <view class="dissolve_btn" @click="duihuan(item.order_list_id)"
                   v-if="!item.is_hs && optionsData.type != 'play'">
                   <!-- <view class="dissolve-title">掉落钻石: {{ item.diamond }}</view> -->
-                  <view class="dissolve-price">退货星币: {{ item.return_price }}</view>
+                  <view class="dissolve-price">退货余额: {{ item.return_price }}</view>
                 </view>
                 <view class="dissolve_btn dissolve_has_btn" v-if="item.is_hs" disabled>已退货</view>
               </view>
@@ -298,7 +297,7 @@
                 <view class="dissolve_btn" @click="duihuan(item.order_list_id)"
                   v-if="!item.is_hs && optionsData.type != 'play'">
                   <!-- <view class="dissolve-title">掉落钻石: {{ item.diamond }}</view> -->
-                  <view class="dissolve-price">退货星币: {{ item.return_price }}</view>
+                  <view class="dissolve-price">退货余额: {{ item.return_price }}</view>
                 </view>
                 <view class="dissolve_btn dissolve_has_btn" v-if="item.is_hs" disabled>已退货</view>
               </view>
@@ -316,7 +315,7 @@
             </view>
             <!-- <view v-if="optionsData.type != 'play'" @click="duihuan('-1')" class="btn" disabled>
               <view class="">{{ is_hsa != false ? '退货成功' : '全部退货' }}</view>
-              <view class="total_return_price">星币: {{ total_return_price }}</view>
+              <view class="total_return_price">余额: {{ total_return_price }}</view>
             </view> -->
             <view @click="again" class="btn again-btn">知道了</view>
 

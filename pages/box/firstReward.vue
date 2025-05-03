@@ -85,37 +85,45 @@
         </view>
       </view>
       <template v-if="currentCate == 0">
-        <view class="mh-goods-list">
-          <view class="mh-goods-list-item" :style="{ backgroundImage: `url(${item.image})` }"
-            v-for="(item, index) in awardList" :key="index" @click="openDetailPop(item)">
+        <template v-if="awardList.length">
+          <view class="mh-goods-list">
+            <view class="mh-goods-list-item" :style="{ backgroundImage: `url(${item.image})` }"
+              v-for="(item, index) in awardList" :key="index" @click="openDetailPop(item)">
 
-            <view class="mh-goods-rate-wrap">
-              <image class="mh-goods-rate-img"
-                src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01aSrqRl24NdcW9CkVj_!!2200676927379.png"
-                mode="widthFix" lazy-load="false" binderror="" bindload="" />
-              <view class="mh-goods-rate-text">
-                {{ item.mark_title }}
+              <view class="mh-goods-rate-wrap">
+                <image class="mh-goods-rate-img"
+                  src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01aSrqRl24NdcW9CkVj_!!2200676927379.png"
+                  mode="widthFix" lazy-load="false" binderror="" bindload="" />
+                <view class="mh-goods-rate-text">
+                  {{ item.mark_title }}
+                </view>
               </view>
-            </view>
 
-            <view class="mh-goods-img">
-              <image :src="item.thumb" mode="widthFix" lazy-load="false" binderror="" bindload="" />
-              <view class="empty-quantity" v-if="item.remaining_quantity == 0">
-                已售罄
+              <view class="mh-goods-img">
+                <image :src="item.thumb" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+                <view class="empty-quantity" v-if="item.remaining_quantity == 0">
+                  已售罄
+                </view>
               </view>
+
+              <view class="mh-title">{{ item.title }}</view>
+
+              <view class="mh-rate"
+                v-if="item.mark_id == 1 || item.mark_id == 2 || item.mark_id == 3 || item.mark_id == 4 || item.mark_id == 5">
+                只赠不售
+              </view>
+              <view class="mh-rate" v-else>概率: {{ item.real_rate }}%</view>
+
+              <!-- <view class="mh-sale">{{ item.remaining_quantity }}/{{ item.initial_quantity }}</view> -->
+              <view class="mh-sale">￥{{ item.price }}</view>
             </view>
-
-            <view class="mh-title">{{ item.title }}</view>
-
-            <view class="mh-rate"
-              v-if="item.mark_id == 1 || item.mark_id == 2 || item.mark_id == 3 || item.mark_id == 4|| item.mark_id == 5" >只赠不售
-            </view>
-            <view class="mh-rate" v-else>概率: {{ item.real_rate }}%</view>
-
-            <!-- <view class="mh-sale">{{ item.remaining_quantity }}/{{ item.initial_quantity }}</view> -->
-            <view class="mh-sale">￥{{ item.price }}</view>
           </view>
-        </view>
+        </template>
+        <template v-else>
+          <view class="empty-list">
+            <u-empty text="暂无赏品数据~" mode="list"></u-empty>
+          </view>
+        </template>
       </template>
       <template v-else>
         <template v-if="boxLogList.length">
@@ -141,7 +149,7 @@
         </template>
         <template v-else>
           <view class="empty-list">
-            <u-empty text="暂无数据~" mode="list"></u-empty>
+            <u-empty text="暂无中赏记录~" mode="list"></u-empty>
           </view>
         </template>
       </template>
@@ -368,7 +376,7 @@
                 <text>参考价</text>
               </text>
             </view>
-            <view class="rate">概率{{ curDetail.show_rate }}%</view>
+            <view class="rate">概率{{ curDetail.real_rate }}%</view>
           </view>
 
           <u-gap height="20"></u-gap>
@@ -471,8 +479,8 @@
           规则说明
         </view>
         <scroll-view class="rule-pop-bd" scroll-y>
-          <view class="rule-content"> 1、“一番赏”为开赏类商品，有一定概率性，请谨慎、理性购买,  保证绝无空包;</view>
-            <view class="rule-content">
+          <view class="rule-content"> 1、“一番赏”为开赏类商品，有一定概率性，请谨慎、理性购买, 保证绝无空包;</view>
+          <view class="rule-content">
             2、FIRST赏只要抽完池子第一发就赠送;
           </view>
           <view class="rule-content">
@@ -861,7 +869,7 @@ export default {
                 this.$common.toast({
                   title: '支付成功', icon: 'success', duration: 1500, success: () => {
                     this.$common.to({
-                      type: 1, url: '/pages/index/draw', query: {
+                      type: 1, url: '/pages/box/firstDraw', query: {
                         id: res.data.id,
                         order_sn: order_info.order_sn,
                         drawNum: res.data.box_num
@@ -1052,7 +1060,7 @@ export default {
                         } else {
                           this.$common.to({
                             type: 1,
-                            url: '/pages/index/draw',
+                            url: '/pages/box/firstDraw',
                             query: {
                               id: this.boxInfo.id,
                               order_sn: res.data.order_sn,
@@ -1078,7 +1086,7 @@ export default {
                     } else {
                       this.$common.to({
                         type: 1,
-                        url: '/pages/index/draw',
+                        url: '/pages/box/firstDraw',
                         query: {
                           id: this.boxInfo.id,
                           order_sn: res.data.order_sn,
@@ -1121,7 +1129,7 @@ export default {
         }
       })
       this.$common.to({
-        url: '/pages/index/draw',
+        url: '/pages/box/firstDraw',
         query: {
           id: this.boxInfo.id,
           drawNum: 1,
@@ -2698,6 +2706,7 @@ page {
     border-radius: 20rpx;
     height: 700rpx; // 改成固定高度
     overflow: hidden; // 防止外面内容溢出
+
     .rule-content {
       line-height: 50rpx;
       color: #696969;

@@ -1,6 +1,6 @@
 <!--
  * @Date: 2022-12-08 13:46:18
- * @LastEditTime: 2025-04-30 09:44:08
+ * @LastEditTime: 2025-04-30 11:08:46
  * @Description: content
 -->
 <template>
@@ -299,6 +299,41 @@
         </view>
       </scroll-view>
     </view>
+    <view v-if="showVideo" class="video-wrap">
+      <video id="introVideo" :src="videoSrc" :autoplay="true" @ended="onVideoEnded" :show-progress="false"
+        :show-fullscreen-btn="false" :controls="false" :show-loading="false" class="video-player" ref="videoRef"></video>
+    </view>
+    <u-popup v-model="showPopup" mode="center" border-radius="40" round="20" width="90%" :mask-close-able="false"
+      :z-index="9999">
+      <view class="popup-container">
+        <!-- <image src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN013nQc6b24NdcX1xgHH_!!2200676927379.png"
+          class="popup-bg" /> -->
+
+        <view class="gift-bd">
+          <view class="popup-title">🎉 恭喜您额外获得以下赏品！ 🎉</view>
+
+          <scroll-view scroll-x class="gift-scroll">
+            <view class="gift-card" v-for="(gift, index) in giftList" :key="index">
+              <view class="mh-goods-rate-wrap">
+                <image class="mh-goods-rate-img"
+                  src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01aSrqRl24NdcW9CkVj_!!2200676927379.png"
+                  mode="widthFix" lazy-load="false" binderror="" bindload="" />
+                <view class="mh-goods-rate-text">
+                  {{ gift.mark_title }}
+                </view>
+              </view>
+              <image :src="gift.thumb" class="gift-image" />
+              <view class="gift-title">{{ gift.title }}</view>
+              <view class="gift-price">¥{{ gift.price }}</view>
+            </view>
+          </scroll-view>
+          <view class="gift-btn" @click="closePopup">
+            我知道了
+          </view>
+        </view>
+
+      </view>
+    </u-popup>
   </view>
 </template>
 
@@ -332,7 +367,24 @@ export default {
       prizeResult: [],
       all: false,
       animateSet: uni.getStorageSync('animateSet'),
-      total_return_price: 0
+      total_return_price: 0,
+      showVideo: false,
+      videoSrc: this.imgBaseUrl + "/kaijiang.mp4",
+      showPopup: false,
+      giftList: [
+        // {
+        //   "title": "超萌公仔",
+        //   "thumb": "https://img.alicdn.com/imgextra/i3/2200676927379/O1CN010LgHNW24NdcXupCTq_!!2200676927379.png",
+        //   "price": 99.9,
+        //   mark_title: 'First赏'
+        // },
+        // {
+        //   "title": "限定盲盒",
+        //   "thumb": "https://img.alicdn.com/imgextra/i3/2200676927379/O1CN010LgHNW24NdcXupCTq_!!2200676927379.png",
+        //   "price": 129.0,
+        //   mark_title: 'First赏'
+        // },
+      ]
     }
   },
 
@@ -354,6 +406,7 @@ export default {
   onUnload () {
     this.ingMusic.stop()
     endMusic.stop()
+    this.stopVideo();
   },
   filters: {
     drawNum (value) {
@@ -363,6 +416,31 @@ export default {
     }
   },
   methods: {
+    closePopup () {
+      this.showPopup = false
+    },
+    stopVideo () {
+      const video = this.$refs.videoRef;
+      console.log(video)
+      if (video) {
+        video.pause(); // 停止播放
+        video.currentTime = 0; // 重置进度
+        this.videoSrc = ""; // 释放资源
+      }
+    },
+    playVideo () {
+      this.showVideo = true;  // 确保视频组件可见
+      this.videoSrc = "";      // 先清空视频地址
+      this.$nextTick(() => {
+        // this.videoSrc = this.imgBaseUrl + "/kaijiang.mp4"
+        this.videoSrc = "https://v3mh6.oss-cn-beijing.aliyuncs.com/ddbox/assets/kaijiang.mp4"
+      });
+    },
+    onVideoEnded () {
+      this.showVideo = false; // 关闭视频
+      endMusic.play()
+      this.popShow = true
+    },
     back () {
       this.$nextTick(() => {
         if (switchMusic) {
@@ -385,6 +463,7 @@ export default {
         this.popShow = false
         this.initOk = false
         this.drawList = []
+        // this.playVideo()
         this.getData()
       } else {
         uni.$emit('again', {})
@@ -431,6 +510,7 @@ export default {
           success: res => {
             if (res.code == 200) {
               this.prizeResult = res.data.list
+              this.giftList = res.data.giftList
               console.log(this.prizeResult)
 
               this.total_return_price = res.data.total_return_price
@@ -543,6 +623,12 @@ export default {
       this.ingMusic.stop()
       endMusic.play()
       this.popShow = true
+      // 判断是否有额外赏品
+      if (this.giftList.length) {
+        setTimeout(() => {
+          this.showPopup = true
+        }, 1000)
+      }
     },
 
     /**
@@ -1235,6 +1321,171 @@ export default {
 
       }
     }
+  }
+}
+
+.video-wrap {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  /* 确保在最上层 */
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: block;
+}
+
+// ::v-deep .u-mode-center-box {
+//   background-color: transparent !important;
+//   box-shadow: none !important;
+// }
+
+// 额外奖品弹窗
+.popup-container {
+  position: relative;
+  padding: 60rpx 30rpx 40rpx;
+  text-align: center;
+  // background-color: #fff;
+  background: linear-gradient(to right, #c6f71a, #90fa61, #55fdac);
+  box-shadow: 2rpx 10rpx 2rpx 2rpx #209200;
+  border-radius: 20rpx;
+  box-sizing: border-box;
+
+  .gift-bd {
+    background: #eefed9;
+    padding: 20rpx;
+    border-radius: 40rpx;
+  }
+
+
+  .popup-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    border-radius: 20rpx;
+
+  }
+
+  .popup-title {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #ff4d4f;
+    text-shadow: 0 0 10rpx #f90;
+  }
+
+  .gift-scroll {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    white-space: nowrap;
+    margin-bottom: 30rpx;
+    padding-top: 40rpx;
+  }
+
+  .gift-card {
+    display: inline-block;
+    position: relative;
+    width: 45%;
+    margin-right: 20rpx;
+    padding: 20rpx;
+    border-radius: 20rpx;
+    text-align: center;
+
+    // 背景 + 发光边框
+    background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+    border: 2rpx solid #00ffc6;
+    box-shadow:
+      0 0 10rpx #00ffc6,
+      0 0 20rpx #00ffc6 inset,
+      0 0 5rpx rgba(255, 255, 255, 0.1);
+
+    .mh-goods-rate-wrap {
+      position: absolute;
+      top: 0rpx;
+      left: -10rpx;
+      z-index: 5;
+
+      .mh-goods-rate-img {
+        width: 120rpx;
+        filter: drop-shadow(0 0 8rpx #00f6ff);
+      }
+
+      .mh-goods-rate-text {
+        position: absolute;
+        top: 6rpx;
+        left: 10rpx;
+        z-index: 1;
+        font-size: 26rpx;
+        font-weight: bold;
+        color: #00eaff;
+        text-shadow: 0 0 6rpx #00eaff;
+      }
+    }
+
+    .gift-image {
+      width: 140rpx;
+      height: 140rpx;
+      object-fit: cover;
+      border-radius: 16rpx;
+      margin-bottom: 10rpx;
+      box-shadow: 0 0 10rpx #00ffc6;
+    }
+
+    .gift-title {
+      font-size: 26rpx;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 0 0 5rpx #0ff;
+      margin-bottom: 6rpx;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .gift-price {
+      font-size: 24rpx;
+      color: #ffdf00;
+      font-weight: bold;
+      text-shadow: 0 0 5rpx #ffdf00;
+    }
+  }
+
+
+  .gift-btn {
+    flex-shrink: 0;
+    font-size: 30rpx;
+    font-weight: 700;
+    color: #000;
+    padding: 20rpx 50rpx;
+    border-radius: 50rpx;
+    text-align: center;
+    border: 2rpx solid #333;
+    // background: linear-gradient(to right, #5dfda1, #baf828);
+    background: linear-gradient(to right, #c1f721, #8dfa63, #62fc9b);
+    text-shadow: -1px -1px #fff, 1px 1px #333;
+    box-shadow: 0px 5px 5px #888888;
+    box-shadow: 2rpx 10rpx 2rpx 2rpx #209200;
   }
 }
 </style>

@@ -214,6 +214,9 @@ export default {
           }
         })
         // #endif
+        // #ifdef H5
+        window.location.href = item.links
+        // #endif
         break
     }
   },

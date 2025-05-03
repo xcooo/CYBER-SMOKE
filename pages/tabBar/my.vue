@@ -75,7 +75,7 @@
 
       <view class="other-view">
         <view class="other-view-0">
-          <view class="other-view-right" @click="toWallet(1)">
+          <view class="other-view-right" @click="recharge" >
             <view class="other-view-right-0">
               余额
             </view>
@@ -85,7 +85,7 @@
           </view>
         </view>
         <view class="other-view-0 other-view-1">
-          <view class="other-view-right" @click="recharge">
+          <view class="other-view-right" @click="toWallet(1)">
             <view class="other-view-right-0">
               积分
             </view>
@@ -95,7 +95,7 @@
           </view>
         </view>
         <view class="other-view-0 other-view-2">
-          <view class="other-view-right" @click="recharge">
+          <view class="other-view-right" @click="toWallet(2)">
             <view class="other-view-right-0">
               佣金
             </view>
@@ -298,9 +298,9 @@ export default {
         {
           id: 3,
           icon: '../../static/mine/bankCard.png',
-          title: '任务签到',
-          // url: '/package/mine/score-order'
-          url: '/pages/index/sign'
+          title: '积分订单',
+          url: '/package/mine/score-order'
+          // url: '/pages/index/sign'
         },
         {
           id: 5,
