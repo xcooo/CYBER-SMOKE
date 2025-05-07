@@ -161,6 +161,10 @@ export default {
           id: 2,
           title: '无限赏',
         },
+        {
+          id: 999,
+          title: '快乐发车',
+        },
         // {
         //   id: 3,
         //   title: '全局赏',
@@ -246,26 +250,33 @@ export default {
   },
   methods: {
     changeIndex (item, index) {
-      this.currentIndex = index
-      if (item.sort) {
-        if (item.sortType !== 4) {
-          item.sortType = 4
-        } else {
-          item.sortType = 5
-        }
-      } else {
-        this.cateList.map(item => {
-          item.sortType = ''
+      if (item.id == 999) {
+        this.$common.to({
+          url: '/pages/box/roomlist'
         })
-      }
-      if (item.is_new) {
-        this.is_new = 2
       } else {
-        this.is_new = ''
+        this.currentIndex = index
+        if (item.sort) {
+          if (item.sortType !== 4) {
+            item.sortType = 4
+          } else {
+            item.sortType = 5
+          }
+        } else {
+          this.cateList.map(item => {
+            item.sortType = ''
+          })
+        }
+        if (item.is_new) {
+          this.is_new = 2
+        } else {
+          this.is_new = ''
+        }
+        this.listData = []
+        this.mescroll.resetUpScroll()
+        this.mescroll.scrollTo(0, 0)
       }
-      this.listData = []
-      this.mescroll.resetUpScroll()
-      this.mescroll.scrollTo(0, 0)
+
     },
     playMusic () {
       this.muteBgMusic = !this.muteBgMusic;

@@ -1,15 +1,18 @@
 <template>
   <view class="touch-page">
     <uni-nav-bar title="对对碰" color="#333" leftIcon="left" backgroundColor="#fff" :border="false" :statusBar="true"
-    :fixed="true" @clickLeft="$common.back()"></uni-nav-bar>
-    
+      :fixed="true" @clickLeft="back()"></uni-nav-bar>
+
     <mescroll-body ref="mescrollRef" height="400" @init="mescrollInit" @down="downCallback" @up="getList"
       :down="downOption" :up="upOption">
       <view class="list-container">
         <view class="list-item" v-for="(item, index) in listData" :key="index" @click="toDetail(item)">
           <image :src="item.thumb" class="item-image" mode="widthFix" />
           <view class="item-title">{{ item.title }}</view>
-          <view class="item-price"><text>¥</text><text class="price">{{ item.price }}</text></view>
+          <view class="flex flex-jbetween flex-acenter price-info">
+            <text class="item-type">{{ item.touch_type }}</text>
+            <view class="item-price"><text>¥</text><text class="price">{{ item.price }}</text></view>
+          </view>
         </view>
       </view>
     </mescroll-body>
@@ -83,14 +86,19 @@ export default {
         }
       })
     },
+    back () {
+      this.$common.to({
+        type:3,
+        url:'/pages/tabBar/home'
+      })
+    },
   },
 }
 </script>
 
 <style lang='scss' scoped>
-.touch-page {
+.touch-page {}
 
-}
 // 列表项目
 .list-container {
   display: grid;
@@ -104,7 +112,6 @@ export default {
     background-color: #fff;
     border-radius: 10rpx;
     box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1);
-
   }
 
   .item-image {
@@ -114,15 +121,30 @@ export default {
     border-bottom-right-radius: 0;
   }
 
+
+
   .item-title {
     font-size: 28rpx;
     color: #333;
-    margin-top: 20rpx;
+    padding: 0 20rpx;
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-top: 20rpx;
+  }
+
+  .price-info {
     padding: 0 20rpx;
+  }
+
+  .item-type {
+    background-color: #f0f0f0;
+    color: #666;
+    font-size: 24rpx;
+    padding: 4rpx 10rpx;
+    border-radius: 4rpx;
+    flex-shrink: 0;
   }
 
   .item-price {

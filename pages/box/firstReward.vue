@@ -166,13 +166,31 @@
         <view class="chou-btn-item chou-first-item" @click="changeBuyType(5)">
           冲五发
         </view>
+        <view class="chou-btn-item chou-second-item" @click="changeBuyType(-1)">
+          全收
+        </view>
+      </view>
+    </view>
+<!-- 
+    <view class="chou-btn-wrap">
+      <view class="chou-first-wrap">
+        <view class="chou-btn-item chou-first-item" @click="changeBuyType(1)">
+          冲一发
+        </view>
+        <view class="chou-btn-item chou-first-item" @click="changeBuyType(3)">
+          冲三发
+        </view>
+        <view class="chou-btn-item chou-first-item" @click="changeBuyType(5)">
+          冲五发
+        </view>
       </view>
       <view class="chou-second-wrap" @click="changeBuyType(-1)">
         <view class="chou-btn-item chou-second-item">
           全收
         </view>
       </view>
-    </view>
+    </view> -->
+
     <!-- <view class="luckbox">
       <view class="option ">
         <view class="row">
@@ -1344,7 +1362,7 @@ page {
   background: url("https://img.alicdn.com/imgextra/i3/2200676927379/O1CN018eRR3Q24NdcYm6y4q_!!2200676927379.png") no-repeat 50%/110% 130%;
   // background-size: cover;
   // min-height: calc(100vh - 50px);
-  padding-bottom: 200rpx;
+  padding-bottom: 120rpx;
 
   .nav {
     ::v-deep .uni-navbar__header {
@@ -2718,17 +2736,17 @@ page {
 
 .chou-btn-wrap {
   position: fixed;
-  bottom: 10%;
+  bottom: 4%;
   z-index: 10;
   width: 100%;
-  padding: 0 40rpx;
+  padding: 0 30rpx;
 
   .chou-btn-item {
     flex-shrink: 0;
     font-size: 30rpx;
     font-weight: 700;
     color: #000;
-    padding: 20rpx 50rpx;
+    padding: 20rpx 30rpx;
     border-radius: 50rpx;
     text-align: center;
     border: 2rpx solid #333;
@@ -2737,14 +2755,21 @@ page {
     text-shadow: -1px -1px #fff, 1px 1px #333;
     box-shadow: 0px 5px 5px #888888;
     box-shadow: 2rpx 10rpx 2rpx 2rpx #209200;
+
   }
 
   .chou-first-wrap {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     column-gap: 20rpx;
 
-    .chou-first-item {}
+    .chou-first-item {
+    }
+
+    .chou-second-item {
+      background: #fffc30;
+      box-shadow: 2rpx 10rpx 2rpx 2rpx #209200;
+    }
   }
 
   .chou-second-wrap {

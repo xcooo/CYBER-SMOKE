@@ -2,7 +2,7 @@
   <view class="kaixiang">
     <view class="nav">
       <uni-nav-bar color="#fff" leftIcon="left" backgroundColor="transparent" :border="false" :statusBar="true"
-        :fixed="true" title="对对碰">
+        :fixed="true" :title="navTitle">
         <view slot="left" class="nav-left" @click="back">
           <image class="" src="../../static/home/arrow.png" mode="widthFix" lazy-load="false" binderror="" bindload="" />
         </view>
@@ -38,19 +38,13 @@
       </view>
     </view>
 
-    <!-- <view class="setAnimate">
-      <view class="btn" :style="{ 'background-image': 'url(' + `${imgBaseUrl}/static/web/06.png` + ')' }"
-        @click="setAnimate">设置
-      </view>
-    </view> -->
-
     <swiper class="swiper swiper2" easing-function="linear" circular :current="currentBanner" :indicator-dots="false"
       :autoplay="false" :interval="100" :duration="1000" @change="handleSwiperChange">
       <swiper-item v-for="(item, index) in awardList" :key="item.id">
         <view class="swiper-item">
           <view class="gd-info">
             <view class="gd-title">{{ item.title }}</view>
-            <view class="gd-price">开盒价 <text>￥{{ boxInfo.price }}</text></view>
+            <view class="gd-price">对碰价 <text>￥{{ boxInfo.price }}</text></view>
           </view>
         </view>
       </swiper-item>
@@ -61,14 +55,25 @@
         <view class="card wish-card">
           <view class="card-content">
             <view class="card-title">许愿卡牌</view>
-            <!-- <view class="card-count">次数：3</view> -->
+            <view class="card-image">
+              <image :src="selected_prize_info.thumb" mode="aspectFit" />
+            </view>
           </view>
         </view>
         <view class="card star-card">
           <view class="card-content">
-            <view class="card-title">星城卡牌</view>
-            <view class="card-count">已碰次数</view>
-            <view class="card-num">5</view>
+            <view class="card-title">卡牌池</view>
+            <view class="card-info">
+              <view class="card-count">已碰次数:</view>
+              <view class="card-num">{{ collision_count }}</view>
+            </view>
+            <!-- 卡牌池内容 -->
+            <view class="card-images">
+              <view v-for="(item, index) in rewardCards" :key="'card-' + index" class="card-item"
+                :style="getCardStyle(index)" @click="placeRewardCard(item)">
+                <image :src="item.image" mode="aspectFit" />
+              </view>
+            </view>
           </view>
         </view>
       </view>
@@ -78,26 +83,75 @@
       <view class="title">赏品预览</view>
 
       <view class="grid-container">
-        <view class="grid-item" v-for="(item, index) in rewards" :key="index">
-          <view class="flip-card">
-            <view class="flip-card-inner" :class="{ flipped: item.flipped }" @click="flipCard(index)">
-              <view class="flip-card-front">
-                <image class="reward-image" :src="item.frontImage" mode="widthFix" />
-              </view>
-              <view class="flip-card-back">
-                <image class="reward-image" :src="item.backImage" mode="aspectFill" />
+        <template v-if="game_status == 0">
+          <!-- 初始模板（9张图，无标题，留空占位） -->
+          <view class="grid-item" v-for="(item, index) in initialRewards" :key="'init-' + index">
+            <view class="flip-card">
+              <view class="flip-card-inner">
+                <view class="flip-card-front">
+                  <image class="reward-image large" :src="item.thumb" mode="widthFix" />
+                </view>
               </view>
             </view>
+            <!-- 占位标题使布局统一 -->
+            <view class="reward-title placeholder">&nbsp;</view>
           </view>
-        </view>
-
+        </template>
+        <template v-else>
+          <!-- 游戏模板（图 + 标题） -->
+          <view class="grid-item" v-for="(item, index) in gameRewards" :key="'game-' + index"
+            @click="handleRewardSelect(item, index)">
+            <view class="flip-card">
+              <view class="flip-card-inner">
+                <view class="flip-card-front">
+                  <image class="reward-image small" :src="item.thumb" mode="widthFix" />
+                  <view v-if="isRewardSelected(item, index)" class="selected-overlay">
+                    <image class="selected-icon"
+                      src="https://img.alicdn.com/imgextra/i2/2200676927379/O1CN015KTYk524NdcYkCY9h_!!2200676927379.png" />
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="reward-title">{{ item.title }}</view>
+          </view>
+        </template>
       </view>
     </view>
 
-
-    <view class="play-game">
+    <view class="play-game" v-if="game_status == 0">
       <view class="play-btn" @click="playGame">开始游戏</view>
     </view>
+
+    <!-- 许愿池弹窗 -->
+    <u-popup v-model="showWishPool" mode="center" border-radius="20" :mask-close-able="false">
+      <view class="wish-popup">
+        <!-- 顶部封面图 -->
+        <view class="wish-header">
+          <image class="wish-cover"
+            src="https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01xEzfcZ24Ndcd5dGYa_!!2200676927379.png"
+            mode="aspectFill" />
+        </view>
+
+        <!-- 奖品列表 -->
+        <view class="wish-body">
+          <view class="wish-title">请选择一个许愿奖品</view>
+          <scroll-view class="wish-scroll" scroll-y>
+            <view class="wish-list">
+              <view class="wish-item" v-for="(item, index) in wishPoolData" :key="item.id"
+                :class="{ active: selectedIndex === index }" @click="selectItem(index)">
+                <image class="item-image" :src="item.thumb" mode="aspectFit" />
+                <view class="item-title">{{ item.title }}</view>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+
+        <!-- 许愿按钮 -->
+        <view class="wish-footer">
+          <view class="btn wish-btn" @click="makeWish">我要许愿</view>
+        </view>
+      </view>
+    </u-popup>
 
 
     <!-- 开盒弹窗 -->
@@ -220,113 +274,22 @@
       </view>
     </uni-popup>
 
-    <!-- 联系客服 -->
-    <u-popup v-model="kefushow" mode="center" border-radius="16">
-      <view class="bgbox">
-        <view class="off" @click="kefushow = false">
-          <uni-icons type="close" color="#fff" size="25" />
-        </view>
-        <view class="content">
-          <view class="ma">
-            <image class="" :src="wx_kefu" mode="widthFix" lazy-load="false" binderror="" bindload="" />
-          </view>
-        </view>
-        <view class="yi">
-          微信扫一扫
-        </view>
-      </view>
-    </u-popup>
-
-    <!-- 登录弹窗 -->
-    <uni-popup ref="loginPopup" type="center">
-      <view class="tiploginShow-view">
-        <view class="tiploginShow-view-0">
-          您还未登录
-        </view>
-        <view class="tiploginShow-view-1">
-          请登录以后再进行此操作~
-        </view>
-        <view class="tiploginShow-view-2" @click="$common.to({ url: '/pages/mine/login' })">
-          前往登录
-        </view>
-        <view class="tiploginShow-view-3" @click="$refs.loginPopup.close()">
-          暂不登录
-        </view>
-
-      </view>
-    </uni-popup>
-
-    <!-- 商品详情 -->
-    <uni-popup ref="detailPop" type="bottom">
-      <view class="detail-pop">
-        <view class="detail-pop-hd">
-          商品详情
-          <view @click="closeDetailPop" class="icon close">
-            <cimage src="/static/icon/close2.png" mode="scaleToFill" />
-          </view>
-        </view>
-
-        <scroll-view class="detail-pop-bd" scroll-y>
-          <view class="detail-pic" v-if="curDetail.thumb">
-            <cimage :src="curDetail.thumb" mode="scaleToFill" />
-          </view>
-
-          <view class="detail-price">
-            <view class="price">
-              ¥
-              <text>
-                {{ curDetail.price }}
-
-                <text>参考价</text>
-              </text>
-            </view>
-
-            <!-- <view class="rate">概率{{ curDetail.show_rate }}%</view> -->
-          </view>
-
-          <view class="detail-title">
-            <view class="detail-title-content hang2">
-              <text :style="{
-                background: curDetail.mark_color
-              }">
-                {{ curDetail.mark_title }}
-              </text>
-
-              {{ curDetail.title }}
-            </view>
-          </view>
-
-          <u-gap height="20"></u-gap>
-
-          <view class="zheng-tag">
-            <cimage src="/static/img/zheng_pin1.png" mode="scaleToFill" />
-          </view>
-
-          <u-gap height="20"></u-gap>
-
-          <view class="content-title">商品详情</view>
-
-          <view v-html="curDetail.editor" class="content"></view>
-        </scroll-view>
-      </view>
-    </uni-popup>
-
     <!-- 中赏记录 -->
     <u-popup v-model="zsPop" mode="bottom" border-radius="16" height="70%">
       <view class="zsbox-wrap">
         <view class="zsbox-top">
           <view class="zs-title">
-            <view>中赏记录</view>
+            <view>对碰中赏记录</view>
             <view class="zs-icon" @click="zsPop = false"><uni-icons type="closeempty" color="#fff" size="20"></uni-icons>
             </view>
           </view>
 
-          <view class="zs-wrap">
+          <!-- <view class="zs-wrap">
             <view class="zs-items" :class="[currentItems == index ? 'activezs' : '']" @click="zsCu(index)"
               v-for="(item, index) in btnLists" :key="index">
               {{ item.title }}
             </view>
-          </view>
+          </view> -->
         </view>
 
         <mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="getBoxLogList" :down="downOption"
@@ -343,7 +306,7 @@
                 </view>
               </view>
               <view class="award-log-right">
-                <image class="award-log-img" :src="item.thumb" mode="widthFix" lazy-load="false" binderror=""
+                <image class="award-log-img" :src="item.thumb" mode="aspectFit" lazy-load="false" binderror=""
                   bindload="" />
               </view>
             </view>
@@ -380,19 +343,6 @@
       </view>
     </u-popup>
 
-    <!-- 开盒动画 -->
-    <u-popup v-model="setShow" mode="center" border-radius="16" :closeable="true" @close="closeSet">
-      <view class="setbox">
-        <view class="set-title">设置</view>
-        <view class="set-tip">
-          <view>
-            跳过动画
-          </view>
-          <u-switch @change="changeAnimate" active-color="#7768d5" v-model="animateSet"></u-switch>
-        </view>
-      </view>
-    </u-popup>
-
     <!-- 规则说明 -->
     <u-popup v-model="rulePop" mode="center" width="93%" border-radius="20">
       <view class="rule-pop">
@@ -404,10 +354,10 @@
             下单后不退换不换，请理性下单
           </view>
           <view class="rule-content rule-content-active"> 1、禁止未满18周岁的未成年人在平台内的一切消费行为。</view>
-          <view class="rule-content">
-            <!-- 2、无限卡池版规则:共11种卡面，出现概率均等均为1/11，无数量限制;游戏开始时，用户可自行选择1个类别进行“许愿”，初始随机发放9张卡牌初始的9张牌中每出现一张许愿牌，则会额外多张牌在奖励卡牌池(仅初始9张出现许愿牌会奖励卡牌，九不同有许愿牌也加张，游戏进行中出现许愿!卡牌不额外奖励卡牌)点击奖励卡池可以将奖励卡牌放置到场上; -->
+          <view class="rule-content" v-if="boxInfo.touch_type == 0">
+            2、无限卡池版规则:共11种卡面，出现概率均等均为1/11，无数量限制;游戏开始时，用户可自行选择1个类别进行“许愿”，初始随机发放9张卡牌初始的9张牌中每出现一张许愿牌，则会额外多张牌在奖励卡牌池(仅初始9张出现许愿牌会奖励卡牌，九不同有许愿牌也加张，游戏进行中出现许愿!卡牌不额外奖励卡牌)点击奖励卡池可以将奖励卡牌放置到场上;
           </view>
-          <view class="rule-content">
+          <view class="rule-content" v-if="boxInfo.touch_type == 1">
             2、经典版规则:共9种卡面，每种角色6张，共计54张牌，出现概率均等;游戏开始时，用户可自行选择1个类别进行“许愿”，初始随机发放9张卡牌，游戏过程中每出现一张许愿牌，则会额外多一张牌在奖励卡牌池(初始9张九不同不加张直接0碰结算)点击奖励卡池可以将奖励卡牌放置到场上;
           </view>
           <view class="rule-content">
@@ -422,6 +372,38 @@
         </scroll-view>
       </view>
     </u-popup>
+
+    <!-- 奖品订单弹窗 -->
+    <u-popup v-model="showOrderPool" mode="center" border-radius="20" :mask-close-able="false">
+      <view class="wish-popup">
+        <!-- 顶部封面图 -->
+        <view class="order-header">
+          <image class="order-cover"
+            src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN013nQc6b24NdcX1xgHH_!!2200676927379.png"
+            mode="aspectFill" />
+        </view>
+
+        <!-- 订单列表 -->
+        <view class="order-body">
+          <scroll-view class="order-scroll" scroll-y>
+            <view class="order-list">
+              <view class="order-item" v-for="(item, index) in orderList" :key="item.id">
+                <image class="item-image" :src="item.thumb" mode="aspectFit" />
+                <view class="item-title">{{ item.title }}</view>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+
+        <!-- 确认按钮 -->
+        <view class="wish-footer">
+          <view class="btn wish-btn" @click="closesOrderPool">我知道了</view>
+        </view>
+      </view>
+    </u-popup>
+
+    <loginPopup ref="loginPopup"></loginPopup>
+
   </view>
 </template>
 
@@ -442,17 +424,7 @@ export default {
   data () {
     return {
       muteBgMusic: false,
-      kefushow: false,
-      wx_kefu: '',
       optionsData: '',
-      markIconList: [
-        'https://www.img.xcooo.cn/uploads/2024/03/198c2a7e10410c63.png',
-        'https://www.img.xcooo.cn/uploads/2024/03/f7c171b8f3dabff6.png',
-        'https://www.img.xcooo.cn/uploads/2024/03/7e0edd987451aae3.png'
-      ],
-      list: [
-        '恭喜 微信用户获得路由器'
-      ],
       boxInfo: {},
       // 赏等级列表
       markList: [],
@@ -484,7 +456,6 @@ export default {
       ],
       agree: true,
       ruleData: '',
-      curDetail: '',
       is_epay: 0,
       currentBanner: 0,
       zsPop: false,
@@ -511,54 +482,25 @@ export default {
       animateSet: uni.getStorageSync('animateSet') ? uni.getStorageSync('animateSet') : false,
       setShow: false,
       rulePop: false,
-      // 示例赏品数据
-      rewards: [
-        {
-          frontImage: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png',
-          backImage: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN010LgHNW24NdcXupCTq_!!2200676927379.png',
-          name: '赏品1', price: '100', flipped: false
-        },
-        {
-          frontImage: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png',
-          backImage: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Y76eXS24NdcVmhMgk_!!2200676927379.png',
-          name: '赏品2', price: '150', flipped: false
-        },
-        {
-          frontImage: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png',
-          backImage: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Y76eXS24NdcVmhMgk_!!2200676927379.png',
-          name: '赏品3', price: '200', flipped: false
-        },
-        {
-          frontImage: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png',
-          backImage: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Y76eXS24NdcVmhMgk_!!2200676927379.png',
-          name: '赏品3', price: '200', flipped: false
-        },
-        {
-          frontImage: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png',
-          backImage: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Y76eXS24NdcVmhMgk_!!2200676927379.png',
-          name: '赏品3', price: '200', flipped: false
-        },
-        {
-          frontImage: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png',
-          backImage: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Y76eXS24NdcVmhMgk_!!2200676927379.png',
-          name: '赏品3', price: '200', flipped: false
-        },
-        {
-          frontImage: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png',
-          backImage: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Y76eXS24NdcVmhMgk_!!2200676927379.png',
-          name: '赏品3', price: '200', flipped: false
-        },
-        {
-          frontImage: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png',
-          backImage: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Y76eXS24NdcVmhMgk_!!2200676927379.png',
-          name: '赏品3', price: '200', flipped: false
-        },
-        {
-          frontImage: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png',
-          backImage: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Y76eXS24NdcVmhMgk_!!2200676927379.png',
-          name: '赏品3', price: '200', flipped: false
-        },
-      ],
+      // 赏品数据
+      initialRewards: [], // 初始阶段的卡牌（只图）
+      gameRewards: [], // 游戏阶段的卡牌（图 + 文）
+      rewardCards: [],  // 奖励卡池
+      wishPoolData: [],
+      showWishPool: false,
+      selectedIndex: null,
+      // 许愿的奖品
+      order_id: null,
+      selected_prize_info: {
+        thumb: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png'
+      },
+      collision_count: 0,
+      isPlacingCard: false,
+      // 选中的奖品
+      selectedRewards: [],
+      showOrderPool: false,
+      orderList: [],
+      game_status: 0
     }
   },
   onLoad (options) {
@@ -591,18 +533,13 @@ export default {
       console.log(res)
     })
     this.$store.dispatch('getAppConfig').then((res) => {
-      console.log(res);
       this.is_epay = res.data.is_epay
-      this.wx_kefu = res.data.wx_kefu
-      // if (res.data.bg_music) {
-      //   bgMusic.src = res.data.bg_music
-      //   bgMusic.autoplay = true;
-      //   bgMusic.loop = true;
-      // }
     })
     // 清空优惠券信息
     this.coupon_info = {}
     this.getData()
+    this.getGameDetail()
+    this.initInitialRewards();
   },
   watch: {
   },
@@ -616,38 +553,232 @@ export default {
     this.cancelCheckPayStatus()
     bgMusic.pause()
   },
+  onHide () {
+    console.log('页面隐藏事件')
+    this.$refs.loginPopup.close();
+  },
   computed: {
     ...mapGetters(['sysConfig', 'userInfo']),
+    navTitle () {
+      // if (this.boxInfo.touch_type_title) {
+      //   return this.boxInfo.touch_type_title + '对对碰'
+      // }
+      return '对对碰'
+    }
   },
   methods: {
-    flipCard (index) {
-      // 切换图片显示，翻转效果
-      this.rewards[index].flipped = !this.rewards[index].flipped;
+    async getGameDetail () {
+      this.req({
+        url: '/v1/collision/getCollisionGameDetail',
+        data: { box_id: this.optionsData.id },
+        success: res => {
+          if (res.code == 200) {
+            const data = res.data;
+            // 判断接口返回的数据是否有效，只有当数据存在时才进行赋值
+            if (data) {
+              // 仅在有数据时才赋值
+              if (data.game_status !== undefined) {
+                this.game_status = data.game_status;
+              }
+              if (data.order_id !== undefined) {
+                this.order_id = data.order_id;
+              }
+              if (data.collision_count !== undefined) {
+                this.collision_count = data.collision_count;
+              }
+              if (data.selected_prize_info !== undefined) {
+                this.selected_prize_info = data.selected_prize_info;
+              }
+              if (data.game_rewards && Array.isArray(data.game_rewards)) {
+                this.gameRewards = data.game_rewards;
+              }
+              if (data.reward_cards && Array.isArray(data.reward_cards)) {
+                this.rewardCards = data.reward_cards.map(card => {
+                  // 给没有图片的卡片设置默认图片
+                  if (!card.image) {
+                    card.image = 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png';
+                  }
+                  return card;
+                });
+              }
+            }
+          } else {
+            // 处理接口返回其他错误的情况
+            uni.showToast({ title: res.msg || '获取数据失败', icon: 'none' });
+          }
+        },
+        fail: () => {
+          // 网络请求失败的处理
+          uni.showToast({ title: '请求失败，请稍后再试', icon: 'none' });
+        }
+      });
     },
-    setAnimate () {
-      this.$nextTick(() => {
-        if (switchMusic) {
-          switchMusic.play()
+    async getWishPool () {
+      this.req({
+        url: '/v1/collision/getWishPoolByOrderId',
+        data: { order_id: this.order_id, },
+        success: res => {
+          if (res.code == 200) {
+            this.wishPoolData = res.data.awards_pool
+            this.showWishPool = true
+          }
         }
       })
-      this.setShow = true
     },
-    closeSet () {
-      this.$nextTick(() => {
-        if (switchMusic) {
-          switchMusic.play()
-        }
-      })
-      this.setShow = false
+    selectItem (index) {
+      if (this.selectedIndex === index) {
+        // 如果再次点击已选中的项，则取消选中
+        this.selectedIndex = null;
+      } else {
+        this.selectedIndex = index;
+      }
     },
-    changeAnimate (e) {
-      this.$nextTick(() => {
-        if (switchMusic) {
-          switchMusic.play()
+    makeWish () {
+      if (this.selectedIndex === null) {
+        uni.showToast({ title: '请选择一个奖品进行许愿', icon: 'none' });
+        return;
+      }
+
+      const selectedItem = this.wishPoolData[this.selectedIndex];
+      console.log('许愿成功：', selectedItem);
+
+      // 提交许愿请求逻辑
+      this.req({
+        url: '/v1/collision/makeWish',
+        data: {
+          order_id: this.order_id,
+          prize_id: selectedItem.id
+        },
+        success: res => {
+          if (res.code == 200) {
+            // 设置许愿奖品信息
+            this.selected_prize_info = res.data.selected_prize_info;
+
+            // 设置游戏初始牌池 (gameRewards)
+            this.gameRewards = res.data.game_rewards;
+
+            // 设置奖励卡池
+            this.rewardCards = res.data.reward_cards;
+
+            // 隐藏许愿池界面
+            this.showWishPool = false;
+
+            // 更新游戏状态
+            this.game_status = res.data.game_status
+          }
         }
-      })
-      this.animateSet = !!e
-      uni.setStorageSync('animateSet', this.animateSet)
+      });
+    },
+    // 对对碰
+    handleRewardSelect (card, index) {
+      const existIndex = this.selectedRewards.findIndex(r => r.index === index)
+
+      if (existIndex !== -1) {
+        // 再次点击取消选中
+        this.selectedRewards.splice(existIndex, 1)
+      } else {
+        if (this.selectedRewards.length === 2) {
+          uni.showToast({ title: '最多只能选择两个', icon: 'none' })
+          return
+        }
+        this.selectedRewards.push({ card, index })
+      }
+
+      if (this.selectedRewards.length === 2) {
+        const [c1, c2] = this.selectedRewards
+        if (c1.card.id !== c2.card.id) {
+          uni.showToast({ title: '所选商品不同', icon: 'none' })
+          this.selectedRewards = []
+          return
+        }
+
+        // 发请求
+        this.req({
+          url: '/v1/collision/matchCards',
+          data: {
+            order_id: this.order_id,
+            card1_id: c1.card.id,
+            card2_id: c2.card.id
+          },
+          success: res => {
+            if (res.code == 200) {
+              const data = res.data;
+              this.game_status = data.game_status
+              if (this.game_status == 2) {
+                this.showOrderPool = true
+                this.orderList = data.orderList
+              } else {
+                this.gameRewards = data.game_rewards
+                this.collision_count = data.collision_count
+                this.selectedRewards = []  // ✅清除选中状态
+                uni.showToast({ title: res.msg, icon: 'none' })
+              }
+
+            } else {
+              uni.showToast({ title: res.msg || '操作失败', icon: 'none' })
+            }
+          }
+        })
+      }
+    },
+    closesOrderPool () {
+      this.showOrderPool = false
+      // 重置游戏卡牌池
+      this.resetCard()
+    },
+    resetCard () {
+      this.initInitialRewards();
+      this.selected_prize_info.thumb = 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png'
+      this.collision_count = 0
+      this.rewardCards = []
+      this.selectedRewards = []
+      this.gameRewards = []
+      this.game_status = 0
+    },
+    isRewardSelected (reward, index) {
+      console.log(this.selectedRewards)
+      return this.selectedRewards.some(r => r.index === index);
+    },
+    // 将选中的卡片添加到游戏奖励列表
+    async placeRewardCard (card) {
+      // if (this.isPlacingCard) return; // 防止重复点击
+      // this.isPlacingCard = true;
+
+      this.req({
+        url: '/v1/collision/placeRewardCard',
+        data: {
+          order_id: this.order_id,
+          card_id: card.id
+        },
+        success: res => {
+          if (res.code == 200) {
+            const data = res.data;
+
+            // ✅ 后端返回的最新卡牌状态
+            this.gameRewards = data.game_rewards || [];
+            this.collision_count = data.collision_count || 0;
+
+            // 将 rewardCards 更新
+            this.rewardCards = data.remaining_reward_cards || [];
+
+            uni.showToast({ title: '卡牌已放置', icon: 'success' });
+          } else {
+            uni.showToast({ title: res.msg || '操作失败', icon: 'none' });
+          }
+        }
+      });
+    },
+    getCardStyle (index) {
+      return {
+        left: `${index * 20}%`,
+        zIndex: 5 - index,
+      };
+    },
+    initInitialRewards () {
+      const url = 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01EyyA5i24NdcZzXtx6_!!2200676927379.png';
+      this.initialRewards = Array.from({ length: 9 }, () => ({
+        thumb: url
+      }));
     },
     useCouPon (item) {
       this.coupon_info = item
@@ -714,18 +845,25 @@ export default {
               this.boxLogList = []
             }
             let newArr = res.data.data.map(item => {
-              if (item.mark_id == 33) {
-                item.image = '../../static/home/200.png'
-              } else if (item.mark_id == 34) {
-                item.image = '../../static/home/300.png'
+              switch (item.mark_id) {
+                case 33:
+                  item.image = '../../static/home/200.png';
+                  break;
+                case 34:
+                  item.image = '../../static/home/300.png';
+                  break;
+                case 35:
+                  item.image = '../../static/home/400.png';
+                  break;
+                case 36:
+                  item.image = '../../static/home/100.png';
+                  break;
+                default:
+                  item.image = '../../static/home/100.png';
+                  break;
               }
-              else if (item.mark_id == 35) {
-                item.image = '../../static/home/400.png'
-              } else if (item.mark_id == 36) {
-                item.image = '../../static/home/100.png'
-              }
-              return item
-            })
+              return item;
+            });
             this.boxLogList = [...this.boxLogList, ...newArr]
             this.mescroll.endBySize(res.data.data.length, res.data.total)
           } else {
@@ -855,10 +993,6 @@ export default {
         })
       }
     },
-    /**
-* @description: 获取数据
-* @return {*}
-*/
     getData () {
       return new Promise((resolve, reject) => {
         this.req({
@@ -915,7 +1049,7 @@ export default {
         }
       })
       if (!this.userInfo) {
-        this.$refs.loginPopup.open('center')
+        this.$refs.loginPopup.open()
         return
       }
       // if (this.btnList?.length == 0) {
@@ -947,7 +1081,7 @@ export default {
       }
 
       this.req({
-        url: '/v1/box/order',
+        url: '/v1/collision/order',
         data,
         success: res => {
           if (res.code == 200) {
@@ -970,15 +1104,8 @@ export default {
                       icon: 'success',
                       duration: 1500,
                       success: () => {
-                        this.$common.to({
-                          type: 1,
-                          url: '/pages/index/draw',
-                          query: {
-                            id: this.boxInfo.id,
-                            order_sn: res.data.order_sn,
-                            drawNum: this.orderData.box.num
-                          }
-                        })
+                        this.order_id = res.data.order_id
+                        this.getWishPool()
                       }
                     })
                   }
@@ -988,15 +1115,8 @@ export default {
                   title: '支付成功',
                   duration: 1500,
                   success: () => {
-                    this.$common.to({
-                      type: 1,
-                      url: '/pages/index/draw',
-                      query: {
-                        id: this.boxInfo.id,
-                        order_sn: res.data.order_sn,
-                        drawNum: this.orderData.box.num
-                      }
-                    })
+                    this.order_id = res.data.order_id
+                    this.getWishPool()
                   }
                 })
               }
@@ -1005,26 +1125,14 @@ export default {
         }
       })
     },
-    /**
-* @description: 打开订单弹窗
-* @return {*}
-*/
+
     openOrderPop () {
       this.agree = true
-
       this.$refs.orderPop.open()
     },
-    /**
- * @description: 关闭订单弹窗
- * @return {*}
- */
     closeOrderPop () {
       this.$refs.orderPop.close()
     },
-    /**
-* @description: 试玩
-* @return {*}
-*/
     tryPlay () {
       this.$nextTick(() => {
         if (switchMusic) {
@@ -1082,39 +1190,6 @@ export default {
         url,
       })
     },
-    // 玩法
-    goRule () {
-      this.$nextTick(() => {
-        if (switchMusic) {
-          switchMusic.play()
-        }
-      })
-      this.$common.to({ url: '/pages/index/rule?id=3' })
-    },
-    // 联系客服
-    lxkefu () {
-      this.$nextTick(() => {
-        if (switchMusic) {
-          switchMusic.play()
-        }
-      })
-      this.kefushow = true
-    },
-    openDetailPop (e) {
-      this.curDetail = ''
-      if (e.editor) {
-        e.editor = e.editor.replace(
-          /\<img/gi,
-          '<img style="width: 100%;vertical-align: middle;"'
-        )
-      }
-
-      this.curDetail = e
-      this.$refs.detailPop.open()
-    },
-    closeDetailPop () {
-      this.$refs.detailPop.close()
-    },
     playMusic () {
       this.muteBgMusic = !this.muteBgMusic;
       this.$nextTick(() => {
@@ -1137,11 +1212,15 @@ export default {
           switchMusic.play()
         }
       })
+      uni.navigateTo({
+        url: '/pages/rightTouch/list',
+        success: (result) => {
 
-      uni.switchTab({
-        url: '/pages/tabBar/home',
-
+        },
+        fail: () => { },
+        complete: () => { }
       });
+
     },
     fresh () {
       this.$nextTick(() => {
@@ -1155,6 +1234,7 @@ export default {
         mask: true
       })
       this.getData()
+      this.getGameDetail()
     },
     openRule () {
       this.$nextTick(() => {
@@ -1181,6 +1261,7 @@ export default {
       })
       this.btnCur = 1
       this.confirmSubmit(0)
+      // this.startGame()
     }
   },
 }
@@ -1387,127 +1468,7 @@ export default {
 }
 </style>
 
-<style lang="scss">
-.setbox {
-  width: 600rpx;
-  height: 250rpx;
-  padding: 40rpx;
-  background: #201e1e;
-  color: #fff;
-
-  .set-title {
-    text-align: center;
-    font-size: 18px;
-    font-weight: 700;
-  }
-
-  .set-tip {
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-    margin-top: 40rpx;
-  }
-
-}
-
-.setAnimate {
-  position: fixed;
-  right: 3px;
-  top: 200px;
-  z-index: 8;
-  color: #fff;
-
-
-  .btn {
-    bottom: 200px;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    width: 70px;
-    height: 70px;
-    color: #fff;
-    font-size: 17px;
-    font-weight: 700;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.bgbox {
-  background: url('https://www.img.xcooo.cn/uploads/2024/02/d969aa4534f6b91e.png') no-repeat;
-  background-size: 100% 100%;
-  width: 540rpx;
-  height: 680rpx;
-
-  .off {
-    text-align: right;
-    padding: 15px;
-    box-sizing: border-box;
-  }
-
-  .content {
-    margin-top: 35px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-
-    .ma {
-      width: 156px;
-      height: 156px;
-
-      image {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  .yi {
-    text-align: center;
-    font-size: 17px;
-    color: #999;
-    line-height: 26px;
-    margin-top: 20px;
-  }
-}
-
-.tiploginShow-view {
-  width: 260px;
-  background-color: #fff;
-  border-radius: 15px;
-  padding: 15px;
-  box-sizing: border-box;
-
-  .tiploginShow-view-0 {
-    text-align: center;
-    font-size: 16px;
-    color: #131313;
-  }
-
-  .tiploginShow-view-1 {
-    text-align: center;
-    font-size: 12px;
-    margin-top: 10px;
-    color: #2c2c2c;
-  }
-
-  .tiploginShow-view-2 {
-    width: 208px;
-    height: 41px;
-    background-color: #0079fe;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto 10px;
-  }
-
-  .tiploginShow-view-3 {
-    text-align: center;
-
-  }
-}
-
+<style lang="scss" scoped>
 .order-pop {
   background: #222433;
   border-radius: 10rpx 10rpx 0 0;
@@ -1692,119 +1653,6 @@ export default {
   }
 }
 
-.detail-pop {
-  background: #f2f2f2;
-  border-radius: 10rpx 10rpx 0 0;
-  overflow: hidden;
-
-  &-hd {
-    background: #f2f2f2;
-    position: relative;
-    // text-align: center;
-    font-size: 32rpx;
-    color: #333333;
-    height: 80rpx;
-    line-height: 80rpx;
-    padding: 0 30rpx;
-
-    .close {
-      width: 40rpx;
-      height: 40rpx;
-      position: absolute;
-      right: 20rpx;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-  }
-
-  &-bd {
-    max-height: 60vh;
-    min-height: 40vh;
-
-    .detail-pic {
-      width: 750rpx;
-      height: 750rpx;
-    }
-
-    .detail-price {
-      background: #fff;
-      padding: 30rpx 30rpx 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .price {
-        font-size: 24rpx;
-        font-family: SourceHanSansCN;
-        font-weight: 800;
-        color: #333333;
-
-        text {
-          font-size: 38rpx;
-
-          text {
-            padding-left: 10rpx;
-
-            font-size: 24rpx;
-            font-family: PingFang SC;
-            font-weight: 500;
-            color: #333333;
-          }
-        }
-      }
-
-      .rate {
-        font-size: 24rpx;
-        font-family: PingFang SC;
-        font-weight: 500;
-        color: #333333;
-      }
-    }
-
-    .detail-title {
-      padding: 30rpx;
-      background: #fff;
-
-      &-content {
-        text {
-          padding: 2rpx 6rpx;
-
-          font-size: 20rpx;
-          font-family: PingFang SC;
-          font-weight: bold;
-          color: #ffffff;
-          margin-right: 10rpx;
-        }
-
-        font-size: 26rpx;
-        font-family: PingFang SC;
-        font-weight: bold;
-        color: #222222;
-        line-height: 43rpx;
-      }
-    }
-
-    .zheng-tag {
-      width: 100%;
-      height: 100rpx;
-    }
-
-    .content-title {
-      padding: 20rpx 30rpx;
-      background: #fff;
-
-      font-size: 28rpx;
-      font-family: PingFang SC;
-      font-weight: bold;
-      color: #333333;
-    }
-
-    .content {
-      background: #fff;
-    }
-  }
-}
-
 .zsbox-wrap {
   padding-bottom: 40rpx;
   background-color: #222333;
@@ -1862,7 +1710,7 @@ export default {
 
   .award-wrap {
     padding: 0 20rpx;
-    padding-top: 120px;
+    padding-top: 140rpx;
   }
 
   .award-log-item {
@@ -1871,7 +1719,7 @@ export default {
     display: flex;
     align-items: center;
     // background: url('@/static/web/319.png') no-repeat;
-    background: url('https://xlcwmax.oss-cn-beijing.aliyuncs.com/aliyun/92a69c867c922ec3dffc06612a0cbd62.jpg') no-repeat;
+    background: url('https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01uHfMV224NdcgWib0O_!!2200676927379.png') no-repeat;
     background-size: 100% 100%;
     width: 100%;
     height: 100px;
@@ -1918,8 +1766,8 @@ export default {
 
     .award-log-right {
       .award-log-img {
-        width: 60px;
-        height: 60px;
+        width: 100rpx;
+        height: 100rpx;
         border-radius: 10rpx;
       }
     }
@@ -2055,7 +1903,7 @@ export default {
 
 .rule-btn-wrap {
   position: fixed;
-  top: 30%;
+  top: 10%;
   right: 10rpx;
   z-index: 10;
 
@@ -2164,20 +2012,97 @@ export default {
           text-shadow: 1px 1px #fff, 1px 1px #333;
         }
 
-        .card-count {
+        .card-info {
+          display: flex;
+          justify-content: space-between;
           margin-top: 10rpx;
+        }
+
+        .card-count {
           font-size: 28rpx;
+          color: #333;
         }
 
         .card-num {
-          text-align: center;
           font-size: 32rpx;
           font-weight: bold;
+          color: #ff4d4f;
+          margin-left: 10rpx;
+        }
+
+        .card-image {
+          width: 150rpx;
+          height: 120rpx;
+          margin-top: 10rpx;
+
+          image {
+            width: 100%;
+            height: 100%;
+          }
         }
       }
     }
   }
+
+  /* 卡牌池部分 */
+  .card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-images {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10rpx;
+    margin-top: 10rpx;
+  }
+
+  .card-item {
+    width: 60rpx;
+    /* 每张卡片的宽度 */
+    height: 60rpx;
+    /* 每张卡片的高度 */
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
+
+  .card-item:nth-child(2) {
+    left: 20rpx;
+    /* 偏移量 */
+    z-index: 2;
+  }
+
+  .card-item:nth-child(3) {
+    left: 40rpx;
+    /* 偏移量 */
+    z-index: 3;
+  }
+
+  .card-item:nth-child(4) {
+    left: 60rpx;
+    /* 偏移量 */
+    z-index: 4;
+  }
+
+  .card-item:nth-child(5) {
+    left: 80rpx;
+    /* 偏移量 */
+    z-index: 5;
+  }
+
+  .card-item image {
+    width: 100%;
+    height: 100%;
+    border-radius: 10rpx;
+  }
 }
+
+
+
 
 // 赏品预览
 .reward-preview-page {
@@ -2204,61 +2129,226 @@ export default {
     box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
     overflow: hidden;
     text-align: center;
-
-    .reward-info {
-      padding: 10rpx;
-    }
-
-    .reward-name {
-      font-size: 28rpx;
-      font-weight: 500;
-      color: #333;
-    }
-
-    .reward-price {
-      font-size: 24rpx;
-      color: #ff4d4f;
-      margin-top: 6rpx;
-    }
+    height: 270rpx; // 统一高度
 
     .flip-card {
       width: 100%;
-      height: 270rpx;
-      perspective: 1000px;
+      height: auto;
 
       .flip-card-inner {
-        position: relative;
         width: 100%;
-        height: 100%;
-        transform-style: preserve-3d;
-        transition: transform 0.6s;
-
-        &.flipped {
-          transform: rotateY(180deg);
-        }
-
-        .flip-card-front,
-        .flip-card-back {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          backface-visibility: hidden;
-        }
+        height: auto;
 
         .flip-card-front {
           display: flex;
           justify-content: center;
           align-items: center;
           background: #fff;
-        }
+          position: relative;
 
-        .flip-card-back {
-          transform: rotateY(180deg);
-          background: #fff;
+          .reward-image {
+            width: 100%;
+
+            &.large {
+              max-height: 270rpx;
+            }
+
+            &.small {
+              max-height: 200rpx;
+              object-fit: cover;
+            }
+          }
+
+          .selected-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+
+            .selected-icon {
+              width: 60rpx;
+              height: 60rpx;
+            }
+          }
         }
       }
     }
 
+    .reward-title {
+      padding: 0 20rpx;
+      font-size: 28rpx;
+      text-align: center;
+      margin-top: 20rpx;
+      color: #333;
+      white-space: nowrap; // 防止换行
+      overflow: hidden; // 隐藏超出部分
+      text-overflow: ellipsis; // 超出部分显示省略号
+      max-width: 100%; // 确保标题宽度不超出容器
+
+      &.placeholder {
+        visibility: hidden;
+        height: 36rpx;
+        margin-top: 20rpx;
+      }
+    }
+  }
+}
+
+// 许愿池
+.wish-popup {
+  width: 90vw;
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  padding: 10rpx 20rpx 20rpx;
+  background: linear-gradient(to right, #c6f71a, #90fa61, #55fdac);
+  box-shadow: 2rpx 10rpx 2rpx 2rpx #209200;
+
+  .wish-header {
+    .wish-cover {
+      width: 100%;
+      height: 150rpx;
+      object-fit: cover;
+    }
+  }
+
+  .wish-body {
+    padding: 24rpx 20rpx;
+    border-radius: 40rpx;
+    background: #eefed9;
+
+    .wish-title {
+      font-size: 30rpx;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 20rpx;
+    }
+
+    .wish-scroll {
+      max-height: 500rpx;
+      overflow: auto;
+    }
+
+    .wish-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20rpx;
+
+      .wish-item {
+        background-color: #f8f8f8;
+        border-radius: 16rpx;
+        padding: 16rpx;
+        text-align: center;
+        transition: all 0.2s;
+        border: 2rpx solid transparent;
+
+        .item-image {
+          width: 100%;
+          height: 120rpx;
+          margin-bottom: 10rpx;
+          object-fit: contain;
+        }
+
+        .item-title {
+          font-size: 26rpx;
+          color: #333;
+          line-height: 1.2;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+        }
+
+        &.active {
+          border-color: #fa541c;
+          background-color: #fff7f0;
+        }
+      }
+    }
+
+
+  }
+
+  // 订单
+  .order-header {
+    display: flex;
+    justify-content: center;
+
+    .order-cover {
+      width: 60%;
+      height: 120rpx;
+      object-fit: cover;
+    }
+  }
+
+  .order-body {
+    padding: 24rpx 20rpx;
+    border-radius: 40rpx;
+    background: #eefed9;
+
+    .order-scroll {
+      max-height: 500rpx;
+      overflow: auto;
+    }
+
+    .order-list {
+      display: grid;
+      gap: 20rpx;
+
+      .order-item {
+        background-color: #f8f8f8;
+        border-radius: 16rpx;
+        padding: 16rpx;
+        text-align: center;
+        transition: all 0.2s;
+        border: 2rpx solid transparent;
+
+        .item-image {
+          width: 100%;
+          height: 120rpx;
+          margin-bottom: 10rpx;
+          object-fit: contain;
+        }
+
+        .item-title {
+          font-size: 26rpx;
+          color: #333;
+          line-height: 1.2;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+        }
+      }
+    }
+
+
+  }
+
+  .wish-footer {
+    padding: 24rpx;
+
+    .btn {
+      padding: 24rpx 0;
+      border-radius: 30rpx;
+      font-size: 32rpx;
+      text-align: center;
+    }
+
+    .wish-btn {
+      background-color: #fa541c;
+      color: white;
+    }
   }
 }
 </style>

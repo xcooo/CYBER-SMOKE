@@ -185,7 +185,7 @@
             "https" : false
         },
         "router" : {
-            "base" : "",
+            "base" : "/h5/",
             "mode" : "hash"
         },
         "domain" : "http://www.ckmh.com/",
