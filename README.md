@@ -8,6 +8,13 @@
 
 ---
 
+## 效果图
+
+<p align="center">
+  <img src="./static/preview-smoke-demo.jpg" alt="项目效果图" width="600" />
+</p>
+
+
 ## 功能特性
 
 ### 🚬 核心功能
