@@ -153,16 +153,23 @@ config: {
 ## ☕ 赞助支持
 如果你喜欢这个项目，欢迎通过以下方式打赏支持：
 
-<div style="text-align: center; margin-top: 20px;">
-  <div style="display: inline-block; margin: 0 20px;">
-    <img src="./static/donate-wechat.jpg" width="180" height="180" style="display: block; margin: 0 auto;" />
-    <div style="margin-top: 10px;"><strong>微信扫码打赏</strong></div>
-  </div>
-  <div style="display: inline-block; margin: 0 20px;">
-    <img src="./static/donate-alipay.jpg" width="180" height="180" style="display: block; margin: 0 auto;" />
-    <div style="margin-top: 10px;"><strong>支付宝扫码打赏</strong></div>
-  </div>
-</div>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="./static/donate-wechat.jpg" width="180" height="180" />
+    </td>
+    <td style="width: 40px;"></td> <!-- 间距 -->
+    <td align="center">
+      <img src="./static/donate-alipay.jpg" width="180" height="180" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>微信扫码打赏</strong></td>
+    <td></td>
+    <td align="center"><strong>支付宝扫码打赏</strong></td>
+  </tr>
+</table>
+
 
 
 
