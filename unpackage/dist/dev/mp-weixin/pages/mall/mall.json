@@ -1,0 +1,10 @@
+{
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-nav-bar": "/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "cimage": "/components/cimage/cimage",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "u-popup": "/uview-ui/components/u-popup/u-popup"
+  }
+}

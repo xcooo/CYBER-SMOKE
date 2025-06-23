@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-nav-bar": "/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar",
+    "cimage": "/components/cimage/cimage",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "track-node": "/components/etherealwheat-track/trackNode"
+  }
+}

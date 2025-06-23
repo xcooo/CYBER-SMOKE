@@ -1,0 +1,15 @@
+{
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-nav-bar": "/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "u-checkbox-group": "/uview-ui/components/u-checkbox-group/u-checkbox-group",
+    "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
+    "cimage": "/components/cimage/cimage",
+    "u-number-box": "/uview-ui/components/u-number-box/u-number-box",
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-field": "/uview-ui/components/u-field/u-field",
+    "u-modal": "/uview-ui/components/u-modal/u-modal"
+  }
+}

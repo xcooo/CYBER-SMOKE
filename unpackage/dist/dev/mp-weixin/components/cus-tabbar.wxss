@@ -1,0 +1,78 @@
+
+view {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.tabbar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  /* height: 110rpx; */
+  /* box-shadow: 0 0 5px #999; */
+  display: flex;
+  align-items: center;
+  padding: 5rpx 0;
+  color: #999999;
+  z-index: 100;
+  padding-bottom: calc(env(safe-area-inset-bottom) - 20rpx);
+  /*兼容 IOS>11.2*/
+  /* background: url("https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01itExPw24NdcqRoMKL_!!2200676927379.png") no-repeat 50%/100% 100%; */
+  
+  background: #01435d;
+  /* border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+  border: 4rpx solid #fffb22; */
+  /* height: 200rpx; */
+}
+.tabbar-container .tabbar-item {
+  width: 25%;
+  /* height: 200rpx; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.tabbar-container .item-active {
+  color: #000;
+}
+.tabbar-container .center-item {
+  display: block;
+  position: relative;
+  height: 43px;
+}
+.tabbar-container .tabbar-item .item-top {
+  width: 50rpx;
+  height: 50rpx;
+  margin-bottom: 10rpx;
+}
+.tabbar-container .center-item .item-top {
+  flex-shrink: 0;
+  width: 100rpx;
+  height: 100rpx;
+  position: absolute;
+  top: -54rpx;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  border-radius: 50%;
+  padding: 10rpx;
+  background-color: #ffffff;
+}
+.tabbar-container .tabbar-item .item-top image {
+  width: 100%;
+  height: 100%;
+}
+.tabbar-container .tabbar-item .item-bottom {
+  font-size: 24rpx;
+  /* font-weight: 700; */
+  width: 100%;
+  color: #fff;
+}
+.tabbar-container .center-item .item-bottom {
+  position: absolute;
+  bottom: 8rpx;
+}
+

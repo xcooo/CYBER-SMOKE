@@ -1,0 +1,1116 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.kaixiang.data-v-429911da {
+  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
+  background-size: 100vw 100%;
+  background-repeat: no-repeat;
+  min-height: calc(100vh - 50px);
+}
+.kaixiang .nav.data-v-429911da  .uni-navbar__header {
+  padding: 0;
+}
+.kaixiang .nav.data-v-429911da  .uni-nav-bar-text {
+  font-size: 38rpx;
+  font-family: xcooo;
+}
+.kaixiang .nav .nav-left image.data-v-429911da {
+  width: 70px;
+}
+.kaixiang .banner.data-v-429911da {
+  margin-top: 80rpx;
+  height: 20rem;
+  background-repeat: no-repeat;
+  background-size: 100vw 100%;
+  position: relative;
+}
+.kaixiang .banner .banner-left.data-v-429911da {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  width: 41px;
+  height: 41px;
+  top: 50%;
+  margin-top: -50px;
+  left: 20px;
+}
+.kaixiang .banner .banner-left image.data-v-429911da {
+  width: 100%;
+  height: 100%;
+}
+.kaixiang .banner .banner-right.data-v-429911da {
+  position: absolute;
+  z-index: 2;
+  width: 41px;
+  height: 41px;
+  right: 20px;
+  top: 50%;
+  margin-top: -50px;
+}
+.kaixiang .banner .banner-right image.data-v-429911da {
+  width: 100%;
+  height: 100%;
+}
+.kaixiang .banner .free-play.data-v-429911da {
+  width: 62px;
+  height: 62px;
+  position: absolute;
+  right: 26px;
+  bottom: 0;
+  z-index: 2;
+}
+.kaixiang .banner .free-play .free-play-bg.data-v-429911da {
+  width: 62px;
+  height: 62px;
+  -webkit-animation: xuanzhuan-data-v-429911da 3s linear infinite;
+  animation: xuanzhuan-data-v-429911da 3s linear infinite;
+}
+.kaixiang .banner .free-play .free-play-bg image.data-v-429911da {
+  width: 100%;
+  height: 100%;
+}
+@-webkit-keyframes xuanzhuan-data-v-429911da {
+0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+25% {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+75% {
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+100% {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+}
+}
+@keyframes xuanzhuan-data-v-429911da {
+0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+25% {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+75% {
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+100% {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+}
+}
+.kaixiang .banner .free-play .free-play-img.data-v-429911da {
+  width: 41px;
+  height: 41px;
+  position: relative;
+  top: -46px;
+  left: 10px;
+}
+.kaixiang .banner .free-play .free-play-img image.data-v-429911da {
+  width: 100%;
+  height: 100%;
+}
+.kaixiang .swiper.data-v-429911da {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.kaixiang .swiper .swiper-item.data-v-429911da {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.kaixiang .swiper .swiper-item .gd-img.data-v-429911da {
+  width: 197px;
+  height: 197px;
+  -webkit-animation: bLine-data-v-429911da 3s linear infinite;
+  animation: bLine-data-v-429911da 3s linear infinite;
+}
+.kaixiang .swiper .swiper-item .gd-img image.data-v-429911da {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@-webkit-keyframes bLine-data-v-429911da {
+0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+}
+50% {
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+}
+100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+}
+@keyframes bLine-data-v-429911da {
+0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+}
+50% {
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+}
+100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+}
+.kaixiang .swiper2.data-v-429911da {
+  height: 100rpx;
+}
+.kaixiang .swiper2 .gd-info.data-v-429911da {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.kaixiang .swiper2 .gd-info .gd-title.data-v-429911da {
+  color: #3cbcc1;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+.kaixiang .swiper2 .gd-info .gd-price.data-v-429911da {
+  color: #fff;
+  text-align: center;
+}
+.kaixiang .swiper2 .gd-info .gd-price text.data-v-429911da {
+  color: yellow;
+}
+.kaixiang .gd-desc.data-v-429911da {
+  margin-top: 20rpx;
+  text-align: center;
+  color: #9d9db8;
+}
+.kaixiang .gd-desc text.data-v-429911da {
+  margin-left: 20rpx;
+  color: #3cbcc1;
+}
+.kaixiang .w-bg.data-v-429911da {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: auto;
+  position: relative;
+  z-index: 7;
+  padding-bottom: calc(constant(safe-area-inset-bottom) + 78px);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 78px);
+}
+.kaixiang .w-bg .tong.data-v-429911da {
+  background: url("https://img.alicdn.com/imgextra/i4/2215984279448/O1CN013awXSu2JfEvQyxnJA_!!2215984279448.png");
+  position: fixed;
+  left: 0;
+  top: 114px;
+  width: 390px;
+  background-size: 100% 100% !important;
+  height: 41px;
+  background-repeat: no-repeat !important;
+  top: 78px;
+}
+.kaixiang .w-bg .tong .text.data-v-429911da {
+  padding: 0 15px;
+  padding-right: 62px;
+  box-sizing: border-box;
+  position: relative;
+}
+.kaixiang .w-bg .tong .tong-image.data-v-429911da {
+  position: absolute;
+  width: 41px;
+  right: 26px;
+  top: 0px;
+}
+.kaixiang .w-bg .orderbox.data-v-429911da {
+  background-color: #fff;
+}
+.kaixiang .w-bg .orderbox-top.data-v-429911da {
+  background-color: initial;
+}
+.kaixiang .luckbox.data-v-429911da {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30rpx 20rpx;
+  color: #999999;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  /*兼容 IOS>11.2*/
+  background: url("https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Rhzmc824Ndcoy7ivj_!!2200676927379.png") no-repeat 50%/100% 100%;
+  height: 200rpx;
+  display: flex;
+  box-sizing: border-box;
+}
+.kaixiang .luckbox .option.data-v-429911da {
+  padding: 10px 0;
+}
+.kaixiang .luckbox .option .row.data-v-429911da {
+  display: flex;
+  justify-content: space-between;
+}
+.kaixiang .luckbox .option .row .chou.data-v-429911da {
+  color: #000;
+  background-size: 100%;
+  width: 119px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 57px;
+  margin: 0px 10px;
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  border: 1px solid #666;
+  margin: 0 5px;
+  border: none;
+  color: #fff;
+}
+.kaixiang .luckbox .option .row .chou .chou-wrap.data-v-429911da {
+  width: 100%;
+}
+.kaixiang .luckbox .option .row .chou .chou-wrap .chou-title .chou-img.data-v-429911da {
+  width: 150rpx;
+  height: 100rpx;
+}
+.kaixiang .luckbox-top.data-v-429911da {
+  background: transparent;
+}
+.kaixiang .shop-list.data-v-429911da {
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 30rpx 20rpx;
+}
+.kaixiang .shop-list .shop-list-rate.data-v-429911da {
+  height: 78px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2rpx solid #3cbcc1;
+}
+.kaixiang .shop-list .shop-list-rate .recode-btn.data-v-429911da {
+  color: #fff;
+  font-size: 14px;
+  padding: 10rpx 8rpx;
+  background-image: linear-gradient(180deg, #6a4dff, #0dd9ff);
+}
+.kaixiang .shop-list .shop-list-rate .list.data-v-429911da {
+  text-align: center;
+  color: #fff;
+  width: 17%;
+  margin-right: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.kaixiang .shop-list .shop-list-rate .list image.data-v-429911da {
+  width: 77px;
+}
+.kaixiang .shop-list .shop-list-rate .list .list-text.data-v-429911da {
+  padding: 4rpx 10rpx;
+  margin-top: 2px;
+  font-size: 14px;
+  border-radius: 3px;
+}
+.kaixiang .shop-list .shop-list-rate .list .ratebg0.data-v-429911da {
+  background-image: linear-gradient(270deg, brown, #d2691e);
+}
+.kaixiang .shop-list .shop-list-rate .list .ratebg1.data-v-429911da {
+  background-image: linear-gradient(270deg, #9400d3, #8a2be2);
+}
+.kaixiang .shop-list .shop-list-rate .list .ratebg2.data-v-429911da {
+  background-image: linear-gradient(270deg, #ee7600, #ee9a00);
+}
+.kaixiang .shop-list .shop-list-rate .list .ratebg3.data-v-429911da {
+  background-image: linear-gradient(270deg, #00eea7, #00beee);
+}
+.kaixiang .shop-list .mh-goods-list.data-v-429911da {
+  padding: 20rpx 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding-bottom: 200rpx;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item.data-v-429911da {
+  position: relative;
+  flex: 1;
+  margin: 0 10px 15px 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: calc((100% - 20px) / 3);
+  max-width: calc((100% - 20px) / 3);
+  text-align: center;
+  padding: 20rpx 3px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-size: 100% 100%;
+  font-size: 24rpx;
+  color: #fff;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item.data-v-429911da:nth-child(3n) {
+  margin-right: 0;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item .mh-goods-rate.data-v-429911da {
+  width: 62px;
+  height: 62px;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item .mh-goods-img.data-v-429911da {
+  width: 93px;
+  height: 93px;
+  margin-top: 20rpx;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item .mh-title.data-v-429911da {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 5rpx;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item .mh-num.data-v-429911da {
+  margin: 10rpx 0;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item .mh-sale.data-v-429911da {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item .mh-goods-name.data-v-429911da {
+  color: #fff;
+  width: 100%;
+  font-size: 12px;
+  margin-top: 7px;
+  display: -webkit-box;
+  text-align: left;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item .mh-goods-price.data-v-429911da {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 5px;
+  width: 100%;
+  text-align: left;
+}
+.kaixiang .shop-list .mh-goods-list .mh-goods-list-item .mh-goods-price text.data-v-429911da {
+  color: #a2c2bd;
+  font-size: 9px;
+}
+.kaixiang .btmbox.data-v-429911da {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40rpx;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  z-index: 10;
+}
+.kaixiang .btmbox .btn.data-v-429911da {
+  width: 100%;
+  border-radius: 7px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 78px;
+  height: 78px;
+  font-weight: 700;
+  color: #c92a1c;
+  background: url("https://img.alicdn.com/imgextra/i2/2215984279448/O1CN01sqNNxI2JfEvUzWn3Q_!!2215984279448.png") no-repeat;
+  background-size: 100% 100%;
+  background-position: top;
+}
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.setbox {
+  width: 600rpx;
+  height: 250rpx;
+  padding: 40rpx;
+  background: #201e1e;
+  color: #fff;
+}
+.setbox .set-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+}
+.setbox .set-tip {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-top: 40rpx;
+}
+.setAnimate {
+  position: fixed;
+  right: 3px;
+  top: 200px;
+  z-index: 8;
+  color: #fff;
+}
+.setAnimate .btn {
+  bottom: 200px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 70px;
+  height: 70px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bgbox {
+  background: url("https://www.img.xcooo.cn/uploads/2024/02/d969aa4534f6b91e.png") no-repeat;
+  background-size: 100% 100%;
+  width: 540rpx;
+  height: 680rpx;
+}
+.bgbox .off {
+  text-align: right;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.bgbox .content {
+  margin-top: 35px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.bgbox .content .ma {
+  width: 156px;
+  height: 156px;
+}
+.bgbox .content .ma image {
+  width: 100%;
+  height: 100%;
+}
+.bgbox .yi {
+  text-align: center;
+  font-size: 17px;
+  color: #999;
+  line-height: 26px;
+  margin-top: 20px;
+}
+.tiploginShow-view {
+  width: 260px;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.tiploginShow-view .tiploginShow-view-0 {
+  text-align: center;
+  font-size: 16px;
+  color: #131313;
+}
+.tiploginShow-view .tiploginShow-view-1 {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 10px;
+  color: #2c2c2c;
+}
+.tiploginShow-view .tiploginShow-view-2 {
+  width: 208px;
+  height: 41px;
+  background-color: #0079fe;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto 10px;
+}
+.tiploginShow-view .tiploginShow-view-3 {
+  text-align: center;
+}
+.order-pop {
+  background: #222433;
+  border-radius: 10rpx 10rpx 0 0;
+  padding: 1rpx 30rpx;
+  border-top-left-radius: 40rpx;
+  border-top-right-radius: 40rpx;
+}
+.order-pop-hd {
+  height: 100rpx;
+  position: relative;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #fff;
+}
+.order-pop-hd .close {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+.order-pop-bd {
+  padding: 1rpx 0 0;
+}
+.order-pop-bd .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30rpx;
+}
+.order-pop-bd .row .title {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #fff;
+}
+.order-pop-bd .row .right .price {
+  font-size: 28rpx;
+  font-family: Source Han Sans CN;
+  font-weight: bold;
+  color: #d5b644;
+}
+.order-pop-bd .row .right .price text {
+  font-size: 34rpx;
+}
+.order-pop-bd .row .right .empty-coupon {
+  color: #d5b644;
+}
+.order-pop-bd .row .right .gray {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #999999;
+  color: #d5b644;
+}
+.order-pop-bd .row .right .red {
+  color: #d5b644;
+}
+.order-pop-bd .btn-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.order-pop-bd .btn-list-item {
+  width: 130rpx;
+  height: 69rpx;
+  box-sizing: border-box;
+  border-radius: 5rpx;
+  border: 1rpx solid #bfbfbf;
+  line-height: 69rpx;
+  text-align: center;
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 20rpx;
+}
+.order-pop-bd .btn-list-item.act {
+  background: #000000;
+  color: #fff;
+  border-color: #000000;
+}
+.order-pop-bd .pay-type {
+  margin-top: 30rpx;
+}
+.order-pop-bd .pay-type-item {
+  display: flex;
+  align-items: center;
+  height: 70rpx;
+}
+.order-pop-bd .pay-type-item .icon {
+  width: 56rpx;
+  height: 56rpx;
+}
+.order-pop-bd .pay-type-item .title {
+  flex: 1;
+  padding: 0 10rpx;
+  color: #fff;
+}
+.order-pop-bd .agree {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30rpx;
+}
+.order-pop-bd .agree .title {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #fff;
+}
+.order-pop-bd .agree .title text {
+  color: #248da0;
+}
+.order-pop-bd .rule-content {
+  max-height: 20vh;
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #666666;
+  margin-top: 40rpx;
+}
+.order-pop-ft {
+  width: 630rpx;
+  height: 88rpx;
+  border-radius: 44rpx;
+  display: flex;
+  justify-content: space-around;
+  box-sizing: border-box;
+  padding: 0 30rpx;
+  align-items: center;
+  margin: 50rpx auto;
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #ffffff;
+  background: url("https://img.alicdn.com/imgextra/i3/2200676927379/O1CN011FWiey24NdcqIPB3G_!!2200676927379.png") no-repeat;
+  background-size: 100vw 100%;
+}
+.order-pop-ft .money {
+  font-weight: bold;
+  font-size: 24rpx;
+}
+.order-pop-ft .money text {
+  font-size: 32rpx;
+}
+.detail-pop {
+  background: #f2f2f2;
+  border-radius: 10rpx 10rpx 0 0;
+  overflow: hidden;
+}
+.detail-pop-hd {
+  background: #f2f2f2;
+  position: relative;
+  font-size: 32rpx;
+  color: #333333;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 30rpx;
+}
+.detail-pop-hd .close {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  right: 20rpx;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+.detail-pop-bd {
+  max-height: 60vh;
+  min-height: 40vh;
+}
+.detail-pop-bd .detail-pic {
+  width: 750rpx;
+  height: 750rpx;
+}
+.detail-pop-bd .detail-price {
+  background: #fff;
+  padding: 30rpx 30rpx 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.detail-pop-bd .detail-price .price {
+  font-size: 24rpx;
+  font-family: SourceHanSansCN;
+  font-weight: 800;
+  color: #333333;
+}
+.detail-pop-bd .detail-price .price text {
+  font-size: 38rpx;
+}
+.detail-pop-bd .detail-price .price text text {
+  padding-left: 10rpx;
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+}
+.detail-pop-bd .detail-price .rate {
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+}
+.detail-pop-bd .detail-title {
+  padding: 30rpx;
+  background: #fff;
+}
+.detail-pop-bd .detail-title-content {
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #222222;
+  line-height: 43rpx;
+}
+.detail-pop-bd .detail-title-content text {
+  padding: 2rpx 6rpx;
+  font-size: 20rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: 10rpx;
+}
+.detail-pop-bd .zheng-tag {
+  width: 100%;
+  height: 100rpx;
+}
+.detail-pop-bd .content-title {
+  padding: 20rpx 30rpx;
+  background: #fff;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #333333;
+}
+.detail-pop-bd .content {
+  background: #fff;
+}
+.zsbox-wrap {
+  padding-bottom: 40rpx;
+  background-color: #222333;
+  min-height: 100%;
+}
+.zsbox-wrap .zsbox-top {
+  padding: 20rpx;
+  position: relative;
+  z-index: 10;
+  background-color: #222333;
+}
+.zsbox-wrap .zsbox-top .zs-title {
+  color: #fff;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 40rpx;
+}
+.zsbox-wrap .zsbox-top .zs-title .zs-icon {
+  position: absolute;
+  right: 10px;
+}
+.zsbox-wrap .zsbox-top .zs-wrap {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20rpx;
+}
+.zsbox-wrap .zsbox-top .zs-wrap .zs-items {
+  color: #f8f8f8;
+  width: 20%;
+  text-align: center;
+  padding: 10rpx;
+  border-radius: 20rpx;
+  background-color: #999;
+  margin-right: 20rpx;
+}
+.zsbox-wrap .zsbox-top .zs-wrap .activezs {
+  background-color: #7768d5;
+  color: #fff;
+}
+.zsbox-wrap .zsend {
+  color: #fff;
+  text-align: center;
+  margin: 50rpx;
+}
+.zsbox-wrap .award-wrap {
+  padding: 0 20rpx;
+  padding-top: 120px;
+}
+.zsbox-wrap .award-log-item {
+  color: #fff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: url("https://xlcwmax.oss-cn-beijing.aliyuncs.com/aliyun/92a69c867c922ec3dffc06612a0cbd62.jpg") no-repeat;
+  background-size: 100% 100%;
+  width: 100%;
+  height: 100px;
+  padding: 10px 20px;
+  padding-top: 25px;
+  margin-bottom: 20rpx;
+  position: relative;
+}
+.zsbox-wrap .award-log-item:last-child {
+  margin-bottom: 0;
+}
+.zsbox-wrap .award-log-item .qishu {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #8888e2;
+  padding: 5rpx 10rpx;
+  border-radius: 10rpx;
+}
+.zsbox-wrap .award-log-item .award-log-left {
+  flex: 1;
+  width: 50%;
+}
+.zsbox-wrap .award-log-item .award-log-left .award-log-time {
+  margin-bottom: 10px;
+}
+.zsbox-wrap .award-log-item .award-log-left .award-log-info {
+  font-size: 16px;
+  width: 95%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.zsbox-wrap .award-log-item .award-log-left .award-log-info .award-name {
+  color: #face5e;
+  margin-left: 20rpx;
+}
+.zsbox-wrap .award-log-item .award-log-right .award-log-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10rpx;
+}
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.coupon-wrap.data-v-429911da {
+  padding-bottom: 40rpx;
+  background-color: #222333;
+  min-height: 100%;
+}
+.coupon-wrap .coupon-title.data-v-429911da {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: xcooo;
+  text-align: center;
+  padding: 40rpx 0;
+}
+.youhuicon.data-v-429911da {
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+.no.data-v-429911da {
+  text-align: center;
+  margin-top: 100rpx;
+  font-size: 38rpx;
+}
+.youhuicon .couList.data-v-429911da {
+  display: flex;
+  border-radius: 6rpx;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+.l.data-v-429911da {
+  flex-shrink: 0;
+  width: 200rpx;
+  background-color: #6c58dc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.available.data-v-429911da {
+  background-color: #999;
+}
+.youhuicon .couList .l .aa.data-v-429911da {
+  font-size: 30rpx;
+  color: #fff;
+}
+.youhuicon .couList .l .pri.data-v-429911da {
+  font-size: 40rpx;
+  color: #fff;
+  text-align: center;
+}
+.youhuicon .couList .l .tiao.data-v-429911da {
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20rpx;
+}
+.count.data-v-429911da {
+  color: #fff;
+  font-size: 14px;
+  margin-top: 20rpx;
+}
+.count text.data-v-429911da {
+  margin-right: 10rpx;
+}
+.youhuicon .couList .r.data-v-429911da {
+  background-color: #fff;
+  width: 100%;
+  padding: 20rpx;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #313131;
+}
+.youhuicon .couList .r .ll .t.data-v-429911da {
+  font-size: 32rpx;
+  color: #fff;
+}
+.man.data-v-429911da {
+  margin-top: 20rpx;
+  font-size: 14px;
+  color: #fff;
+}
+.youhuicon .couList .r .use.data-v-429911da {
+  margin: 8rpx 0;
+}
+.youhuicon .couList .r .qi.data-v-429911da {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 20rpx;
+}
+.rr.data-v-429911da {
+  color: #fff;
+  background-color: orange;
+  padding: 10rpx 20rpx;
+  flex-shrink: 0;
+  border-radius: 20rpx;
+}
+.xx.data-v-429911da {
+  background-color: #6c58dc;
+}
+.xx2.data-v-429911da {
+  background-color: #999;
+}
+.rule-btn-wrap.data-v-429911da {
+  position: fixed;
+  top: 30%;
+  right: 10rpx;
+  z-index: 10;
+}
+.rule-btn-wrap .rule-btn-item.data-v-429911da {
+  width: 100rpx;
+  margin-bottom: 40rpx;
+}
+.rule-btn-wrap .rule-btn-item image.data-v-429911da {
+  width: 100%;
+  height: 100%;
+}
+.data-v-429911da .u-mode-center-box {
+  background: transparent;
+}
+.rule-pop.data-v-429911da {
+  border-radius: 20rpx;
+  padding: 20rpx;
+  padding-bottom: 40rpx;
+  background: url("https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01MqkgFZ24NdcqBJTrC_!!2200676927379.png") no-repeat;
+  background-size: 100% 100%;
+}
+.rule-pop .rule-title.data-v-429911da {
+  text-align: center;
+  font-size: 48rpx;
+  font-weight: 700;
+  margin: 30rpx 0;
+  margin-top: 20rpx;
+  text-shadow: -1px -1px #fff, 1px 1px #333;
+}
+.rule-pop .rule-pop-bd.data-v-429911da {
+  padding: 30rpx 20rpx;
+  border-radius: 20rpx;
+  height: 700rpx;
+  overflow: hidden;
+}
+.rule-pop .rule-pop-bd .rule-content.data-v-429911da {
+  line-height: 50rpx;
+  color: #fff;
+  font-weight: 700;
+  font-size: 28rpx;
+}

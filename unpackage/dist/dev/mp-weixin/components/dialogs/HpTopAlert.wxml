@@ -1,0 +1,1 @@
+<block wx:if="{{localShow}}"><view class="alert-wrapper data-v-1690eca4"><view class="alert-box data-v-1690eca4"><image class="icon data-v-1690eca4" src="https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01iyOvoy24Ndd5wCCe7_!!2200676927379.png" mode="widthFix"></image><text class="text data-v-1690eca4">注意：有气泡即将被击破</text></view></view></block>

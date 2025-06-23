@@ -1,0 +1,531 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.rank.data-v-5722092e {
+  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01utCTL624NdcpArmwQ_!!2200676927379.webp") no-repeat;
+  background-size: 100vw 100%;
+  background-repeat: no-repeat;
+  height: 100vh;
+  padding: 0 20rpx;
+  display: flex;
+  flex-direction: column;
+}
+.rank .nav.data-v-5722092e  .uni-navbar__header {
+  padding: 0;
+}
+.rank .nav.data-v-5722092e  .uni-nav-bar-text {
+  font-size: 24px;
+  font-family: xcooo;
+}
+.rank .nav .nav-left image.data-v-5722092e {
+  width: 70px;
+}
+.rank .nav .nav-right.data-v-5722092e {
+  font-size: 16px;
+  margin-right: 40rpx;
+}
+.rank .timer-wrap.data-v-5722092e {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 20rpx 50rpx;
+  border-radius: 25px;
+  display: inline-block;
+  margin: 20rpx 0;
+  font-size: 16px;
+  text-align: center;
+}
+.rank .timer-wrap.data-v-5722092e  .u-countdown .u-countdown-colon {
+  color: #fff !important;
+}
+.rank .timer-wrap.data-v-5722092e  .u-countdown .u-countdown-item {
+  background: none !important;
+}
+.rank .timer-wrap.data-v-5722092e  .u-countdown .u-countdown-time {
+  color: #fff !important;
+}
+.rank .ranking-container.data-v-5722092e {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  color: #ccbebe;
+}
+.rank .ranking-container .ranking-item.data-v-5722092e {
+  text-align: center;
+  position: relative;
+  margin: 0 10px;
+  width: calc((100% - 30px) / 3);
+  max-width: calc((100% - 30px) / 3);
+}
+.rank .ranking-container .ranking-item .avatar-container.data-v-5722092e {
+  position: relative;
+  display: inline-block;
+}
+.rank .ranking-container .ranking-item .avatar-container .avatar.data-v-5722092e {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+.rank .ranking-container .ranking-item .avatar-container .frame.data-v-5722092e {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  /* 使框不可点击 */
+}
+.rank .ranking-container .ranking-item .userinfo-wrap.data-v-5722092e {
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+.rank .ranking-container .ranking-item .userinfo-wrap .userinfo-index.data-v-5722092e {
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 20rpx;
+}
+.rank .ranking-container .ranking-item .userinfo-wrap .userinfo-info .name.data-v-5722092e {
+  margin: 5px 0;
+  margin-top: 35px;
+  font-size: 16px;
+  white-space: nowrap;
+  /* 单行显示 */
+  overflow: hidden;
+  /* 超出部分隐藏 */
+  text-overflow: ellipsis;
+  /* 显示省略号 */
+}
+.rank .ranking-container .ranking-item .userinfo-wrap .userinfo-info .times.data-v-5722092e {
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #ffe21f;
+}
+.rank .ranking-container .ranking-item .award-thumb.data-v-5722092e {
+  width: 100rpx;
+  height: 100rpx;
+  margin-top: 10rpx;
+}
+.rank .ranking-container .ranking-left.data-v-5722092e {
+  margin-top: 50px;
+}
+.rank .ranking-container .ranking-center.data-v-5722092e {
+  margin-top: 20px;
+}
+.rank .ranking-container .ranking-center .avatar.data-v-5722092e {
+  width: 100px;
+  height: 100px;
+}
+.rank .ranking-container .ranking-center .frame.data-v-5722092e {
+  width: 150px;
+  height: 150px;
+}
+.rank .ranking-container .ranking-right.data-v-5722092e {
+  margin-top: 50px;
+}
+.rank .footer.data-v-5722092e {
+  margin-top: 0px;
+  flex: 1 1 auto;
+  /* 使footer占据剩余空间 */
+  overflow: hidden;
+  /* 防止内容溢出 */
+}
+.rank .footer .footer-item.data-v-5722092e {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: url("https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01xzC6JG24Ndcpz18He_!!2200676927379.png") no-repeat;
+  background-size: 100vw 100%;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+}
+.rank .footer .footer-item .item-left.data-v-5722092e,
+.rank .footer .footer-item .item-right.data-v-5722092e {
+  display: flex;
+  align-items: center;
+}
+.rank .footer .footer-item .item-left .item-index.data-v-5722092e {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 20rpx;
+}
+.rank .footer .footer-item .avatar.data-v-5722092e {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.rank .footer .footer-item .item-center.data-v-5722092e {
+  flex: 1;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rank .footer .footer-item .name.data-v-5722092e {
+  white-space: nowrap;
+  /* 单行显示 */
+  overflow: hidden;
+  /* 超出部分隐藏 */
+  text-overflow: ellipsis;
+  /* 显示省略号 */
+}
+.rank .footer .footer-item .details.data-v-5722092e {
+  font-size: 14px;
+  color: #ffe21f;
+}
+.rank .footer .footer-item .details text.data-v-5722092e {
+  display: block;
+}
+.rank .footer .footer-item .times.data-v-5722092e,
+.rank .footer .footer-item .time.data-v-5722092e {
+  font-size: 14px;
+  color: #888;
+}
+.rank .footer .footer-item .item-right.data-v-5722092e {
+  display: flex;
+  align-items: center;
+}
+.rank .footer .footer-item .badge.data-v-5722092e {
+  width: 50px;
+  height: 50px;
+}
+.rank .user-my .footer-item.data-v-5722092e {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: url("https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01xzC6JG24Ndcpz18He_!!2200676927379.png") no-repeat;
+  background-size: 100vw 100%;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+}
+.rank .user-my .footer-item .item-left.data-v-5722092e,
+.rank .user-my .footer-item .item-right.data-v-5722092e {
+  display: flex;
+  align-items: center;
+}
+.rank .user-my .footer-item .item-left .item-index.data-v-5722092e {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 20rpx;
+}
+.rank .user-my .footer-item .avatar.data-v-5722092e {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.rank .user-my .footer-item .item-center.data-v-5722092e {
+  flex: 1;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rank .user-my .footer-item .name.data-v-5722092e {
+  white-space: nowrap;
+  /* 单行显示 */
+  overflow: hidden;
+  /* 超出部分隐藏 */
+  text-overflow: ellipsis;
+  /* 显示省略号 */
+}
+.rank .user-my .footer-item .details.data-v-5722092e {
+  font-size: 14px;
+  color: #ffe21f;
+}
+.rank .user-my .footer-item .details text.data-v-5722092e {
+  display: block;
+}
+.rank .user-my .footer-item .times.data-v-5722092e,
+.rank .user-my .footer-item .time.data-v-5722092e {
+  font-size: 14px;
+  color: #888;
+}
+.rank .user-my .footer-item .item-right.data-v-5722092e {
+  display: flex;
+  align-items: center;
+}
+.rank .user-my .footer-item .badge.data-v-5722092e {
+  width: 50px;
+  height: 50px;
+}
+.rank .side-buttons.data-v-5722092e {
+  position: fixed;
+  right: 10px;
+  top: 200rpx;
+}
+.rank .side-buttons .side-button.data-v-5722092e {
+  width: 100rpx;
+  margin-bottom: 40rpx;
+}
+.rank .side-buttons .side-button image.data-v-5722092e {
+  width: 100%;
+}
+.rank .rule-wrap.data-v-5722092e {
+  padding: 30rpx;
+  background: #222333;
+  color: #fff;
+}
+.rank .rule-wrap .rule-title.data-v-5722092e {
+  font-size: 20px;
+  font-family: xcooo;
+  margin-bottom: 30rpx;
+  text-align: center;
+  border-radius: 30rpx;
+}
+.rank .reward-popup.data-v-5722092e  .uni-scroll-view {
+  background-color: #1e1e1e;
+}
+.rank .reward-popup-wrap.data-v-5722092e {
+  padding: 20px;
+  color: #fff;
+  padding-bottom: 80rpx;
+  height: 100%;
+}
+.rank .popup-title.data-v-5722092e {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.rank .reward-list.data-v-5722092e {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.rank .reward-item.data-v-5722092e {
+  display: flex;
+  flex-direction: column;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.rank .reward-rank.data-v-5722092e {
+  font-size: 20px;
+  font-weight: bold;
+  color: #00ff00;
+  margin-bottom: 10px;
+}
+.rank .reward-content.data-v-5722092e {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rank .reward-info.data-v-5722092e {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rank .reward-title.data-v-5722092e {
+  font-size: 18px;
+  font-weight: bold;
+}
+.rank .reward-description.data-v-5722092e {
+  font-size: 16px;
+  color: #bbb;
+}
+.rank .reward-thumb.data-v-5722092e {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.rank .reward-thumb ._img.data-v-5722092e {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.reward-popup-wrap.data-v-5722092e {
+  padding: 20px;
+  /* background-color: #1e1e1e; */
+  color: #fff;
+  padding-bottom: 80rpx;
+  height: 100%;
+}
+.popup-title.data-v-5722092e {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.season-section.data-v-5722092e {
+  margin-bottom: 20px;
+}
+.season-title.data-v-5722092e {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.reward-list.data-v-5722092e {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.reward-item.data-v-5722092e {
+  display: flex;
+  flex-direction: column;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.reward-rank.data-v-5722092e {
+  font-size: 20px;
+  font-weight: bold;
+  color: #00ff00;
+  margin-bottom: 10px;
+}
+.reward-content.data-v-5722092e {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.reward-avatar.data-v-5722092e {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #fff;
+}
+.reward-avatar ._img.data-v-5722092e {
+  width: 100%;
+  height: auto;
+}
+.reward-info.data-v-5722092e {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  padding: 0 10px;
+}
+.reward-name.data-v-5722092e {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+.reward-times.data-v-5722092e {
+  font-size: 16px;
+  color: #ffcc00;
+}
+.reward-title.data-v-5722092e {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+.reward-description.data-v-5722092e {
+  font-size: 16px;
+  color: #bbb;
+}
+.reward-thumb.data-v-5722092e {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.reward-thumb ._img.data-v-5722092e {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+.popup-container.data-v-5722092e {
+  width: 100%;
+  min-height: 100%;
+  background-color: #222333;
+  border-radius: 10px;
+  padding: 20px;
+}
+.popup-header.data-v-5722092e {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+.popup-title.data-v-5722092e {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+.popup-close.data-v-5722092e {
+  font-size: 18px;
+  color: #ff0000;
+  cursor: pointer;
+}
+.popup-content.data-v-5722092e {
+  padding-top: 20px;
+}
+.product-image.data-v-5722092e {
+  width: 100rpx;
+  height: auto;
+  margin-bottom: 20px;
+}
+.product-name.data-v-5722092e {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+.product-price.data-v-5722092e {
+  font-size: 20px;
+  color: red;
+  margin-bottom: 20px;
+}
+.product-details-title.data-v-5722092e {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.product-details.data-v-5722092e {
+  font-size: 14px;
+  color: #666;
+}
+.product-details image.data-v-5722092e {
+  width: 100%;
+  height: auto;
+}
+

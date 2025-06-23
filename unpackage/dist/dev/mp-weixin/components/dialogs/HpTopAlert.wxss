@@ -1,0 +1,184 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.alert-wrapper.data-v-1690eca4 {
+  position: fixed;
+  top: 12%;
+  left: 50%;
+  z-index: 9999;
+  pointer-events: none;
+}
+.alert-box.data-v-1690eca4 {
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 24rpx;
+  padding: 12rpx 24rpx;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  border: 2rpx solid #ff0000;
+  -webkit-animation: shakeScale-data-v-1690eca4 1.5s ease-in-out infinite;
+          animation: shakeScale-data-v-1690eca4 1.5s ease-in-out infinite;
+  z-index: 2;
+}
+/* 缩小红光外扩 */
+.alert-box.data-v-1690eca4::before {
+  content: "";
+  position: absolute;
+  top: -15rpx;
+  bottom: -15rpx;
+  left: -15rpx;
+  right: -15rpx;
+  border-radius: 36rpx;
+  background: transparent;
+  z-index: -2;
+  -webkit-animation: pulseGlow-data-v-1690eca4 1.5s ease-in-out infinite;
+          animation: pulseGlow-data-v-1690eca4 1.5s ease-in-out infinite;
+}
+@-webkit-keyframes pulseGlow-data-v-1690eca4 {
+0%, 100% {
+    box-shadow: 0 0 8rpx rgba(255, 0, 0, 0.6), 0 0 16rpx rgba(255, 0, 0, 0.4), 0 0 24rpx rgba(255, 0, 0, 0.2);
+}
+50% {
+    box-shadow: 0 0 16rpx red, 0 0 32rpx rgba(255, 0, 0, 0.8), 0 0 40rpx rgba(255, 0, 0, 0.6);
+}
+}
+@keyframes pulseGlow-data-v-1690eca4 {
+0%, 100% {
+    box-shadow: 0 0 8rpx rgba(255, 0, 0, 0.6), 0 0 16rpx rgba(255, 0, 0, 0.4), 0 0 24rpx rgba(255, 0, 0, 0.2);
+}
+50% {
+    box-shadow: 0 0 16rpx red, 0 0 32rpx rgba(255, 0, 0, 0.8), 0 0 40rpx rgba(255, 0, 0, 0.6);
+}
+}
+/* 缩小环形放大动画 */
+.alert-box.data-v-1690eca4::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 28rpx;
+  z-index: -1;
+  -webkit-animation: ringPulse-data-v-1690eca4 2s ease-in-out infinite;
+          animation: ringPulse-data-v-1690eca4 2s ease-in-out infinite;
+}
+@-webkit-keyframes ringPulse-data-v-1690eca4 {
+0% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+}
+70% {
+    box-shadow: 0 0 0 12rpx rgba(255, 0, 0, 0);
+}
+100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+}
+}
+@keyframes ringPulse-data-v-1690eca4 {
+0% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+}
+70% {
+    box-shadow: 0 0 0 12rpx rgba(255, 0, 0, 0);
+}
+100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+}
+}
+/* 微缩放震动 */
+@-webkit-keyframes shakeScale-data-v-1690eca4 {
+0%, 100% {
+    -webkit-transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1);
+}
+50% {
+    -webkit-transform: translate(-50%, -50%) scale(1.05);
+            transform: translate(-50%, -50%) scale(1.05);
+}
+}
+@keyframes shakeScale-data-v-1690eca4 {
+0%, 100% {
+    -webkit-transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1);
+}
+50% {
+    -webkit-transform: translate(-50%, -50%) scale(1.05);
+            transform: translate(-50%, -50%) scale(1.05);
+}
+}
+/* 图标发光 */
+.icon.data-v-1690eca4 {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+  -webkit-animation: iconFlash-data-v-1690eca4 1.5s ease-in-out infinite;
+          animation: iconFlash-data-v-1690eca4 1.5s ease-in-out infinite;
+}
+@-webkit-keyframes iconFlash-data-v-1690eca4 {
+0%, 100% {
+    -webkit-filter: drop-shadow(0 0 6rpx rgba(255, 0, 0, 0.8));
+            filter: drop-shadow(0 0 6rpx rgba(255, 0, 0, 0.8));
+}
+50% {
+    -webkit-filter: drop-shadow(0 0 16rpx red);
+            filter: drop-shadow(0 0 16rpx red);
+}
+}
+@keyframes iconFlash-data-v-1690eca4 {
+0%, 100% {
+    -webkit-filter: drop-shadow(0 0 6rpx rgba(255, 0, 0, 0.8));
+            filter: drop-shadow(0 0 6rpx rgba(255, 0, 0, 0.8));
+}
+50% {
+    -webkit-filter: drop-shadow(0 0 16rpx red);
+            filter: drop-shadow(0 0 16rpx red);
+}
+}
+/* 文字闪烁 */
+.text.data-v-1690eca4 {
+  font-size: 28rpx;
+  color: #ff0000;
+  white-space: nowrap;
+  -webkit-animation: textFlash-data-v-1690eca4 1.2s ease-in-out infinite;
+          animation: textFlash-data-v-1690eca4 1.2s ease-in-out infinite;
+}
+@-webkit-keyframes textFlash-data-v-1690eca4 {
+0%, 100% {
+    text-shadow: 0 0 4rpx rgba(255, 0, 0, 0.8);
+}
+50% {
+    text-shadow: 0 0 12rpx red;
+}
+}
+@keyframes textFlash-data-v-1690eca4 {
+0%, 100% {
+    text-shadow: 0 0 4rpx rgba(255, 0, 0, 0.8);
+}
+50% {
+    text-shadow: 0 0 12rpx red;
+}
+}

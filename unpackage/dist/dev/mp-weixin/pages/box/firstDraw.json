@@ -1,0 +1,9 @@
+{
+  "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "cimage": "/components/cimage/cimage",
+    "uni-nav-bar": "/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar",
+    "u-popup": "/uview-ui/components/u-popup/u-popup"
+  }
+}

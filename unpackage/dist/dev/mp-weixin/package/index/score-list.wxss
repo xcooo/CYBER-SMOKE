@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.user-info.data-v-e25065e6 {
+  padding: 16rpx;
+  background-color: #fff;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.user-score.data-v-e25065e6 {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: bold;
+}
+.score-value.data-v-e25065e6 {
+  font-size: 36rpx;
+  color: #ff3d00;
+}
+.list-container.data-v-e25065e6 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* 3列布局 */
+  gap: 24rpx;
+  padding: 24rpx;
+}
+.list-container .list-item.data-v-e25065e6 {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom, #ffffff, #f7f8fa);
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+  max-width: 100%;
+  padding-bottom: 20rpx;
+  /* 设置统一的最小高度，避免按钮区域不一致 */
+}
+.list-container .list-item.data-v-e25065e6:active {
+  -webkit-transform: scale(0.98);
+          transform: scale(0.98);
+}
+.list-container .list-item .item-image.data-v-e25065e6 {
+  width: 100%;
+  height: 180rpx;
+  /* 固定图片高度 */
+  object-fit: cover;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+}
+.list-container .list-item .item-title.data-v-e25065e6 {
+  font-size: 28rpx;
+  color: #222;
+  margin-top: 16rpx;
+  padding: 0 20rpx;
+  text-align: center;
+  line-height: 1.4em;
+  min-height: 72rpx;
+  overflow: hidden;
+}
+.list-container .list-item .item-price.data-v-e25065e6 {
+  font-size: 26rpx;
+  color: #e53e38;
+  text-align: center;
+  font-weight: bold;
+  padding: 12rpx 20rpx;
+}
+.list-container .list-item .item-info.data-v-e25065e6 {
+  font-size: 24rpx;
+  color: #999;
+  padding: 0 20rpx 10rpx;
+  display: flex;
+  justify-content: center;
+  gap: 8rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* 在一行显示“已兑”和“限兑” */
+}
+.list-container .list-item .item-info .item-exchange-info.data-v-e25065e6 {
+  width: 100%;
+  font-size: 24rpx;
+}
+.list-container .list-item .item-info .exchange-count.data-v-e25065e6,
+.list-container .list-item .item-info .limit-count.data-v-e25065e6 {
+  margin-right: 10rpx;
+}
+.list-container .list-item .exchange-btn.data-v-e25065e6 {
+  margin: 20rpx auto 0;
+  width: 80%;
+  text-align: center;
+  background: linear-gradient(135deg, #ff7e1b, #ff3d00);
+  color: #fff;
+  padding: 10rpx 0;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.list-container .list-item .exchange-btn.data-v-e25065e6:active {
+  -webkit-transform: scale(0.96);
+          transform: scale(0.96);
+  opacity: 0.9;
+}
+.list-container .list-item .exchange-btn.disabled.data-v-e25065e6 {
+  background: #ccc;
+  color: #666;
+}

@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "uni-nav-bar": "/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar",
+    "u-popup": "/uview-ui/components/u-popup/u-popup"
+  }
+}

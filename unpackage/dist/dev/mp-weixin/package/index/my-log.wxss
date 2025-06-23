@@ -1,0 +1,317 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.page-wrap .tab-list {
+  background: #fff;
+  height: 88rpx;
+  padding: 0 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 10;
+}
+.page-wrap .tab-list-item {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #999999;
+  transition: all 0.3s;
+}
+.page-wrap .tab-list-item.act {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+}
+.page-wrap .list {
+  padding: 1rpx 30rpx 40rpx;
+}
+.page-wrap .list .join-item {
+  background: #fff;
+  border-radius: 10rpx;
+  margin-top: 30rpx;
+}
+.page-wrap .list .join-item-hd {
+  padding: 30rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #333333;
+}
+.page-wrap .list .join-item-bd {
+  padding: 30rpx 20rpx;
+  border-top: 1rpx solid #f1f1f1;
+  display: flex;
+}
+.page-wrap .list .join-item-bd .info-item {
+  width: 25%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.page-wrap .list .join-item-bd .info-item .title {
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+.page-wrap .list .join-item-bd .info-item .num {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #ed1e1e;
+}
+.page-wrap .list .join-item-bd .info-item .none {
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #666666;
+}
+.page-wrap .list .join-item-bd .info-item .normal {
+  font-weight: normal;
+  font-size: 24rpx;
+}
+.page-wrap .list .invite-item {
+  margin-top: 30rpx;
+  padding: 30rpx;
+  border-radius: 10rpx;
+  background: #fff;
+  display: flex;
+}
+.page-wrap .list .invite-item .avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.page-wrap .list .invite-item .user-info {
+  width: calc(100% - 88rpx);
+  box-sizing: border-box;
+  padding-left: 40rpx;
+}
+.page-wrap .list .invite-item .user-info .name {
+  max-width: 250rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #333333;
+}
+.page-wrap .list .invite-item .user-info .time {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #999999;
+}
+.page-wrap .list .log-item {
+  display: flex;
+  background: #fff;
+  border-radius: 10rpx;
+  padding: 30rpx;
+  align-items: center;
+  margin-top: 30rpx;
+}
+.page-wrap .list .log-item .icon {
+  width: 50rpx;
+  height: 50rpx;
+}
+.page-wrap .list .log-item .info {
+  flex: 1;
+  padding: 0 20rpx;
+}
+.page-wrap .list .log-item .info .title {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #333333;
+}
+.page-wrap .list .log-item .info .time {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #999999;
+}
+.page-wrap .list .log-item .num {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #ff3333;
+}
+.page-wrap .detail-pop {
+  border-radius: 20rpx 20rpx 0 0;
+  padding: 0 30rpx;
+  background: #fefbf2;
+}
+.page-wrap .detail-pop-hd {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.page-wrap .detail-pop-hd .title {
+  height: 70rpx;
+  padding: 0 40rpx;
+  border-radius: 0 0 20rpx 20rpx;
+  background: linear-gradient(0deg, #fe2c2f, #fa6579);
+  line-height: 70rpx;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.page-wrap .detail-pop-hd .close {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 40rpx;
+  height: 40rpx;
+}
+.page-wrap .detail-pop-bd {
+  padding-bottom: 20rpx;
+}
+.page-wrap .detail-pop-bd .total-card {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #fef0d6;
+  padding: 30rpx 0;
+  margin-top: 30rpx;
+  border-radius: 20rpx;
+}
+.page-wrap .detail-pop-bd .total-card-item {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 30%;
+}
+.page-wrap .detail-pop-bd .total-card-item .title {
+  font-size: 26rpx;
+  color: #f43a39;
+}
+.page-wrap .detail-pop-bd .total-card-item .money {
+  font-size: 24rpx;
+  color: #f42a4b;
+  margin-top: 10rpx;
+}
+.page-wrap .detail-pop-bd .total-card-item .money text {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+.page-wrap .detail-pop-bd .total-card .line {
+  height: 50rpx;
+  width: 1rpx;
+  background: #f0d4bc;
+}
+.page-wrap .detail-pop-bd .box-list {
+  max-height: 40vh;
+  padding: 1rpx 0 0;
+  margin-top: 10rpx;
+}
+.page-wrap .detail-pop-bd .box-list-item {
+  padding: 20rpx 30rpx;
+  margin-top: 30rpx;
+  background: #fefbf2;
+  border: 2rpx solid #f0d4bc;
+  border-radius: 10rpx;
+  display: flex;
+}
+.page-wrap .detail-pop-bd .box-list-item .box {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 70rpx;
+  height: 100rpx;
+  box-sizing: border-box;
+  padding-top: 24rpx;
+}
+.page-wrap .detail-pop-bd .box-list-item .box .num {
+  font-size: 32rpx;
+  font-family: Source Han Sans CN;
+  font-weight: 800;
+  color: #8f4721;
+}
+.page-wrap .detail-pop-bd .box-list-item .box .title {
+  font-size: 15rpx;
+  font-family: Source Han Sans CN;
+  font-weight: bold;
+  color: #8f4721;
+}
+.page-wrap .detail-pop-bd .box-list-item .info {
+  flex: 1;
+  padding-left: 40rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.page-wrap .detail-pop-bd .box-list-item .info-l {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+}
+.page-wrap .detail-pop-bd .box-list-item .info-l .title {
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #8f4721;
+}
+.page-wrap .detail-pop-bd .box-list-item .info-l .num {
+  font-size: 22rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #8f4721;
+}
+.page-wrap .detail-pop-bd .box-list-item .info-r {
+  display: flex;
+  align-items: center;
+  padding-right: 30rpx;
+}
+.page-wrap .detail-pop-bd .box-list-item .info-r .tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100rpx;
+  height: 100rpx;
+  border: 4rpx solid #fff;
+  font-size: 18rpx;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 50%;
+  -webkit-transform: rotate(-30deg);
+          transform: rotate(-30deg);
+}
+.page-wrap .detail-pop-bd .box-list-item.act {
+  background: #f84545;
+}
+.page-wrap .detail-pop-bd .box-list-item.act .info-l .title {
+  color: #fff;
+}
+.page-wrap .detail-pop-bd .box-list-item.act .info-l .num {
+  color: #fff;
+}

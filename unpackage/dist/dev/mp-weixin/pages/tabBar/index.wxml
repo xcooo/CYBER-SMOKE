@@ -1,0 +1,1 @@
+<view class="login-cover data-v-40e5343a"><image class="not-login-img data-v-40e5343a" src="https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01Fnw8aj24NdcrWOFyG_!!2200676927379.jpg" mode="cover" data-event-opts="{{[['tap',[['getCode',['$event']]]]]}}" bindtap="__e"></image></view>

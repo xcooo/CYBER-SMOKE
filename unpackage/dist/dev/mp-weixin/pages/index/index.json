@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "商城",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "cimage": "/components/cimage/cimage"
+  }
+}

@@ -1,0 +1,223 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.createRoom.data-v-5d898c18 {
+  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
+  background-size: 100vw 100%;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+.createRoom .nav.data-v-5d898c18  .uni-navbar__header {
+  padding: 0;
+}
+.createRoom .nav.data-v-5d898c18  .uni-nav-bar-text {
+  font-size: 30px;
+  font-family: xcooo;
+}
+.createRoom .nav .nav-left image.data-v-5d898c18 {
+  width: 70px;
+}
+.createRoom .nav .nav-right.data-v-5d898c18 {
+  font-size: 16px;
+  margin-right: 40rpx;
+}
+.createRoom .list.data-v-5d898c18 {
+  padding: 20rpx;
+}
+.createRoom .list .item.data-v-5d898c18 {
+  border: 4rpx solid;
+  border-image: linear-gradient(270deg, #039aff, #705cff, #af38ff) 2 2;
+  display: flex;
+  align-items: center;
+  padding: 20rpx 40rpx;
+  color: #fff;
+  margin-bottom: 40rpx;
+}
+.createRoom .list .item .right.data-v-5d898c18 {
+  flex: 1;
+  margin-left: 40rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.createRoom .list .item .right .desc.data-v-5d898c18 {
+  color: #999;
+}
+.createRoom .list .item .right .select.data-v-5d898c18 {
+  color: aqua;
+  flex-shrink: 0;
+}
+.createRoom .create-btn.data-v-5d898c18 {
+  color: #ffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+  padding: 40rpx 20rpx;
+  padding-bottom: 150rpx;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.createRoom .create-btn .room-price.data-v-5d898c18 {
+  color: orange;
+  font-size: 24px;
+}
+.createRoom .create-btn .pay.data-v-5d898c18 {
+  width: 200rpx;
+  background: linear-gradient(270deg, #039aff, #705cff, #af38ff);
+  border-radius: 40rpx;
+  padding: 20rpx 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.createRoom .ck-title.data-v-5d898c18 {
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+  margin: 40rpx 0;
+  font-family: xcooo;
+}
+.createRoom.data-v-5d898c18  .u-radio__icon-wrap {
+  border-color: #705cff;
+  border-width: 5rpx;
+  width: 50rpx !important;
+  height: 50rpx !important;
+}
+.createRoom.data-v-5d898c18  .u-radio-group {
+  width: 100%;
+}
+.createRoom.data-v-5d898c18  .u-radio__label {
+  color: #fff;
+}
+.createRoom .ck-order.data-v-5d898c18 {
+  position: fixed;
+  background-color: #000;
+  width: 100%;
+  color: #fff;
+  z-index: 1;
+}
+.createRoom .ck-box-list.data-v-5d898c18 {
+  padding: 30rpx;
+}
+.createRoom .ck-box-list .ck-box-item.data-v-5d898c18 {
+  position: relative;
+  margin-bottom: 30rpx;
+  border: 4rpx solid;
+  border-image: linear-gradient(270deg, #039aff, #705cff, #af38ff) 2 2;
+  width: 100%;
+}
+.createRoom .ck-box-list .ck-box-item.data-v-5d898c18:last-child {
+  margin-bottom: 0;
+}
+.createRoom .ck-box-list .ck-box-mask.data-v-5d898c18 {
+  width: 100%;
+  height: 250rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.createRoom .ck-box-list .ck-box-wrap.data-v-5d898c18 {
+  background-size: 100% 100%;
+  width: 100%;
+  height: 250rpx;
+  padding: 0 20rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.createRoom .ck-box-list .ck-box-wrap .box-info.data-v-5d898c18 {
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+.createRoom .ck-box-list .ck-box-wrap .box-info .box-title.data-v-5d898c18 {
+  margin-bottom: 10rpx;
+}
+.createRoom .ck-box-list .ck-box-wrap .box-info .number.data-v-5d898c18 {
+  margin-left: 20rpx;
+  color: yellow;
+}
+.createRoom .ck-box-list .ck-box-wrap .box-bottom.data-v-5d898c18 {
+  display: flex;
+  justify-content: space-between;
+}
+.createRoom .ck-box-list .ck-box-wrap .box-price.data-v-5d898c18 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+.createRoom .ck-box-list .ck-box-wrap .room-price.data-v-5d898c18 {
+  color: #fff;
+  padding: 10rpx 20rpx;
+  background-size: 100% 100%;
+  background: linear-gradient(270deg, #039aff, #705cff, #af38ff);
+  border-radius: 20rpx;
+}
+.createRoom .mh-wrap.data-v-5d898c18 {
+  padding-bottom: 40rpx;
+  background-color: #222333;
+  min-height: 100%;
+}
+.createRoom .order.data-v-5d898c18 {
+  background-color: #222333;
+  min-height: 100%;
+  padding: 0 30rpx;
+  padding-bottom: 40rpx;
+}
+.createRoom .order .order-title.data-v-5d898c18 {
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+  font-family: xcooo;
+  padding: 30rpx 0;
+}
+.createRoom .order .order-pay.data-v-5d898c18 {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  margin: 40rpx 0;
+  font-size: 18px;
+}
+.createRoom .order .order-btn.data-v-5d898c18 {
+  display: flex;
+  justify-content: center;
+}
+.createRoom .order .order-price.data-v-5d898c18 {
+  color: orange;
+}
+.createRoom .order .order-submit.data-v-5d898c18 {
+  width: 100%;
+  background: linear-gradient(270deg, #039aff, #705cff, #af38ff);
+  border-radius: 40rpx;
+  padding: 20rpx 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}

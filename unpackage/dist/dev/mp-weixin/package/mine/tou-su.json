@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-nav-bar": "/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar",
+    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "cimage": "/components/cimage/cimage",
+    "u-picker": "/uview-ui/components/u-picker/u-picker"
+  }
+}

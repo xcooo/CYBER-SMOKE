@@ -1,0 +1,211 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.page-wrap .tab-list {
+  background: #fff;
+  height: 88rpx;
+  padding: 0 30rpx;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 10;
+}
+.page-wrap .tab-list-item {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #999999;
+  transition: all 0.3s;
+}
+.page-wrap .tab-list-item.act {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+}
+.page-wrap .list {
+  padding: 1rpx 30rpx 40rpx;
+}
+.page-wrap .list .join-item {
+  background: #fff;
+  border-radius: 10rpx;
+  margin-top: 30rpx;
+}
+.page-wrap .list .join-item-hd {
+  padding: 30rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #333333;
+}
+.page-wrap .list .join-item-bd {
+  padding: 30rpx 20rpx;
+  border-top: 1rpx solid #f1f1f1;
+  display: flex;
+}
+.page-wrap .list .join-item-bd .info-item {
+  width: 25%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.page-wrap .list .join-item-bd .info-item .title {
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+.page-wrap .list .join-item-bd .info-item .num {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #ed1e1e;
+}
+.page-wrap .list .join-item-bd .info-item .none {
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #666666;
+}
+.page-wrap .list .join-item-bd .info-item .normal {
+  font-weight: normal;
+  font-size: 24rpx;
+}
+.page-wrap .list .invite-item {
+  background: #fff;
+  border-radius: 10rpx;
+  margin-top: 30rpx;
+  padding: 30rpx;
+}
+.page-wrap .list .invite-item-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.page-wrap .list .invite-item-hd .avatar {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.page-wrap .list .invite-item-hd .info {
+  width: 400rpx;
+}
+.page-wrap .list .invite-item-hd .info .name {
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+}
+.page-wrap .list .invite-item-hd .info .time {
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #666666;
+  margin-top: 10rpx;
+}
+.page-wrap .list .invite-item-hd .status {
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #666666;
+}
+.page-wrap .list .invite-item-bd {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f6f6f6;
+  display: flex;
+}
+.page-wrap .list .invite-item-bd .pic {
+  width: 184rpx;
+  height: 184rpx;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+.page-wrap .list .invite-item-bd .info {
+  width: calc(100% - 184rpx);
+  box-sizing: border-box;
+  padding-left: 20rpx;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  padding-top: 10rpx;
+  padding-bottom: 20rpx;
+}
+.page-wrap .list .invite-item-bd .info .title {
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+}
+.page-wrap .list .invite-item-bd .info .get-num {
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+}
+.page-wrap .list .invite-item-bd .info .get-num text {
+  color: #ed3e7b;
+}
+.page-wrap .list .invite-item-bd .info .get-num text.red {
+  color: #f2342c;
+}
+.page-wrap .list .log-item {
+  display: flex;
+  background: #fff;
+  border-radius: 10rpx;
+  padding: 30rpx;
+  align-items: center;
+  margin-top: 30rpx;
+}
+.page-wrap .list .log-item .icon {
+  width: 50rpx;
+  height: 50rpx;
+}
+.page-wrap .list .log-item .info {
+  flex: 1;
+  padding: 0 20rpx;
+}
+.page-wrap .list .log-item .info .title {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #333333;
+}
+.page-wrap .list .log-item .info .time {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #999999;
+}
+.page-wrap .list .log-item .num {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #ff3333;
+}

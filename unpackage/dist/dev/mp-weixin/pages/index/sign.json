@@ -1,0 +1,9 @@
+{
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "login-popup": "/components/loginPopup/loginPopup",
+    "semantic-modal": "/components/semanticModal/semanticModal"
+  }
+}

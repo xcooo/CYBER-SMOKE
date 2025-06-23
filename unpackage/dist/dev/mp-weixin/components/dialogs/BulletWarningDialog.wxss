@@ -1,0 +1,49 @@
+
+.hp-warning-wrapper.data-v-58330f33 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hp-warning-box.data-v-58330f33 {
+  width: 600rpx;
+  background-color: #3b2a2a;
+  border-radius: 20rpx;
+  padding: 40rpx 30rpx;
+  border: 4rpx solid #fbd851;
+  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.5);
+}
+.title.data-v-58330f33 {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #fbd851;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+.desc.data-v-58330f33 {
+  font-size: 28rpx;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 40rpx;
+}
+.btn-group.data-v-58330f33 {
+  display: flex;
+  justify-content: space-between;
+}
+.btn.data-v-58330f33 {
+  flex: 1;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+  padding: 20rpx 0;
+  margin: 0 10rpx;
+  border: none;
+}
+.cancel-btn.data-v-58330f33 {
+  background-color: #b3b3b3;
+  color: #fff;
+}
+.confirm-btn.data-v-58330f33 {
+  background: linear-gradient(to right, #34e89e, #0f3443);
+  color: #fff;
+}
+

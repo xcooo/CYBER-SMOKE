@@ -1,0 +1,1 @@
+<view class="page-wrap"><view class="top_money"><view class="content"><rich-text nodes="{{ruleData.editor}}"></rich-text></view></view></view>

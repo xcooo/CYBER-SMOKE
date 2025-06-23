@@ -1,0 +1,1 @@
+<view class="c_image"><image src="{{imgUrl}}" mode="{{mode}}"></image></view>

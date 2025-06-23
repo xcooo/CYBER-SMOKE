@@ -1,0 +1,269 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.sign-container.data-v-442ff513 {
+  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN014XOtNY24NdcXgC3Z6_!!2200676927379.png") no-repeat center center;
+  background: url("https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01hWLwJe24NdcZJEIHt_!!2200676927379.png") no-repeat center center;
+  background: url("https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01GYJhsN24Ndco7ktYR_!!2200676927379.png") no-repeat center center;
+  background-size: 100% 100%;
+  width: 100vw;
+  height: 100vh;
+  padding: 30rpx;
+  padding-top: 100rpx;
+}
+.nav-bar.data-v-442ff513 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  z-index: 10;
+  padding-top: 25px;
+}
+.nav-bar .nav-left.data-v-442ff513 {
+  position: absolute;
+  left: 30rpx;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  z-index: 2;
+}
+.nav-bar .nav-title.data-v-442ff513 {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #fff;
+}
+.score-wrap.data-v-442ff513 {
+  margin-bottom: 40rpx;
+}
+.score-wrap .title.data-v-442ff513 {
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+  color: #fff;
+  text-shadow: -1px -1px #fff, 1px 1px #333;
+}
+.score-wrap .score.data-v-442ff513 {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: -1px -1px #fff, 1px 1px #333;
+}
+.sign-card.data-v-442ff513 {
+  background: rgba(235, 246, 255, 0.7);
+  background: #e8f5ff;
+  padding: 40rpx 20rpx;
+  border-radius: 30rpx;
+  background: url("https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01iRPLut24NdcrdO15e_!!2200676927379.png") no-repeat;
+  background-size: 100% 100%;
+}
+.sign-grid.data-v-442ff513 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+.sign-day.data-v-442ff513 {
+  width: calc((100% - 60rpx) / 4);
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 40rpx 0;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: background 0.3s;
+  position: relative;
+  padding-bottom: 10rpx;
+}
+.sign-day.signed.data-v-442ff513 {
+  background: #d8f9e3;
+}
+.sign-day.last-day.data-v-442ff513 {
+  width: calc((100% - 60rpx) / 4 * 2 + 20rpx);
+}
+.mask.data-v-442ff513 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20rpx;
+  z-index: 1;
+}
+.day-label.data-v-442ff513 {
+  font-size: 24rpx;
+  margin-bottom: 10rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5rpx 20rpx;
+  background: #fd7b02;
+  border-top-left-radius: 20rpx;
+  border-bottom-right-radius: 20rpx;
+}
+.coin-img.data-v-442ff513 {
+  width: 100rpx;
+  height: 100rpx;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+}
+.reward-text.data-v-442ff513 {
+  font-size: 28rpx;
+  color: #333;
+  text-shadow: -1px -1px #fff, 1px 1px #999;
+}
+.sign-btn.data-v-442ff513 {
+  color: #fff;
+  font-weight: 700;
+  padding: 25rpx 0;
+  font-size: 28rpx;
+  margin: 20rpx 40rpx;
+  margin-top: 50rpx;
+  text-align: center;
+  background: url("https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01EBfGC924NdcqEQxgn_!!2200676927379.png") no-repeat;
+  background-size: 100% 100%;
+}
+.sign-btn-disabled.data-v-442ff513 {
+  background: #ccc;
+  box-shadow: 2rpx 10rpx 2rpx 2rpx #999;
+  color: #000;
+  pointer-events: none;
+  border-radius: 40rpx;
+  /* 禁用点击 */
+}
+.sign-tip.data-v-442ff513 {
+  font-size: 28rpx;
+  color: #ccc;
+  text-align: center;
+}
+.sign-tip .sign-days.data-v-442ff513 {
+  color: red;
+  margin: 0 5rpx;
+}
+.help-btn.data-v-442ff513 {
+  position: absolute;
+  right: 0rpx;
+  top: 50rpx;
+  font-size: 32rpx;
+  color: #000;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(to right, #c3f81e, #87fb6e);
+  padding: 10rpx 20rpx;
+  border-top-left-radius: 50rpx;
+  border-bottom-left-radius: 50rpx;
+  z-index: 100;
+  background: #fe8903;
+}
+.help-btn .help-img.data-v-442ff513 {
+  width: 40rpx;
+  margin-right: 10rpx;
+}
+.data-v-442ff513 .u-mode-center-box {
+  background: transparent;
+}
+.rule-pop.data-v-442ff513 {
+  border-radius: 20rpx;
+  padding: 20rpx;
+  padding-bottom: 40rpx;
+  background: url("https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01MqkgFZ24NdcqBJTrC_!!2200676927379.png") no-repeat;
+  background-size: 100% 100%;
+}
+.rule-pop .rule-title.data-v-442ff513 {
+  text-align: center;
+  font-size: 48rpx;
+  font-weight: 700;
+  margin: 30rpx 0;
+  margin-top: 20rpx;
+  color: #fff;
+  text-shadow: -1px -1px #fff, 1px 1px #333;
+}
+.rule-pop .rule-pop-bd.data-v-442ff513 {
+  padding: 30rpx 20rpx;
+  border-radius: 20rpx;
+  min-height: 400rpx;
+  max-height: 700rpx;
+  overflow: hidden;
+}
+.rule-pop .rule-pop-bd .rule-content.data-v-442ff513 {
+  line-height: 50rpx;
+  color: #fff;
+  font-weight: 700;
+  font-size: 28rpx;
+  text-align: left;
+}
+.data-v-442ff513 .u-mode-center-box {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.sign-popup.data-v-442ff513 {
+  padding: 40rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: transparent;
+}
+.sign-popup .popup-header.data-v-442ff513 {
+  margin-bottom: 50rpx;
+}
+.sign-popup .congrats-image.data-v-442ff513 {
+  width: 400rpx;
+}
+.sign-popup .popup-main.data-v-442ff513 {
+  margin-bottom: 30rpx;
+}
+.sign-popup .reward-icon.data-v-442ff513 {
+  width: 200rpx;
+}
+.sign-popup .reward-text.data-v-442ff513 {
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #f90;
+  margin-top: 30rpx;
+  margin-bottom: 50rpx;
+}
+.sign-popup .popup-footer.data-v-442ff513 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.sign-popup .confirm-btn.data-v-442ff513 {
+  width: 50%;
+  background: linear-gradient(to right, #c6f71a, #90fa61, #55fdac);
+  padding: 20rpx 0;
+  border-radius: 50rpx;
+  font-weight: 700;
+  font-size: 32rpx;
+  color: #000;
+}

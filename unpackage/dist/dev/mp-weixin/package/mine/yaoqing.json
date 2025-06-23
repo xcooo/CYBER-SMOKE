@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
+    "uni-datetime-picker": "/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker",
+    "uni-table": "/uni_modules/uni-table/components/uni-table/uni-table",
+    "uni-tr": "/uni_modules/uni-table/components/uni-tr/uni-tr",
+    "uni-th": "/uni_modules/uni-table/components/uni-th/uni-th",
+    "uni-td": "/uni_modules/uni-table/components/uni-td/uni-td",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "poster-canvas": "/package/mine/components/PosterCanvas"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "login-popup": "/components/loginPopup/loginPopup",
+    "bullet-recharge-dialog": "/components/dialogs/BulletRechargeDialog",
+    "weapon-switch-dialog": "/components/dialogs/WeaponSwitchDialog",
+    "my-prizes-dialog": "/components/dialogs/MyPrizesDialog",
+    "power-reference-dialog": "/components/dialogs/PowerReferenceDialog",
+    "feedback-dialog": "/components/dialogs/FeedbackDialog",
+    "recharge-rules-dialog": "/components/dialogs/RechargeRulesDialog",
+    "reward": "/components/dialogs/Reward",
+    "bullet-warning-dialog": "/components/dialogs/BulletWarningDialog",
+    "hp-top-alert": "/components/dialogs/HpTopAlert",
+    "cloud-background-light": "/components/cloudBackground/CloudBackgroundLight",
+    "cloud-background-black": "/components/cloudBackground/CloudBackgroundBlack"
+  }
+}

@@ -1,0 +1,206 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.tower.data-v-65c24f1c {
+  width: 100%;
+  height: 100vh;
+  /* 视口高度 */
+  overflow: hidden;
+}
+.tower .nav.data-v-65c24f1c {
+  position: fixed;
+  z-index: 10;
+}
+.tower .nav.data-v-65c24f1c  .uni-navbar__header {
+  padding: 0;
+}
+.tower .nav.data-v-65c24f1c  .uni-nav-bar-text {
+  font-size: 24px;
+  font-family: xcooo;
+}
+.tower .nav .nav-left image.data-v-65c24f1c {
+  width: 70px;
+}
+.tower .nav .nav-right.data-v-65c24f1c {
+  font-size: 16px;
+  margin-right: 40rpx;
+}
+.tower .diamond-wrap.data-v-65c24f1c {
+  position: fixed;
+  top: 200rpx;
+  left: 40rpx;
+  background-color: #000;
+  padding: 0 20rpx;
+  border-radius: 20rpx;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+.tower .diamond-wrap .diamond-img.data-v-65c24f1c {
+  width: 50rpx;
+  margin-right: 10rpx;
+}
+.tower .rank-wrap.data-v-65c24f1c {
+  position: fixed;
+  top: 200rpx;
+  right: 20rpx;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 20rpx;
+  border: 2rpx solid orange;
+  box-shadow: orange 0px 0px 10px;
+  padding: 40rpx 20rpx;
+  padding-bottom: 20rpx;
+  color: #fff;
+  width: 40%;
+  z-index: 10;
+}
+.tower .rank-wrap .rank-img.data-v-65c24f1c {
+  position: absolute;
+  top: -40rpx;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 150rpx;
+  margin-bottom: 40rpx;
+}
+.tower .rank-wrap .rank-img image.data-v-65c24f1c {
+  width: 100%;
+}
+.tower .rank-wrap .rank-list .rank-item.data-v-65c24f1c {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+.tower .rank-wrap .rank-list .rank-item .rank-left.data-v-65c24f1c {
+  display: flex;
+  align-items: center;
+}
+.tower .rank-wrap .rank-list .rank-item .rank-left .no-img.data-v-65c24f1c {
+  width: 40rpx;
+  height: 42rpx;
+  margin-right: 5rpx;
+}
+.tower .rank-wrap .rank-list .more-rank.data-v-65c24f1c {
+  margin-top: 20rpx;
+  color: #ffe21f;
+  text-align: center;
+}
+.tower .rule-wrap.data-v-65c24f1c {
+  position: fixed;
+  bottom: 200rpx;
+  right: 20rpx;
+  z-index: 10;
+}
+.tower .rule-wrap .rule-img.data-v-65c24f1c {
+  width: 120rpx;
+  margin-bottom: 40rpx;
+}
+.tower .rule-wrap .rule-img image.data-v-65c24f1c {
+  width: 100%;
+}
+.tower .tower-background.data-v-65c24f1c {
+  position: relative;
+  width: 100%;
+  height: 2000px;
+  /* 设置背景图高度为2000px */
+  background-size: cover;
+  /* 使背景图片覆盖整个容器 */
+  background-repeat: no-repeat;
+  /* 防止背景图片重复 */
+  background-position: top;
+  /* 背景图片从顶部开始 */
+}
+.tower .tower-top.data-v-65c24f1c {
+  width: 100%;
+  height: calc(10% + 20px);
+  position: absolute;
+  top: 180rpx;
+}
+.tower .tower-wrap.data-v-65c24f1c {
+  position: absolute;
+  /* 绝对定位 */
+  width: 80%;
+  /* 调整塔身宽度为背景图的80% */
+  height: 80%;
+  /* 调整塔身高度为背景图的80% */
+  left: 10%;
+  /* 居中塔身 */
+  top: 14%;
+  /* 将塔身置于背景图片的中间区域 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* 从顶部开始排列 */
+  align-items: center;
+  /* 水平居中 */
+}
+.tower .tower-wrap .tower-item.data-v-65c24f1c {
+  width: 100%;
+  height: calc(10% + 20px);
+  /* 每层高度设置为塔容器总高度的10%加20px */
+  position: relative;
+}
+.tower .tower-wrap .tower-item .tower-item-img.data-v-65c24f1c {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.tower .tower-wrap .tower-item .tower-layer.data-v-65c24f1c {
+  color: #000;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  bottom: 70px;
+}
+.tower .tower-wrap .tower-item .st_bg.data-v-65c24f1c {
+  position: absolute;
+  left: -35px;
+  top: 40px;
+  background: url("https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Le9Hdv24NdcoDD4z8_!!2200676927379.png") no-repeat;
+  background-size: 100% 100%;
+  width: 120px;
+  padding: 5rpx 10rpx;
+}
+.tower .tower-wrap .tower-item .st_bg .st-award-img.data-v-65c24f1c {
+  width: 100rpx;
+  height: 100rpx;
+  object-fit: contain;
+}
+.tower .rule-popup-wrap.data-v-65c24f1c {
+  padding: 30rpx;
+  background: #222333;
+  color: #fff;
+}
+.tower .rule-popup-wrap .rule-title.data-v-65c24f1c {
+  font-size: 20px;
+  font-family: xcooo;
+  margin-bottom: 30rpx;
+  text-align: center;
+  border-radius: 30rpx;
+}

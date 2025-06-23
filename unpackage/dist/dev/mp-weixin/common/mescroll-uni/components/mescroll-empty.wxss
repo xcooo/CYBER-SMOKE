@@ -1,0 +1,63 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/* 无任何数据的空布局 */
+.mescroll-empty {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 100rpx 50rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mescroll-empty.empty-fixed {
+  z-index: 99;
+  position: absolute;
+  /*transform会使fixed失效,最终会降级为absolute */
+  top: 100rpx;
+  left: 0;
+}
+.mescroll-empty .empty-icon {
+  width: 280rpx;
+  height: 280rpx;
+}
+.mescroll-empty .empty-tip {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: gray;
+}
+.mescroll-empty .empty-btn {
+  display: inline-block;
+  margin-top: 40rpx;
+  min-width: 200rpx;
+  padding: 18rpx;
+  font-size: 28rpx;
+  border: 1rpx solid #ea552d;
+  border-radius: 60rpx;
+  color: #ea552d;
+}
+.mescroll-empty .empty-btn:active {
+  opacity: 0.75;
+}

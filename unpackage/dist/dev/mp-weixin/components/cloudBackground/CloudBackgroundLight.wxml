@@ -1,0 +1,1 @@
+<view class="container data-v-94c8e58c"><canvas class="cloud-canvas data-v-94c8e58c" style="{{'width:'+(canvasWidth+'px')+';'+('height:'+(canvasHeight+'px')+';')}}" canvas-id="cloudCanvas"></canvas></view>

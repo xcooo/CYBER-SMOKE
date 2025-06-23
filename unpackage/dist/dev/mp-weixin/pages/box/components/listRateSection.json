@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "cimage": "/components/cimage/cimage"
+  },
+  "component": true
+}

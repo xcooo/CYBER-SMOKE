@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "cimage": "/components/cimage/cimage",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons"
+  }
+}

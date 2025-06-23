@@ -1,0 +1,50 @@
+
+.bigBox {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999999;
+}
+.bgbox {
+	background: url('https://img.50api.cn/dingdang/lianxiBg.png') no-repeat;
+	background-size: 560rpx 724rpx;
+	width: 560rpx;
+	height: 724rpx;
+}
+.off {
+	text-align: right;
+	padding: 30rpx;
+	box-sizing: border-box;
+}
+.off image{
+	width: 33rpx;
+	height: 34rpx;
+}
+.content {
+	margin-top: 130rpx;
+	text-align: center;
+}
+.ma {
+	width: 300rpx;
+	height: 300rpx;
+}
+.yi {
+	font-size: 34rpx;
+	color: #999;
+	line-height: 50rpx;
+	margin-top: 40rpx;
+}
+.bian {
+	margin-top: 30rpx;
+}
+.er {
+	font-size: 32rpx;
+	line-height: 46rpx;
+}
+

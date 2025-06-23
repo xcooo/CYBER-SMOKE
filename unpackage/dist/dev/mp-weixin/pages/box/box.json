@@ -1,0 +1,10 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "cimage": "/components/cimage/cimage",
+    "u-notice-bar": "/uview-ui/components/u-notice-bar/u-notice-bar",
+    "gbro-marquee": "/components/gbro-marquee/gbro-marquee",
+    "uni-countdown": "/components/uni-countdown/uni-countdown"
+  }
+}

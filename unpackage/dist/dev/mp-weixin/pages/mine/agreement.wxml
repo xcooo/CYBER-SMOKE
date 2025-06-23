@@ -1,0 +1,1 @@
+<view><u-navbar vue-id="5e666e42-1" title="{{title}}" bind:__l="__l"></u-navbar><view class="box"><rich-text nodes="{{data}}"></rich-text></view></view>

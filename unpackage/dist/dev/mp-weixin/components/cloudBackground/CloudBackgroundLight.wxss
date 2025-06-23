@@ -1,0 +1,17 @@
+
+.container.data-v-94c8e58c {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  overflow: hidden;
+}
+.cloud-canvas.data-v-94c8e58c {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 100vw;
+  height: 100vh;
+}
+

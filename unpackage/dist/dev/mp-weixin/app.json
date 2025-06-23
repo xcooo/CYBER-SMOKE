@@ -1,0 +1,173 @@
+{
+  "pages": [
+    "pages/tabBar/home",
+    "pages/tabBar/index",
+    "pages/tabBar/charts",
+    "pages/tabBar/help",
+    "pages/welfareCenter/welfareCenter",
+    "pages/index/sign",
+    "pages/tabBar/mall",
+    "pages/tabBar/box",
+    "pages/tabBar/bag",
+    "pages/tabBar/pay",
+    "pages/tabBar/my",
+    "pages/box/box",
+    "pages/box/roomlist",
+    "pages/box/tower",
+    "pages/box/test",
+    "pages/box/towerDetail",
+    "pages/box/towerDraw",
+    "pages/box/rank",
+    "pages/box/createRoom",
+    "pages/box/roomDetail",
+    "pages/box/kaixiang",
+    "pages/box/firstReward",
+    "pages/box/firstDraw",
+    "pages/index/index",
+    "pages/mall/mall",
+    "pages/mine/mine",
+    "pages/index/draw",
+    "pages/index/web-view",
+    "pages/index/rich-text",
+    "pages/index/rule",
+    "pages/mine/login",
+    "pages/mine/agreement",
+    "pages/mine/vip",
+    "pages/mine/vipMallDetail"
+  ],
+  "subPackages": [
+    {
+      "root": "package/detail",
+      "pages": [
+        "gongzheng"
+      ]
+    },
+    {
+      "root": "package/rightTouch",
+      "pages": [
+        "list",
+        "detail"
+      ]
+    },
+    {
+      "root": "package/index",
+      "pages": [
+        "classify-detail",
+        "luck-box",
+        "luck-prize",
+        "my-log",
+        "score-list",
+        "exchange",
+        "exchange-detail",
+        "exchange-order",
+        "search",
+        "search-res"
+      ]
+    },
+    {
+      "root": "package/box",
+      "pages": [
+        "box-detail",
+        "comment-list",
+        "log-invite"
+      ]
+    },
+    {
+      "root": "package/mall",
+      "pages": [
+        "mall-detail",
+        "pay-order"
+      ]
+    },
+    {
+      "root": "package/mine",
+      "pages": [
+        "coupon",
+        "score-order",
+        "zz",
+        "he-zuo",
+        "account-safe",
+        "tou-su",
+        "address",
+        "address-set",
+        "wallet",
+        "withdrawal",
+        "mall-order",
+        "mall-express",
+        "bag-express",
+        "mall-order-detail",
+        "bag-order-detail",
+        "bag-send",
+        "comment",
+        "tou-su-log",
+        "yaoqing",
+        "myTeam",
+        "recharge",
+        "daili",
+        "share"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#F3F8FB",
+    "pageOrientation": "portrait",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "color": "#cccccc",
+    "selectedColor": "#ffffff",
+    "borderStyle": "black",
+    "backgroundColor": "#01435d",
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/tabBar/home",
+        "iconPath": "static/tabbar/1.png",
+        "selectedIconPath": "static/tabbar/2.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tabBar/help",
+        "iconPath": "static/tabbar/3.png",
+        "selectedIconPath": "static/tabbar/4.png",
+        "text": "帮助中心"
+      },
+      {
+        "pagePath": "pages/tabBar/bag",
+        "iconPath": "static/tabbar/5.png",
+        "selectedIconPath": "static/tabbar/6.png",
+        "text": "我的订单"
+      },
+      {
+        "pagePath": "pages/tabBar/my",
+        "iconPath": "static/tabbar/7.png",
+        "selectedIconPath": "static/tabbar/8.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "permission": {},
+  "devServer": {
+    "port": 8080,
+    "disableHostCheck": true,
+    "proxy": {
+      "/api": {
+        "target": "https://www.mh-v6.com/",
+        "changeOrigin": true,
+        "secure": false,
+        "pathRewrite": {
+          "/api": ""
+        }
+      }
+    },
+    "https": false
+  },
+  "usingComponents": {
+    "cus-tabbar": "/components/cus-tabbar",
+    "mescroll-body": "/common/mescroll-uni/mescroll-body",
+    "mescroll-uni": "/common/mescroll-uni/mescroll-uni"
+  }
+}

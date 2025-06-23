@@ -1,0 +1,10 @@
+{
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-nav-bar": "/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-line-progress": "/uview-ui/components/u-line-progress/u-line-progress",
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
+    "u-popup": "/uview-ui/components/u-popup/u-popup"
+  }
+}
