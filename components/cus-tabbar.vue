@@ -29,42 +29,42 @@ export default {
         {
           id: 0,
           path: '/pages/tabBar/home',
-          icon: '/static/tabbar/home.png',
-          selectIcon: '/static/tabbar/home-active.png',
+          icon: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01bNiOMd24NdczpbDBY_!!2200676927379.png',
+          selectIcon: 'https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01BKkZhz24Ndd25cGa2_!!2200676927379.png',
           text: '首页',
           centerItem: false
         },
         {
           id: 1,
-          path: '/pages/tabBar/charts',
-          icon: '/static/tabbar/shop.png',
-          selectIcon: '/static/tabbar/shop-active.png',
-          text: '排行榜',
+          path: '/pages/tabBar/help',
+          icon: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01BTBcOD24Ndd1fVl40_!!2200676927379.png',
+          selectIcon: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01MIuQxl24Ndd1XUioY_!!2200676927379.png',
+          text: '帮助中心',
           centerItem: false
         },
-        {
-          id: 2,
-          path: '/pages/index/index',
-          icon: '/static/tabbar/shop.png',
-          selectIcon: '/static/tabbar/shop-active.png',
-          text: '商城',
-          centerItem: false
-        },
+        // {
+        //   id: 2,
+        //   path: '/pages/index/index',
+        //   icon: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01cUqZkj24NdcrJ0U8K_!!2200676927379.png',
+        //   selectIcon: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01ptcdmZ24NdcoA0fYI_!!2200676927379.png',
+        //   text: '商城',
+        //   centerItem: false
+        // },
 
         {
-          id: 3,
+          id: 2,
           path: '/pages/tabBar/bag',
-          icon: '/static/tabbar/cangku.png',
-          selectIcon: '/static/tabbar/cangku-active.png',
-          text: '盒柜',
+          icon: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01jFN45I24Ndd25fDa3_!!2200676927379.png',
+          selectIcon: 'https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01ss7WdL24Ndd1fWUoj_!!2200676927379.png',
+          text: '我的订单',
           centerItem: false
         },
         {
-          id: 4,
+          id: 3,
           path: '/pages/tabBar/my',
-          icon: '/static/tabbar/my.png',
-          selectIcon: '/static/tabbar/my-active.png',
-          text: '我的',
+          icon: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01m5Y0E324Ndczu76Km_!!2200676927379.png',
+          selectIcon: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01s5yQjV24NdczpYfCD_!!2200676927379.png',
+          text: '个人中心',
           centerItem: false
         }
       ]
@@ -77,7 +77,6 @@ export default {
   methods: {
     changeItem (item) {
       let _this = this;
-      console.log(item)
       //_this.currentItem = item.id;
       uni.switchTab({
         url: item.path
@@ -86,89 +85,81 @@ export default {
   }
 };
 </script>
-<style>
-view {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
+<style lang="scss" scoped>
 .tabbar-container {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  /* height: 110rpx; */
-  /* box-shadow: 0 0 5px #999; */
-  display: flex;
-  align-items: center;
-  padding: 5rpx 0;
-  color: #999999;
   z-index: 100;
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-bottom: env(safe-area-inset-bottom);
-  /*兼容 IOS>11.2*/
-  /* background: url("../static/home/tabbar-bg.png") no-repeat 50%/100% 100%;
-   */
-  background: #fff5ee;
-  border-top-left-radius: 20rpx;
-  border-top-right-radius: 20rpx;
-  border: 4rpx solid #fffb22;
-  height: 200rpx;
-}
-
-.tabbar-container .tabbar-item {
-  width: 25%;
-  /* height: 200rpx; */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  margin-top: 30rpx;
-}
+  justify-content: space-around;
+  padding: 20rpx 0 10rpx; // 上方增加间距
+  padding-bottom: calc(env(safe-area-inset-bottom) + 10rpx);
+  background: linear-gradient(90deg, #fcb045, #fd1d1d, #833ab4); // 橙→红→紫
+  background: linear-gradient(90deg, #3a8dde, #6aabf7);
+  background: #01435d;
 
-.tabbar-container .item-active {
-  color: #000;
-}
+  // 海蓝 → 水蓝，适合智能、管理类App
+  box-shadow: 0 -4rpx 12rpx rgba(0, 0, 0, 0.15);
+  color: #ffffff;
 
-.tabbar-container .center-item {
-  display: block;
-  position: relative;
-  height: 43px;
-}
+  .tabbar-item {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-.tabbar-container .tabbar-item .item-top {
-  width: 50rpx;
-  height: 50rpx;
-  margin-bottom: 20rpx;
-}
+    .item-top {
+      width: 50rpx;
+      height: 50rpx;
+      margin-bottom: 6rpx;
 
-.tabbar-container .center-item .item-top {
-  flex-shrink: 0;
-  width: 100rpx;
-  height: 100rpx;
-  position: absolute;
-  top: -54rpx;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  padding: 10rpx;
-  background-color: #ffffff;
-}
+      image {
+        width: 100%;
+        height: 100%;
+      }
+    }
 
-.tabbar-container .tabbar-item .item-top image {
-  width: 100%;
-  height: 100%;
-}
+    .item-bottom {
+      font-size: 24rpx;
+      color: rgba(255, 255, 255, 0.85);
+      transition: all 0.3s;
+    }
 
-.tabbar-container .tabbar-item .item-bottom {
-  font-size: 12px;
-  width: 100%;
-}
+    &.item-active {
+      .item-bottom {
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 0 0 6rpx rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
 
-.tabbar-container .center-item .item-bottom {
-  position: absolute;
-  bottom: 8rpx;
+  .center-item {
+    position: relative;
+    height: 48px;
+
+    .item-top {
+      position: absolute;
+      top: -60rpx;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100rpx;
+      height: 100rpx;
+      padding: 10rpx;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4); // 中间按钮粉系渐变
+      box-shadow: 0 6rpx 16rpx rgba(255, 174, 174, 0.5);
+    }
+
+    .item-bottom {
+      position: absolute;
+      bottom: 4rpx;
+      font-size: 24rpx;
+      color: #fff;
+    }
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 /*
  * @Date: 2022-05-16 17:08:57
- * @LastEditTime: 2024-06-11 09:25:22
+ * @LastEditTime: 2025-06-12 18:49:05
  * @Description: content
  */
 import Vue from 'vue'
@@ -15,6 +15,14 @@ export default {
   data: {
     loading: false,
     timer: null
+  },
+
+  isLogin () {
+    let token = uni.getStorageSync('token')
+    if (!token) {
+      return false
+    }
+    return true
   },
 
   /* ##################################### 当前应用方法-start ##################################### */
@@ -231,7 +239,7 @@ export default {
       Vue.prototype.req({
         url: '/v1/operate/banners',
         data: {
-          cat_id: e // 1.商城
+          cat_id: e
         },
         success: res => {
           if (res.code == 200) {
@@ -297,38 +305,22 @@ export default {
           return_url: returnUrl,
           // #endif
           // #ifdef APP-PLUS 
-          type: 'app'
+          type: 'app',
+          // #endif
+          // #ifdef MP 
+          type: 'MP'
           // #endif
         },
         success: res => {
-          console.log(res)
           if (res.code == 200) {
             // #ifdef APP-PLUS
-            this.appPay({
-              provider,
-              data: res.data.data,
-              order_sn: opt.order_sn
-            }).then(res => {
-              resolve(res)
-            })
-            // #endif
-            // #ifdef MP
-            this.wxMpPay({
-              provider,
-              data: res.data.data,
-              order_sn: opt.order_sn
-            }).then(res => {
-              resolve(res)
-            })
-            // #endif
-            // #ifdef H5
-
             if (opt.is_epay == 0) {
-              // 微信官方支付
-              this.wxH5Pay({
+              this.appPay({
                 provider,
                 data: res.data.data,
-                order_sn: opt.order_sn,
+                order_sn: opt.order_sn
+              }).then(res => {
+                resolve(res)
               })
             } else {
               // 易支付/码支付
@@ -340,10 +332,47 @@ export default {
               })
             }
             // #endif
-          }
-          else {
+            // #ifdef MP
+            if (opt.pay_type == 3) {
+              this.wxMpPay({
+                provider,
+                data: res.data.data,
+                order_sn: opt.order_sn
+              }).then(res => {
+                resolve(res)
+              })
+            } else {
+              // 支付宝扫码支付
+              resolve(res)
+            }
+            // #endif
+            // #ifdef H5
+            if (opt.is_epay == 0) {
+              if (opt.pay_type == 3) {
+                // 微信官方支付
+                this.wxH5Pay({
+                  provider,
+                  data: res.data.data,
+                  order_sn: opt.order_sn,
+                }).then(res => {
+                  resolve(res)
+                })
+              } else {
+                // 支付宝扫码支付
+                resolve(res)
+              }
+            } else {
+              // 易支付/码支付
+              this.h5Pay({
+                provider,
+                data: res.data.data,
+                order_sn: opt.order_sn,
+                is_epay: opt.is_epay
+              })
+            }
+            // #endif
+          } else {
             this.orderCancel(opt.order_sn)
-
             // ===================================
             // 易支付 页面处理
             // console.log(res)
@@ -859,7 +888,6 @@ export default {
       })
     })
   },
-  
 
   /**
    *  @description 微信h5支付
@@ -899,11 +927,12 @@ export default {
           ,
           success: (res) => {
             console.log(res)
-            this.toast({
-              title: '支付成功',
-              icon: 'success',
-              duration: 500
-            })
+            // this.toast({
+            //   title: '支付成功',
+            //   icon: 'success',
+            //   duration: 500
+            // })
+            resolve('success')
           },
           cancel: (res) => {
             console.log('取消支付')
@@ -912,6 +941,7 @@ export default {
               icon: 'none',
               duration: 500
             })
+            resolve('cancel')
           },
           fail: (err) => {
             this.toast({
@@ -919,6 +949,7 @@ export default {
               icon: 'none',
               duration: 500
             })
+            resolve('fail')
           }
         })
       })

@@ -1,6 +1,6 @@
 <!--
  * @Date: 2022-11-21 19:17:15
- * @LastEditTime: 2024-05-09 15:13:19
+ * @LastEditTime: 2025-05-14 17:24:09
  * @Description: content
 -->
 <template>
@@ -47,7 +47,7 @@
 
     <mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="getList" :down="downOption"
       :up="upOption">
-       <view class="goods-list">
+      <view class="goods-list">
         <!-- 左列 -->
         <view class="goods-list-col">
           <template v-for="( item, i ) in  listData ">
@@ -365,7 +365,7 @@ export default {
         overflow: hidden;
         // background: #ffffff;
         margin-bottom: 30rpx;
-        background: url('../../static/home/market-border.png') no-repeat no-repeat;
+        background: url('https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01vFdlQI24Ndcoy7iug_!!2200676927379.png') no-repeat no-repeat;
         background-size: 100% 100%;
         padding-bottom: 30rpx;
 

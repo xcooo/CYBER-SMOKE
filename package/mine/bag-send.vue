@@ -1,6 +1,6 @@
 <!--
  * @Date: 2022-12-06 10:53:50
- * @LastEditTime: 2025-04-27 17:04:09
+ * @LastEditTime: 2025-06-21 15:30:52
  * @Description: content
 -->
 <template>
@@ -40,7 +40,7 @@
           </view>
 
           <view class="info">
-            <view class="title hang1">
+            <view class="title hang3">
               {{ item.title }}
             </view>
 

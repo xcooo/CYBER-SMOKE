@@ -32,6 +32,7 @@ export default {
         success: res => {
           console.log(res)
           if (res.code == 200) {
+            this.title = res.data.title
             this.data = res.data.editor
           }
         }

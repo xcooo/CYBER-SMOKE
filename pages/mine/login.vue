@@ -14,7 +14,7 @@
         <view class="btn">微信授权登录</view>
       </view>
       <!-- #endif -->
-      <!-- #ifdef H5 -->
+      <!-- #ifdef H5  -->
 
       <!-- <view class="h5-biaodan">
         <view class="row">
@@ -176,7 +176,8 @@ export default {
         password: '',
         rePassword: ''
       },
-      isRegOrLogin: false
+      isRegOrLogin: false,
+      wx_callback:''
     }
   },
   computed: {
@@ -202,11 +203,11 @@ export default {
     // 判断是否有openid
     let token = uni.getStorageSync('token')
 
-    if (token) {
-      uni.redirectTo({
-        url: '/pages/index/index',
-      })
-    }
+    // if (token) {
+    //   uni.redirectTo({
+    //     url: '/pages/tabBar/home',
+    //   })
+    // }
 
     // #ifdef H5
     this.wxH5Code = this.getUrlCode().code // 截取code
@@ -223,6 +224,7 @@ export default {
   },
   onShow () {
     this.appId = this.appConfig.h5_appid
+    this.wx_callback = this.appConfig.wx_callback
   },
   methods: {
     wxAppLogin () {
@@ -484,7 +486,7 @@ export default {
       // window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.appId}&redirect_uri=${this.redirect_uri}&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect`
 
       // 资深全栈架构师开发,请联系QQ:602006050
-      window.location.href = `http://www.api-redirect.xcooo.cn/get-weixin-code.html?appid=${this.appId}&redirect_uri=${this.redirect_uri}&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect`
+      window.location.href = this.wx_callback +  `?appid=${this.appId}&redirect_uri=${this.redirect_uri}&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect`
 
       // this.wxH5Code = this.getUrlCode().code // 截取code
       // if (this.wxH5Code == null || this.wxH5Code === '') { // 如果没有code，则去请求
@@ -757,7 +759,7 @@ export default {
   height: 100vh;
   // background-image: url("https://img.50api.cn/vx.tongbayun.v3/loginbg.jpg");
   background-image: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN0108Lrj124NdcYjxn2S_!!2200676927379.jpg");
-  // background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
+  // background: url("https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01N40jGA24Ndd0pUtq1_!!2200676927379.jpg") no-repeat;
   background-size: 100% 100%;
   position: relative;
 }

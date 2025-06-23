@@ -1,5 +1,5 @@
 {
-    "name" : "盲盒商城",
+    "name" : "赛博畅吸",
     "appid" : "__UNI__EBDA30A",
     "description" : "",
     "versionName" : "1.0.2",
@@ -128,7 +128,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wxffe1514fa92304f9",
+        "appid" : "wxff128a67174c489f",
         "setting" : {
             "urlCheck" : false,
             "es6" : true,
@@ -174,7 +174,7 @@
             "proxy" : {
                 "/api" : {
                     // "target" : "填写您的域名注意区分HTTPS",
-                    "target" : "http://www.ckmh.com/",
+                    "target" : "http://www.dxgw.com/",
                     "changeOrigin" : true,
                     "secure" : false,
                     "pathRewrite" : {
@@ -188,7 +188,7 @@
             "base" : "/h5/",
             "mode" : "hash"
         },
-        "domain" : "http://www.ckmh.com/",
+        "domain" : "http://www.dxgw.com/",
         "title" : ""
     }
 }

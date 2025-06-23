@@ -1,1170 +1,1257 @@
 <template>
-  <view>
-    <!-- <cus-tabbar :current-page="0"></cus-tabbar> -->
-    <!-- #ifdef MP-WEIXIN -->
-    <!-- <view :style="{ height: `${sysConfig.statusBarHeight - 5}px` }">
-    </view> -->
-    <!-- #endif -->
-    <view class="home-page">
-      <view class="title-wrap">
-        {{ site_title }}
-      </view>
-
-      <view class="notice-view">
-        <u-notice-bar mode="horizontal" color="#8b8d8a" :speed="100" :list="popContent">
-        </u-notice-bar>
-        <!-- <image class="notice-more" src="../../static/home/deliveryNotice.png" lazy-load="false" binderror=""
-          bindload="" /> -->
-      </view>
-
-      <view class="carousel-wrapper">
-        <view class="carousel-background">
-          <swiper class="carousel" circular :indicator-dots="indicatorDots" :autoplay="false" :interval="interval"
-            :duration="duration" v-if="swiperList.length > 0">
-            <swiper-item v-for="(item, index) in swiperList" :key="index" @click="$common.bannerTo(item)">
-              <view class="carousel-item">
-                <image :src="item.thumb" mode="widthFix" lazy-load="false" binderror="" bindload=""
-                  class="carousel-img" />
-              </view>
-            </swiper-item>
-
-          </swiper>
-
-          <!-- <view class="wind-list">
-            <view class="notice-main">
-              <swiper class="notice-swiper" circular :indicator-dots="false" :autoplay="true" :interval="2000"
-                :duration="1000" :vertical="true">
-                <swiper-item v-for="(item, index) in logList" :key="item.id">
-                  <view class="swiper-item">
-                    <view class="notice-swiper-item">
-                      <view class="list-item-view">
-                        <view class="txxt-view">
-                          <image class="user-pic" :src="item.avatar" mode="widthFix" lazy-load="false" binderror=""
-                            bindload="" />
-                          <view class="username">{{ item.nickName }}</view>
-                          <view class="goods_name">获得({{ item.mark_title }}){{ item.title
-                          }}</view>
-                        </view>
-                        <image class="good-img" :src="item.thumb" mode="widthFix" lazy-load="false" binderror=""
-                          bindload="" />
-                      </view>
-                    </view>
-                  </view>
-                </swiper-item>
-              </swiper>
-            </view>
-          </view> -->
-        </view>
-      </view>
-
-      <view class="play-wrap">
-        <view class="pd-img" @click="goRoom">
-          <cimage src="https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01Y76eXS24NdcVmhMgk_!!2200676927379.png"
-            mode="widthFix" />
-        </view>
-        <view class="pd-img" @click="goTower">
-          <cimage src="https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01PjhSox24NdcQxFLPk_!!2200676927379.png"
-            mode="widthFix" />
-        </view>
-      </view>
-
-      <view class="menu-container">
-        <view class="menu-item" v-for="(item, index) in menuList" :key="index" @click="goMenu(item)">
-          <image class="menu-image" :src="item.url" mode="widthFix" />
-        </view>
-      </view>
-
-      <view class="cate-wrap">
-        <view class="cate-item" :class="[currentIndex == index ? 'cate-item-active' : '']"
-          v-for="(item, index) in cateList" @click="changeIndex(item, index)">
-          {{ item.title }}
-        </view>
-      </view>
-
-
-      <mescroll-body ref="mescrollRef" height="400" @init="mescrollInit" @down="downCallback" @up="getList"
-        :down="downOption" :up="upOption">
-        <view class="list-container">
-          <view class="list-item" v-for="(item, index) in listData" :key="index" @click="toDetail(item)">
-            <image :src="item.thumb" class="item-image" mode="widthFix" />
-            <view class="item-title">{{ item.title }}</view>
-            <view class="item-price"><text>¥</text><text class="price">{{ item.price }}</text></view>
-          </view>
-        </view>
-      </mescroll-body>
+  <view class="cyber-smoke-container">
+    <!-- 背景 -->
+    <view class="background">
+      <view class="stars" v-for="(star, index) in stars" :key="index"
+        :style="{ left: star.x + 'px', top: star.y + 'px', animationDelay: star.delay + 's' }"></view>
     </view>
 
-    <!-- 进群 -->
-    <u-popup v-model="kefushow" mode="center" border-radius="16">
-      <view class="bgbox">
-        <view class="content">
-          <view class="ma">
-            <image class="" :src="wx_group" mode="widthFix" lazy-load="false" binderror="" bindload="" />
-          </view>
-          <view class="yi">
-            微信扫一扫
+    <CloudBackgroundBlack ref="cloudBackgroundBlack"></CloudBackgroundBlack>
+
+    <!-- 标题 -->
+    <view class="title">
+      <text class="title-text">赛博畅吸</text>
+      <text class="subtitle">CYBER SMOKE</text>
+    </view>
+
+    <!-- 健康提示（移至顶部） -->
+    <view class="health-warning">
+      <text class="warning-text">未成年青少年禁止吸烟</text>
+      <text class="warning-text">吸烟有害健康</text>
+    </view>
+
+    <!-- 香烟区域 -->
+    <view class="cigarette-area">
+      <view class="cigarette" :class="{ burning: isBurning }" :style="{ width: cigaretteWidth + 'rpx' }">
+        <!-- 烟身 -->
+        <view class="body" :style="{ height: cigaretteLength + 'vh' }">
+          <view class="cigarette-paper">
+            <!-- 烧焦边缘 -->
+            <view class="burn-edge" v-if="isBurning" :style="{ top: burnProgress + '%' }"></view>
+
+            <view class="ember" v-if="isBurning" :style="{ top: `calc(${burnProgress}% - 10rpx)` }"></view>
+
+            <!-- 竖纹 -->
+            <view class="thread-pattern"></view>
+
+            <!-- 烟灰 -->
+            <view class="burned-ash" v-if="burnProgress > 0" :style="{ height: burnProgress + '%', top: 0 }">
+            </view>
           </view>
         </view>
-        <view class="off" @click="kefushow = false">
-          <uni-icons type="close" color="#fff" size="45" />
+
+        <!-- 烟嘴 -->
+        <view class="filter">
+          <!-- 中华标识 -->
+          <view class="brand-label">
+            <text class="brand-text">{{ cigaretteBrand }}</text>
+          </view>
+          <!-- 英文标识 -->
+          <text class="brand-text-eng">CHUNGHWA</text>
+          <!-- 高光线 -->
+          <view class="highlight-line"></view>
+        </view>
+      </view>
+
+      <!-- 烟雾粒子 -->
+      <view class="smoke-particles">
+        <view class="smoke-particle" v-for="(particle, index) in smokeParticles" :key="index" :style="{
+          left: particle.x + 'px',
+          top: particle.y + 'px',
+          opacity: particle.opacity,
+          transform: `scale(${particle.scale})`
+        }" />
+      </view>
+
+    </view>
+
+    <!-- 控制按钮（移至香烟左侧垂直排列） -->
+    <view class="controls left-controls">
+      <view class="control-btn light-btn" @click="startBurning" :disabled="isBurning">
+        <text class="btn-text">点火</text>
+      </view>
+      <view class="control-btn extinguish-btn" @click="extinguishCigarette"
+        :disabled="!isBurning || isBurning && !isActivelyBurning">
+        <text class="btn-text">熄灭</text>
+      </view>
+      <view class="control-btn mode-btn" @click="toggleSmokeMode">
+        <text class="btn-text">
+          {{ smokeMode === 'segment' ? '节俭模式' : '土豪模式' }}
+        </text>
+      </view>
+      <view class="control-btn reset-btn" @click="resetCigarette">
+        <text class="btn-text">再来一根</text>
+      </view>
+    </view>
+
+    <view class="controls right-controls">
+      <view class="control-btn want-btn" @click="showCigarettePopup = true">
+        <text class="btn-text">我想吸</text>
+      </view>
+      <view class="control-btn info-btn" @click="showInfoPopup = true">
+        <text class="btn-text">玩法说明</text>
+      </view>
+    </view>
+
+    <!-- 状态显示 -->
+    <view class="status">
+      <text class="mode-text">模式：{{ smokeMode == 'segment' ? '断续吸烟' : '一吸到底' }}</text>
+      <text class="status-text">{{ statusText || '香烟已点燃' }}</text>
+      <text class="burn-progress">燃烧进度: {{ burnProgress.toFixed(2) }}%</text>
+      <text class="cloud-status" :class="{ active: isCloudEffectActive }">
+        云雾效果: {{ isCloudEffectActive ? '吐雾中' : '吸烟中' }}
+      </text>
+    </view>
+
+    <!-- 模式切换动画提示 -->
+    <view class="mode-transition-animation" v-if="showModeTransition" :class="{ 'fade-in': isFadingIn, 'fade-out': isFadingOut }">
+      <view class="mode-transition-text">{{ smokeMode === 'segment' ? '已切换到节俭模式' : '已切换到土豪模式' }}</view>
+    </view>
+
+    <u-popup v-model="showInfoPopup" mode="center" :mask-close-able="true" border-radius="20">
+      <view class="info-popup-content">
+        <view class="info-title">玩法说明</view>
+        <view class="info-desc">
+          <view>1. 通过真实的视觉和声音效果，让用户在屏幕上"吸烟"，无须点燃真实香烟，体验虚拟吸烟的乐趣。</view>
+          <view>2. 解决公共场所或上班状态不能吸烟的痛楚！</view>
+          <view>3. 对着充电口吹气，燃烧速度更快哦！</view>
+          <view>4. 赛博畅吸市面上的香烟或特供香烟！</view>
+          <view>5. 商业玩法合作加V: xcooo88</view>
+        </view>
+        <view class="info-btns">
+          <view class="info-close-btn" @click="showInfoPopup = false">我知道了</view>
         </view>
       </view>
     </u-popup>
+
+    <u-popup v-model="showCigarettePopup" mode="center" :mask-close-able="true" width="90%" border-radius="20"
+      @close="cigarettePopupClose">
+      <view class="cigarette-popup-content">
+        <view class="info-title">自定义香烟</view>
+        <view class="cigarette-form">
+          <view class="form-row">
+            <text class="form-label">香烟品牌：</text>
+            <u-input class="form-input" v-model="cigaretteBrand" placeholder="请输入品牌名" />
+          </view>
+          <view class="form-row">
+            <text class="form-label">香烟宽度：</text>
+            <u-input class="form-input" v-model.number="cigaretteWidth" type="number" min="40" max="200" />
+          </view>
+        </view>
+        <view class="info-btns">
+          <view class="info-close-btn" @click="showCigarettePopup = false">取消</view>
+          <view class="info-close-btn confirm" @click="applyCigaretteStyle">确认</view>
+        </view>
+      </view>
+    </u-popup>
+
   </view>
 </template>
 
 <script>
-const switchMp3 = 'https://www.img.xcooo.cn/uploads/2024/02/17887756404cea30.mp3'
-const switchMusic = uni.createInnerAudioContext();
-const bgMp3 = ''
-const bgMusic = uni.createInnerAudioContext();
-import { mapGetters } from 'vuex'
+import CloudBackgroundBlack from '@/components/cloudBackground/CloudBackgroundBlack'
 export default {
-  name: 'home',
+  name: 'CyberSmoke',
   components: {
-
+    CloudBackgroundBlack
   },
   data () {
     return {
-      show: false,
-      showHome: false,
-      background: ['color1', 'color2', 'color3'],
-      indicatorDots: false,
-      autoplay: true,
-      interval: 2000,
-      duration: 500,
-      logList: [],
-      popContent: [],
-      // 下拉刷新的配置(可选, 绝大部分情况无需配置)
-      downOption: {
-        use: false,
-        auto: false
-      },
-      // 上拉加载的配置(可选, 绝大部分情况无需配置)
-      upOption: {
-        auto: true,
-        page: {
-          size: 20 // 每页数据的数量,默认10
-        }
-      },
-      listData: [],
-      optionsData: '',
-      swiperList: [],
-      muteBgMusic: true,
-      currentIndex: 0,
-      cateList: [
-        {
-          id: 1,
-          title: '一番赏'
-        },
-        {
-          id: 2,
-          title: '无限赏',
-        },
-        {
-          id: 999,
-          title: '快乐发车',
-        },
-        // {
-        //   id: 3,
-        //   title: '全局赏',
-        // },
-        // {
-        //   id: 4,
-        //   title: '擂台赏',
-        // },
-        // {
-        //   id: 5,
-        //   title: '领主赏',
-        // },
-      ],
-      is_new: '',
-      site_title: '',
-      menuList: [
-        { type: 1, url: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01uRkdPX24NdcZ5u7Vp_!!2200676927379.png' },
-        { type: 2, url: 'https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01sIj9rw24NdcWm4MCW_!!2200676927379.png' },
-        { type: 3, url: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN0173kj5C24NdcQxGPxq_!!2200676927379.png' },
-        { type: 4, url: 'https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01Xq8mdT24NdcVtNaLl_!!2200676927379.png' }
-      ],
-      userInfo: '',
-      kefushow: false,
-      wx_group: ''
+      isBurning: true,
+      isActivelyBurning: false,
+      smokeParticles: [],
+      stars: [],
+      animationFrameId: null,
+      statusText: '香烟已点燃',
+      burnProgress: 1,
+      burnTriggerPoints: [],
+      triggeredPoints: new Set(),
+      smokeMode: 'segment',
+      segmentTimer: null,
+      audioManager: null,
+      showInfoPopup: false,
+      showCigarettePopup: false,
+      cigaretteBrand: '中华',
+      cigaretteWidth: 80,
+      cigaretteLength: 60,
+      // 云雾效果控制
+      cloudEffectTimer: null,
+      isCloudEffectActive: false,
+      // 模式切换动画控制
+      showModeTransition: false,
+      isFadingIn: false,
+      isFadingOut: false,
+      modeTransitionTimer: null
     }
   },
-  onLoad (options) {
-    this.optionsData = options
-    // 推广码获取
-    // console.log('参数', options)
-    let invite_code = this.getUrlCode().invite_code
-    if (invite_code) {
-      uni.setStorageSync('invite_code', invite_code);
-    }
-
-    // 微信二维码undo
-    if (options.scene) {
-      let invite_code = decodeURIComponent(options.scene)
-      let index = invite_code.indexOf('=') + 1
-      if (index > 0) {
-        invite_code = invite_code.slice(index, invite_code.length)
-        uni.setStorageSync('invite_code', invite_code);
-      } else {
-        uni.setStorageSync('invite_code', invite_code);
-      }
-    }
-
-    // #ifdef H5
-    this.wxH5Code = this.getUrlCode().code // 截取code
-    // console.log(this.wxH5Code)
-    if (this.wxH5Code) {
-      this.getOpenid() //获取openid
-    }
-    // #endif
-
-    switchMusic.src = switchMp3
-
-    this.$store.dispatch('getAppConfig').then((res) => {
-      this.site_title = res.data.site_title
-      this.wx_group = res.data.wx_group
-      this.popContent = [res.data.pop_con]
-      if (res.data.bg_music) {
-        bgMusic.src = res.data.bg_music
-        bgMusic.autoplay = false;
-        bgMusic.loop = false;
-      }
-    })
+  mounted () {
+    this.initStars();
+    this.generateTriggerPoints();
+    this.startAnimationLoop();
+    this.initAudioManager();
   },
-  onShow () {
-    this.$store.dispatch('getUserInfo').then(res => {
-      console.log(res)
-      this.userInfo = res.data
-    })
-    this.getSwiperList()
-    this.getLog()
-    this.getList({ num: 1, size: 20 })
-  },
-  onUnload () {
-    // bgMusic.pause()
-  },
-  computed: {
-    ...mapGetters(['sysConfig'])
+  beforeDestroy () {
+    cancelAnimationFrame(this.animationFrameId);
+    this.stopCloudEffect();
+    this.clearModeTransitionTimer();
   },
   methods: {
-    changeIndex (item, index) {
-      if (item.id == 999) {
-        this.$common.to({
-          url: '/pages/box/roomlist'
-        })
-      } else {
-        this.currentIndex = index
-        if (item.sort) {
-          if (item.sortType !== 4) {
-            item.sortType = 4
-          } else {
-            item.sortType = 5
-          }
-        } else {
-          this.cateList.map(item => {
-            item.sortType = ''
-          })
-        }
-        if (item.is_new) {
-          this.is_new = 2
-        } else {
-          this.is_new = ''
-        }
-        this.listData = []
-        this.mescroll.resetUpScroll()
-        this.mescroll.scrollTo(0, 0)
+    generateTriggerPoints () {
+      this.burnTriggerPoints = [];
+      this.triggeredPoints.clear();
+
+      // 生成3-6个随机触发点，分布在15%-85%之间
+      const numPoints = 3 + Math.floor(Math.random() * 4); // 3-6个点
+
+      // 将进度范围分成几个区间，每个区间随机生成一个触发点
+      const progressRange = 70; // 85% - 15% = 70%
+      const intervalSize = progressRange / numPoints;
+
+      for (let i = 0; i < numPoints; i++) {
+        const minProgress = 15 + (i * intervalSize);
+        const maxProgress = minProgress + intervalSize;
+        // 在每个区间内随机生成，但避免边界
+        const triggerPoint = minProgress + 5 + Math.random() * (intervalSize - 10);
+        this.burnTriggerPoints.push(triggerPoint);
       }
 
+      // 按进度排序
+      this.burnTriggerPoints.sort((a, b) => a - b);
+
+      console.log('生成的触发点:', this.burnTriggerPoints.map(p => p.toFixed(2)));
     },
-    playMusic () {
-      this.muteBgMusic = !this.muteBgMusic;
-      this.$nextTick(() => {
-        if (switchMusic) {
-          switchMusic.play()
-        }
-      })
-      if (!this.muteBgMusic) {
-        bgMusic.play()
-      } else {
-        bgMusic.pause()
+    initStars () {
+      for (let i = 0; i < 50; i++) {
+        this.stars.push({
+          x: Math.random() * 750,
+          y: Math.random() * 1334,
+          delay: Math.random() * 3
+        });
       }
     },
-    jump () {
-      uni.navigateTo({
-        url: '/pages/index/web-view?url=https://mp.weixin.qq.com/s?__biz=Mzg3NDY2Njg2MQ==&tempkey=MTI2N19WL29GSlhRMm9kWTBZNTdHeFNHR1U3X2RBaDMwNDIydVlnR3prQ2FDdnJmNGhxVDBORTV6MTY1QW9BWmNRalo5QTNVVmw2dUFyNVFLSWI2azRqZDFFV1FiXzRtOUJxNFhPRnVfaW01ekg2VGVqRGxyMktvdk9Kdlp4X2xmM1hmemI4c0xPLUc2S2JyeVlJYlBUOVBUTW1qOWhjdElpd1R2UFBBUDBnfn4%3D&chksm=4ecc0f3579bb8623030d4931b5f19995fae2b69ef8ed909f1cbbe68cda5e90a44102c5a93430#rd',
-        success: (result) => {
+    startAnimationLoop () {
+      const loop = () => {
+        this.updateSmokeParticles();
+        this.updateBurnProgress();
+        this.animationFrameId = requestAnimationFrame(loop);
+      };
+      loop();
+    },
+    updateSmokeParticles () {
+      if (!this.isBurning) return;
 
-        },
-        fail: () => { },
-        complete: () => { }
+      if (this.smokeParticles.length < 10 && Math.random() < 0.2) {
+        this.smokeParticles.push({
+          x: 40 + Math.random() * 40,
+          y: 0,
+          opacity: 0.4,
+          scale: 0.6,
+          rotation: 0,
+          startTime: Date.now(),
+          life: 6000,
+        });
+      }
+
+      const now = Date.now();
+      this.smokeParticles.forEach(p => {
+        const progress = (now - p.startTime) / p.life;
+        p.y = -progress * 500;
+        p.x += Math.sin(progress * Math.PI) * 10;
+        p.scale = 0.6 + progress * 0.9;
+        p.opacity = Math.max(0, 0.4 * (1 - progress));
       });
+
+      this.smokeParticles = this.smokeParticles.filter(p => (Date.now() - p.startTime) < p.life);
     },
-    jump2 () {
-      console.log(123)
-      uni.navigateTo({
-        url: 'https://www.cwhm1.xcooo.cn/#/'
-      })
-    },
-    getSwiperList () {
-      /* 获取轮播图 */
-      this.$common.getBanner(1).then(res => {
-        this.swiperList = res
-      })
-    },
-    getUrlCode () { //
-      var url = location.search
-      var theRequest = new Object()
-      if (url.indexOf("?") != -1) {
-        var str = url.substr(1)
-        var strs = str.split("&")
-        for (var i = 0; i < strs.length; i++) {
-          theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1])
+    updateBurnProgress () {
+      if (this.isActivelyBurning && this.burnProgress < 100) {
+        const base = 0.15;
+        const jitter = (Math.random() - 0.5) * 0.2;
+        this.burnProgress += base + jitter;
+
+        if (this.burnProgress >= 100) {
+          this.burnProgress = 100;
+          this.isActivelyBurning = false;
+          this.statusText = '香烟已燃尽';
+
+          this.stopCloudEffect();
+
+          if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+          }
         }
+
+        // 检查是否到达任何触发点
+        this.burnTriggerPoints.forEach((triggerPoint, index) => {
+          if (this.burnProgress >= triggerPoint && !this.triggeredPoints.has(index)) {
+            this.triggeredPoints.add(index);
+            if (this.audioManager) this.audioManager.play('cloud');
+
+            // 启动云雾效果
+            this.startCloudEffect();
+
+            console.log(`燃烧进度到达触发点 ${index + 1}: ${triggerPoint.toFixed(2)}%`);
+          }
+        });
       }
-      return theRequest
     },
-    getOpenid () { //获取opendi
-      this.req({
-        url: '/v1/shop/wxLogin',
-        data: {
-          code: this.wxH5Code,
-          invite_code: uni.getStorageSync('invite_code')
-        },
-        success: res => {
-          if (res.code == 200) {
-            if (res.code == 200) {
-              uni.setStorageSync(
-                'token',
-                `${res.data.token_type}${res.data.access_token}`
-              )
-
-              // setTimeout(() => {
-              //   uni.showToast({
-              //     title: '登录成功',
-              //     icon: 'success',
-              //     mask: true
-              //   })
-              // }, 100)
-
-              setTimeout(() => {
-                this.pageTo('wxH5')
-              }, 500)
-            }
-          }
-        }
-      })
-    },
-    /**
- * @description: 统一处理登录后页面跳转传参
- * @param {*}
- * @return {*}
- */
-    pageTo (wx) {
-      this.$store.dispatch('getUserInfo').then(() => {
-        let pages = getCurrentPages()
-        console.log(pages)
-
-        console.log('this.optionsData', this.optionsData)
-        let data = ''
-        if (this.optionsData) {
-          let query = this.optionsData
-          if (this.optionsData.page == 'package/fuli/fuli-detail') {
-            query.is_new = 1
-          }
-          data = query
-        }
-        /* 小程序码进入 */
-        if (this.optionsData.scene) {
-          let query = {}
-          let arr = this.optionsData.scene.split('_')
-          /**
-           * 小程序码参数为 1_1_1 格式 参数间通过_分隔
-           * 参数1为类型,之后参数为与后台约定的参数
-           * 类型:
-           * 1 幸运盒子 参数1为分享人id,参数2为盒子id
-           * 未完待续...
-           */
-          if (arr[0] == 1) {
-            query.userId = arr[1]
-            query.id = arr[2]
-          }
-          data = query
-        }
-        if (wx) {
-          // 清理 URL 中的参数部分
-          this.clearUrlParams();
-          uni.switchTab({
-            url: '/pages/home/index'
-          })
-        }
-
-        uni.redirectTo({
-          url: `${this.optionsData.page}${this.$common.qs(this.optionsData)}`,
-          fail: err => {
-            console.log('跳转失败--', this.optionsData.page)
-            uni.switchTab({
-              url: `${this.optionsData.page}`
-            })
-          }
-        })
-      })
-    },
-    clearUrlParams () {
-      // 获取当前 URL
-      let url = window.location.href;
-      // 找到 URL 中的参数部分
-      let index = url.indexOf('?');
-      if (index > -1) {
-        // 移除参数部分
-        url = url.substring(0, index);
-      }
-      // 使用 History API 替换当前 URL
-      history.replaceState(null, '', url);
-    },
-    /**
-* @description: 中奖记录
-* @return {*}
-*/
-    getLog () {
-      this.req({
-        url: '/v1/box/log',
-        data: {},
-        Loading: true,
-        success: res => {
-          if (res.code == 200) {
-            this.logList = res.data
-          }
-        }
-      })
-    },
-    /**
-* @description: 获取商品列表数据
-* @param {*}
-* @return {*}
-*/
-    getList ({
-      num,
-      size
-    }) {
-
-      let data = {
-        page: num,
-        per_page: size,
-        sort_type: '',
-        is_new: this.is_new,
-        type: 1,
-        box_type: this.cateList[this.currentIndex].id
-      }
-      if (this.cateList[this.currentIndex].id != 4) {
-        data.sort_type = this.cateList[this.currentIndex].id
+    startSmoking () {
+      if (this.smokeMode === 'segment') {
+        this.startSegmentSmoking();
       } else {
-        data.sort_type = this.cateList[this.currentIndex].sortType
+        this.startContinuousSmoking();
       }
-      this.req({
-        url: '/v1/box/homeList',
-        data,
-        Loading: true,
-        success: res => {
-          if (res.code == 200) {
-            if (num == 1) {
-              this.listData = []
-            }
-            this.listData = [...this.listData, ...res.data.data]
-            this.mescroll.endBySize(res.data.data.length, res.data.total)
-          } else {
-            this.mescroll.endBySize(0, 0)
-          }
-        }
-      })
     },
-    toDetail (item) {
-      switch (item.box_type) {
-        case 1:
-          this.$common.to({
-            url: '/pages/box/firstReward',
-            query: {
-              id: item.id
-            }
-          })
-          break
-        case 2:
-          this.$common.to({
-            url: '/pages/box/kaixiang',
-            query: {
-              id: item.id
-            }
-          })
-          break
+    startSegmentSmoking () {
+      if (this.segmentTimer) clearTimeout(this.segmentTimer);
+
+      const inhale = () => {
+        if (!this.isBurning || this.burnProgress >= 100) return;
+
+        this.isActivelyBurning = true;
+
+        const inhaleDuration = 600 + Math.random() * 600;
+
+        setTimeout(() => {
+          this.isActivelyBurning = false;
+
+          const pauseDuration = 2000 + Math.random() * 2000;
+
+          this.segmentTimer = setTimeout(() => {
+            inhale();
+          }, pauseDuration);
+        }, inhaleDuration);
+      };
+
+      const initialDelay = 500 + Math.random() * 800;
+      this.segmentTimer = setTimeout(() => {
+        inhale();
+      }, initialDelay);
+    },
+    startContinuousSmoking () {
+      if (this.segmentTimer) clearTimeout(this.segmentTimer);
+      this.isActivelyBurning = true;
+    },
+    stopSmoking () {
+      if (this.segmentTimer) clearTimeout(this.segmentTimer);
+      this.isActivelyBurning = false;
+    },
+    startBurning () {
+      if (this.burnProgress == 100) {
+        uni.showToast({
+          title: '本只已抽完，请再来一根',
+          icon: 'none',
+          duration: 2000
+        });
+        return
+      }
+      if (this.audioManager) this.audioManager.play('startBurning');
+      if (this.smokeMode === 'segment') {
+        this.startSegmentSmoking();
+      } else {
+        this.startContinuousSmoking();
+      }
+    },
+    cigarettePopupClose () {
+      if (this.cigaretteBrand == '') {
+        this.cigaretteBrand = '中华'
+      }
+    },
+    extinguishCigarette () {
+      this.stopSmoking();
+      this.stopCloudEffect();
+      this.statusText = '香烟已熄灭';
+    },
+    resetCigarette () {
+      this.generateTriggerPoints();
+      this.stopCloudEffect();
+      this.stopSmoking();
+      this.isBurning = true;
+      this.isActivelyBurning = false;
+      this.burnProgress = 1;
+      this.statusText = '香烟已点燃';
+      this.smokeParticles = [];
+      this.stars = [];
+      this.initStars();
+      if (this.animationFrameId) {
+        cancelAnimationFrame(this.animationFrameId);
+        this.animationFrameId = null;
+      }
+      this.startAnimationLoop();
+    },
+    toggleSmokeMode () {
+      this.stopSmoking();
+      if (this.smokeMode === 'segment') {
+        this.smokeMode = 'continuous';
+        this.startContinuousSmoking();
+      } else {
+        this.smokeMode = 'segment';
+        this.startSegmentSmoking();
       }
 
+      // 显示模式切换动画
+      this.showModeTransitionAnimation();
     },
-    goRoom () {
-      this.$common.to({
-        url: '/pages/rightTouch/list'
-      })
-    },
-    goTower () {
-      this.$common.to({
-        url: '/pages/box/tower'
-      })
-    },
-    goMenu (item) {
-      console.log(item)
-      switch (item.type) {
-        case 1:
-          this.$common.to({
-            url: '/pages/index/sign',
-          })
-          break
-        case 2:
-          this.$common.to({
-            type: 3,
-            url: '/pages/tabBar/charts',
-          })
-          break
-        case 3:
-          if (!this.userInfo) {
-            uni.showToast({
-              title: '登录后再操作',
-              icon: 'none',
-              mask: true
-            })
-            return
+    initAudioManager () {
+      this.audioManager = {
+        audios: {
+          startBurning: new Audio(require('@/static/sounds/startBurning.mp3')),
+          cloud: new Audio(require('@/static/sounds/cloud.mp3')),
+        },
+        play (name) {
+          const audio = this.audios[name];
+          if (audio) {
+            audio.currentTime = 0;
+            audio.play();
           }
-          let url
-          if (this.userInfo.level == 2) {
-            url = '/package/mine/daili'
-          } else {
-            url = '/package/mine/yaoqing'
+        },
+        stop (name) {
+          const audio = this.audios[name];
+          if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
           }
-          this.$common.to({
-            tabCur: 1,
-            url,
-          })
-          break
-        case 4:
-          this.kefushow = true
-          break
+        }
+      };
+    },
+    applyCigaretteStyle () {
+      this.showCigarettePopup = false;
+    },
+    // 启动云雾效果
+    startCloudEffect () {
+      // 如果云雾效果已经在运行，延长持续时间而不是重新启动
+      if (this.isCloudEffectActive && this.cloudEffectTimer) {
+        clearTimeout(this.cloudEffectTimer);
+
+        // 延长云雾效果持续时间（额外2-4秒）
+        const extendedDuration = 2000 + Math.random() * 2000;
+
+        this.cloudEffectTimer = setTimeout(() => {
+          this.stopCloudEffect();
+        }, extendedDuration);
+
+        console.log(`云雾效果延长，额外持续时间: ${(extendedDuration / 1000).toFixed(1)}秒`);
+        return;
+      }
+
+      // 启动新的云雾效果
+      this.isCloudEffectActive = true;
+      this.$refs.cloudBackgroundBlack.start();
+
+      // 设置云雾效果持续时间（3-6秒随机）
+      const cloudDuration = 3000 + Math.random() * 3000;
+
+      // 定时停止云雾效果
+      this.cloudEffectTimer = setTimeout(() => {
+        this.stopCloudEffect();
+      }, cloudDuration);
+
+      console.log(`云雾效果启动，持续时间: ${(cloudDuration / 1000).toFixed(1)}秒`);
+    },
+
+    // 停止云雾效果
+    stopCloudEffect () {
+      this.isCloudEffectActive = false;
+      this.$refs.cloudBackgroundBlack.stop();
+      if (this.cloudEffectTimer) {
+        clearTimeout(this.cloudEffectTimer);
+        this.cloudEffectTimer = null;
+      }
+      console.log('云雾效果已停止');
+    },
+    
+    // 显示模式切换动画
+    showModeTransitionAnimation() {
+      this.clearModeTransitionTimer();
+      
+      // 重置动画状态
+      this.showModeTransition = true;
+      this.isFadingIn = true;
+      this.isFadingOut = false;
+      
+      // 淡入动画 (1秒)
+      setTimeout(() => {
+        this.isFadingIn = false;
+        
+        // 保持显示 (3秒)
+        setTimeout(() => {
+          this.isFadingOut = true;
+          
+          // 淡出动画 (1秒)
+          setTimeout(() => {
+            this.showModeTransition = false;
+            this.isFadingOut = false;
+          }, 1000);
+        }, 3000);
+      }, 1000);
+    },
+    
+    // 清除模式切换动画定时器
+    clearModeTransitionTimer() {
+      if (this.modeTransitionTimer) {
+        clearTimeout(this.modeTransitionTimer);
+        this.modeTransitionTimer = null;
       }
     }
-  },
+  }
 }
 </script>
 
-<style lang='scss' scoped>
-.cate-wrap {
+
+<style lang="scss" scoped>
+.cyber-smoke-container {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  position: relative;
+  overflow: hidden;
   display: flex;
-  margin: 20rpx 0;
+  flex-direction: column;
+  align-items: center;
 
-  .cate-item {
-    color: #777;
-    font-size: 30rpx;
-    font-weight: 700;
-    margin-right: 20rpx;
-    text-align: center;
-    padding: 5rpx 15rpx;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s;
-    padding-bottom: 10rpx;
-    white-space: nowrap;
-    /* 确保文字不换行 */
-    position: relative;
-    /* 设置为相对定位，为伪元素提供定位上下文 */
-
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-
-  .cate-item-active {
-    color: #333333;
-  }
-
-  .cate-item-active::after {
-    content: '';
-    display: block;
-    width: 60rpx;
-    height: 10rpx;
-    background-color: #333333;
+  .background {
     position: absolute;
-    bottom: -5rpx;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-
-.home-page {
-  background: linear-gradient(to bottom, #eefde9, #00f2fe);
-  background: linear-gradient(to bottom, #eefde8, #ffffff);
-  padding: 0 30rpx;
-  padding-top: 20rpx;
-
-
-  .title-wrap {
-    display: flex;
-    align-items: center;
-    color: #000;
-    font-size: 40rpx;
-    font-weight: 700;
-    margin-bottom: 40rpx;
-  }
-
-  .notice-view {
-    position: relative;
-
-    ::v-deep .u-type-warning-light-bg {
-      // background: url('https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01Os5AxC24NdWqqcdWy_!!2200676927379.png') no-repeat;
-      // background-size: 100vw 100%;
-      border: 2rpx solid #000;
-      border-radius: 50rpx;
-      background-color: #f8fdf6;
-    }
-
-    ::v-deep .u-notice-bar {
-      padding: 20rpx 20rpx !important;
-      padding-right: 40rpx !important;
-    }
-
-    .notice-more {
-      width: 150rpx;
-      height: 100%;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-
-  }
-
-
-
-  .box-wrap {
-    margin-bottom: 20rpx;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .new-box-title {
-    height: 82rpx;
-    background: url('https://www.img.xcooo.cn/uploads/2024/03/a8a8919fa7bf9c39.png') no-repeat;
-    background-size: 100% 100%;
-    position: relative;
-
-    .new-img {
-      width: 62px;
-      height: 62px;
-      position: absolute;
-      right: 15px;
-      bottom: -30px;
-    }
-  }
-
-  .box-list {
-    width: 100%;
-    height: 156px;
-    margin: 15px auto;
-    border-radius: 5px;
-    overflow: hidden;
-    box-sizing: border-box;
-    display: flex;
-    background-color: #fff;
-    justify-content: space-between;
-    align-items: center;
-    padding: 13px 31px;
-    background: url('https://www.img.xcooo.cn/uploads/2024/03/0c164d87c844fa6d.png') no-repeat;
-    // background-size: 358px 156px;
-    background-size: 100% 100%;
-  }
-
-  .new-box-content {
-    height: 270rpx;
-    box-sizing: border-box;
-    border: 2px solid #cb5967;
-    margin: 0;
-    background: none;
-  }
-
-  .box-list-left {
-    width: 104px;
-    height: 104px;
-    flex-shrink: 0;
-    margin-right: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-
-  .good-list-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .box-list-right-name-2 {
-    margin-top: 20px;
-    height: 40px;
-    font-size: 14px;
-    color: #000;
-    font-weight: 700;
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-
-  .box-list-right-Zprice-active {
-    width: 156px;
-    height: 41px;
-    -webkit-animation: newBtn 2s linear infinite;
-    animation: newBtn 2s linear infinite;
-    margin-top: 5px;
-    display: flex;
-    margin-bottom: 36rpx;
-
-    box-sizing: border-box;
-
-    image {
-      width: 100%;
-      height: 100% !important;
-    }
-  }
-
-  @keyframes newBtn {
-    0% {
-      transform: scale(1);
-    }
-
-    50% {
-      transform: scale(1.1);
-    }
-
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  .box-list-right-Zprice-image {
     width: 100%;
     height: 100%;
+    z-index: 1;
+
+    .stars {
+      position: absolute;
+      width: 4rpx;
+      height: 4rpx;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle 3s infinite;
+    }
   }
 
-  .price-view-0 {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .product-price-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .price-view-0-right {
-    font-size: 26rpx;
-    color: #e20014;
-    margin-left: 20rpx;
-  }
-
-  .box-list-right-Zprice-left {
-    color: #cb5967;
-    font-size: 12px;
+  .title {
+    margin-top: 20rpx;
     text-align: center;
-    // background: url('https://img.alicdn.com/imgextra/i3/2215984279448/O1CN01NeifUh2JfEvWYT4jM_!!2215984279448.png') no-repeat;
-    background-size: 100% 15px;
-    margin-right: 20rpx;
+    z-index: 10;
+
+    .title-text {
+      display: block;
+      font-size: 72rpx;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 0 0 40rpx #00ffff;
+      margin-bottom: 20rpx;
+    }
+
+    .subtitle {
+      display: block;
+      font-size: 32rpx;
+      color: #888;
+      letter-spacing: 6rpx;
+    }
   }
 
-  .box-list-right-Zprice-right {
-    font-size: 12px;
-    color: #cb5967;
-    // background: url('https://img.alicdn.com/imgextra/i3/2215984279448/O1CN01rX2qX22JfEvVkVh1w_!!2215984279448.png') no-repeat;
-    background-size: 100% 15px;
+  .health-warning {
+    margin-top: 20rpx;
+    text-align: center;
+    z-index: 10;
+    padding: 10rpx 20rpx;
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 20rpx;
+    border: 2rpx solid rgba(255, 0, 0, 0.3);
+
+    .warning-text {
+      display: block;
+      font-size: 24rpx;
+      color: #ff4444;
+      margin-bottom: 4rpx;
+      font-weight: bold;
+      text-shadow: 0 0 4rpx rgba(255, 68, 68, 0.5);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 
-
-
-  .box-img-0 {
-    height: 82rpx;
-    width: 100%;
-    margin-top: 10rpx;
-    padding: 0 16rpx;
-    padding-left: 0;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .box-img-0-view {
-    width: 41px;
-    height: 41px;
-    background-color: #9400d3;
-    border-radius: 5px;
-    overflow: hidden;
-  }
-
-  .flip-box {
+  .cigarette-area {
     position: relative;
-    -webkit-animation: flip 4s linear infinite;
-    animation: flip 4s linear infinite;
-
-    .front {
-      z-index: 2;
-      -webkit-transform: rotateY(0deg);
-      transform: rotateY(0deg);
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-
-      .front-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    .back {
-      -webkit-transform: rotateY(-180deg);
-      transform: rotateY(-180deg);
-      z-index: 1;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-
-      .back-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-
-  }
-
-  @keyframes flip {
-    0% {
-      transform: rotateY(0deg);
-    }
-
-    50% {
-      transform: rotateY(180deg);
-    }
-
-    100% {
-      transform: rotateY(0deg);
-    }
-  }
-
-  .show-more {
-    background-color: #fff;
-    font-size: 12px;
+    margin-top: 100rpx;
+    margin-bottom: 50rpx;
     display: flex;
     justify-content: center;
+    z-index: 10;
+  }
+
+  .cigarette {
+    width: 80rpx;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    color: #222;
-    background-color: hsla(0, 0%, 100%, .2);
-    opacity: .9;
-    border: 1rpx solid #de8bfb;
-    color: #de8bfb;
-    font-weight: 700;
+    position: relative;
   }
 
-}
-
-.xc-popup {
-
-  // width: 540rpx;
-  .link-wrap {
-    width: 85vw;
-    padding: 40rpx 20rpx;
-
-    .link-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 20rpx;
-      text-align: center;
-    }
-
-    .link-url {
-      margin: 0 20rpx;
-      color: #62C234;
-      margin: 10rpx 0;
-      display: block;
-      word-break: break-all;
-    }
-
-    .link-desc {
-      margin-bottom: 40rpx;
-    }
-
-    .link-btn {
-      // margin: 0 20rpx;
-    }
-  }
-}
-
-
-.home2 {
-  height: 100%;
-}
-
-.home-img {
-  width: 100%;
-  height: 50vh;
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.carousel-wrapper {
-  margin: 20rpx 0;
-  width: 100%;
-  height: 430rpx;
-  background: url('https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01tjFpM424NdcXuqPIF_!!2200676927379.png') no-repeat center center;
-  background: url('https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01AhqTji24NdccWFycV_!!2200676927379.png') no-repeat center center;
-  background-size: cover;
-}
-
-.carousel-background {
-  width: 100%;
-  height: 100%;
-  padding: 10rpx 20rpx;
-  position: relative;
-  top: 130rpx;
-
-  .carousel {
-    border-radius: 20rpx;
+  .body {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    background: linear-gradient(135deg,
+        #ffffff 0%,
+        #f8f8f8 30%,
+        #f0f0f0 50%,
+        #e8e8e8 70%,
+        #e0e0e0 100%);
+    border-radius: 12rpx 12rpx 0 0;
     overflow: hidden;
-    transform: translateY(0);
-  }
+    border: 2rpx solid #d0d0d0;
+    box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2), 0 2rpx 4rpx rgba(0, 0, 0, 0.1),
+      inset 0 2rpx 4rpx rgba(255, 255, 255, 0.8),
+      inset 0 -2rpx 4rpx rgba(0, 0, 0, 0.1);
 
-  .carousel-item {
-    width: calc(100vw - 60rpx);
-    height: calc(50vw - 30rpx);
-
-    image {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
+      background: linear-gradient(135deg,
+          rgba(255, 255, 255, 0.6) 0%,
+          rgba(255, 255, 255, 0.3) 30%,
+          transparent 60%,
+          rgba(0, 0, 0, 0.1) 100%);
+      border-radius: 12rpx 12rpx 0 0;
+      z-index: 3;
     }
-  }
 
-}
+    .cigarette-paper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(0deg,
+          #ffffff,
+          #ffffff 4rpx,
+          #f8f8f8 4rpx,
+          #f8f8f8 8rpx);
+      border-radius: 12rpx 12rpx 0 0;
 
-.wind-list {
-  position: absolute;
-  top: -10rpx;
-  width: 345px;
-  height: 50px;
-  background-size: 100% 100%;
-  box-sizing: border-box;
-  padding-top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
+      .burn-edge {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 24rpx;
+        background: radial-gradient(circle at 20% 60%, #4f4f4f, transparent 60%),
+          radial-gradient(circle at 50% 40%, #a9a9a9, transparent 60%),
+          radial-gradient(circle at 80% 50%, #696969, transparent 60%);
+        background-repeat: no-repeat;
+        background-size: cover;
+        filter: blur(1rpx);
+        z-index: 5;
+        pointer-events: none;
+        transition: top 0.2s linear;
+      }
 
-  .notice-main {
-    width: 100%;
+      .ember {
+        position: absolute;
+        width: 100%;
+        height: 5rpx;
+        border-radius: 6rpx;
+        background: radial-gradient(circle, #ff9933, #ff3300, transparent);
+        animation: emberFlicker 0.4s infinite alternate;
+        opacity: 0.7;
+        z-index: 6;
+      }
 
-    .notice-swiper {
-      height: 50px;
-      line-height: 50px;
+      .thread-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: repeating-linear-gradient(90deg,
+            transparent,
+            transparent 2rpx,
+            rgba(200, 200, 200, 0.2) 2rpx,
+            rgba(200, 200, 200, 0.2) 4rpx);
+        opacity: 0.4;
+      }
 
-      .swiper-item {
-        .notice-swiper-item {
+      .burned-ash {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: radial-gradient(circle at 20% 40%,
+            #4f4f4f 0%,
+            transparent 60%),
+          radial-gradient(circle at 60% 60%, #6e6e6e 0%, transparent 60%),
+          radial-gradient(circle at 80% 30%, #2f2f2f 0%, transparent 70%),
+          linear-gradient(to bottom, #a9a9a9 0%, #6e6e6e 50%, #2f2f2f 100%);
+        background-blend-mode: multiply;
+        border-radius: 12rpx 12rpx 0 0;
+        z-index: 2;
+        transition: height 0.1s ease-out;
+        height: 0;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
           width: 100%;
           height: 100%;
-          background-image: url('https://www.img.xcooo.cn/uploads/2024/02/0d14c37cd7a6649c.png');
-          background-size: 100% 100%;
-          display: flex;
-          justify-content: center;
-          padding: 0 40rpx;
-          box-sizing: border-box;
+          background-image: repeating-linear-gradient(45deg,
+              rgba(0, 0, 0, 0.1),
+              rgba(0, 0, 0, 0.1) 2rpx,
+              transparent 2rpx,
+              transparent 4rpx),
+            repeating-linear-gradient(-45deg,
+              rgba(255, 255, 255, 0.05),
+              rgba(255, 255, 255, 0.05) 3rpx,
+              transparent 3rpx,
+              transparent 6rpx);
+          opacity: 0.4;
+        }
 
-          .list-item-view {
-            display: flex;
-            align-items: center;
-            box-sizing: border-box;
-
-            .txxt-view {
-              display: flex;
-              align-items: center;
-              box-sizing: border-box;
-
-              .user-pic {
-                width: 36px;
-                height: 36px;
-                border-radius: 50%;
-                overflow: hidden;
-              }
-
-              .username {
-                width: 72px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                font-size: 12px;
-                color: #fff;
-              }
-
-              .goods_name {
-                width: 166px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                font-size: 12px;
-                color: #fff;
-                text-align: left;
-              }
-            }
-
-            .good-img {
-              width: 36px;
-              height: 36px;
-              border-radius: 50%;
-              overflow: hidden;
-              flex-shrink: 0;
-            }
-          }
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 8rpx;
+          background: radial-gradient(ellipse at center,
+              #000 0%,
+              transparent 80%);
+          filter: blur(4rpx);
+          opacity: 0.3;
         }
       }
     }
   }
-}
 
-.play-wrap {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  @keyframes emberFlicker {
+    from {
+      opacity: 0.3;
+      transform: scale(1);
+    }
 
-
-  .pd-img {
-    flex: 1;
-  }
-}
-
-.menu-container {
-  display: flex;
-  align-items: center;
-  padding: 20rpx 0;
-
-  .menu-item {
-    flex: 1;
-  }
-
-  .menu-image {
-    width: 100%;
-  }
-}
-
-
-
-// 列表项目
-.list-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20rpx;
-  padding: 20rpx;
-
-  .list-item {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    border-radius: 10rpx;
-    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1);
-
-  }
-
-  .item-image {
-    width: 100%;
-    height: 200rpx;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .item-title {
-    font-size: 28rpx;
-    color: #333;
-    margin-top: 20rpx;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0 20rpx;
-  }
-
-  .item-price {
-    font-size: 24rpx;
-    color: #e53e38;
-    padding: 20rpx 20rpx;
-    font-weight: 700;
-
-    .price {
-      font-size: 32rpx;
+    to {
+      opacity: 1;
+      transform: scale(1.1);
     }
   }
+
+  .filter {
+    width: 100%;
+    height: 20vh;
+    background: linear-gradient(135deg,
+        #e6c35c 0%,
+        #d9ab52 30%,
+        #c8943b 50%,
+        #b8860b 70%,
+        #a67c00 100%);
+    border-radius: 0 0 12rpx 12rpx;
+    border: 2rpx solid #9a6b1f;
+    box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2), 0 2rpx 4rpx rgba(0, 0, 0, 0.1),
+      inset 0 2rpx 4rpx rgba(255, 255, 255, 0.6),
+      inset 0 -2rpx 4rpx rgba(0, 0, 0, 0.2);
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg,
+          rgba(255, 255, 255, 0.4) 0%,
+          rgba(255, 255, 255, 0.2) 30%,
+          transparent 60%,
+          rgba(0, 0, 0, 0.1) 100%);
+      border-radius: 0 0 12rpx 12rpx;
+      z-index: 3;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(90deg,
+          transparent,
+          transparent 1rpx,
+          rgba(255, 255, 255, 0.1) 1rpx,
+          rgba(255, 255, 255, 0.1) 2rpx);
+      border-radius: 0 0 12rpx 12rpx;
+      opacity: 0.3;
+      z-index: 2;
+    }
+
+    .brand-label {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36rpx; /* 修改宽度为文字高度 */
+  background: linear-gradient(to bottom, #b40000 0%, #8b0000 100%);
+  border-radius: 18rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+  border: 2rpx solid #8b0000;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3),
+    inset 0 1rpx 2rpx rgba(255, 255, 255, 0.2);
+
+  .brand-text {
+    color: #ffd700;
+    font-size: 22rpx;
+    font-weight: bold;
+    font-family: "STKaiti", "KaiTi", "SimKai", serif;
+    text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.8);
+    letter-spacing: 8rpx; /* 增加字间距 */
+    writing-mode: vertical-rl; /* 垂直排列，从右到左 */
+    text-orientation: upright; /* 文字保持直立 */
+    padding: 10rpx 0; /* 上下内边距 */
+  }
 }
 
-::v-deep .u-mode-center-box {
-  background: transparent;
-}
+    .brand-text-eng {
+      position: absolute;
+      bottom: 6rpx;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10rpx;
+      color: #fff8dc;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      letter-spacing: 1rpx;
+      text-shadow: 2rpx 2rpx 2rpx rgba(0, 0, 0, 0.5);
+      z-index: 4;
+    }
 
-.bgbox {
-  background: url('https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01gTyc2924NdcXV2Wi1_!!2200676927379.png') no-repeat;
-  background-size: 100% 100%;
-  width: 540rpx;
-  height: 680rpx;
-  position: relative;
+    .highlight-line {
+      position: absolute;
+      top: 4rpx;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 2rpx;
+      background: linear-gradient(to right, transparent, #fff8dc, transparent);
+      opacity: 0.6;
+      z-index: 2;
+    }
+  }
 
-  .content {
+  .smoke-particles {
     position: absolute;
+    top: 0;
     left: 50%;
-    top: 60%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
+    width: 300rpx;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
 
-    .ma {
-      width: 300rpx;
-      height: 300rpx;
+    .smoke-particle {
+      position: absolute;
+      width: 120rpx;
+      height: 120rpx;
+      background: radial-gradient(circle at center,
+          rgba(255, 255, 255, 0.3) 0%,
+          rgba(240, 240, 240, 0.2) 40%,
+          rgba(200, 200, 200, 0.1) 70%,
+          transparent 100%);
+      border-radius: 50%;
+      filter: blur(12rpx);
+      animation: smokeCloudFloat 10s linear forwards;
+      opacity: 0.6;
+    }
+  }
 
-      image {
-        width: 100%;
-        height: 100%;
+  @keyframes smokeCloudFloat {
+    0% {
+      transform: scale(0.6) translate(0, 0);
+      opacity: 0.4;
+    }
+
+    100% {
+      transform: scale(1.5) translate(40rpx, -500rpx);
+      opacity: 0;
+    }
+  }
+
+  .controls {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 40rpx;
+    z-index: 10;
+  }
+
+  .left-controls {
+    left: 2%;
+  }
+
+  .right-controls {
+    right: 2%;
+  }
+
+  .control-btn {
+    padding: 24rpx 30rpx;
+    border: none;
+    border-radius: 50rpx;
+    font-size: 28rpx;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180rpx;
+    text-align: center;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-4rpx);
+      box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.3);
+    }
+
+    &:disabled {
+      background: #666;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .btn-text {
+      color: inherit;
+      font-weight: bold;
+    }
+
+    &.light-btn {
+      background: linear-gradient(45deg, #fff700, #ffea00);
+      color: rgb(143, 12, 12);
+      box-shadow: 0 0 30rpx rgba(255, 234, 0, 0.7);
+    }
+
+    &.extinguish-btn {
+      background: linear-gradient(45deg, #444444, #888888);
+      color: white;
+      box-shadow: 0 0 30rpx rgba(136, 136, 136, 0.5);
+    }
+
+    &.reset-btn {
+      background: linear-gradient(45deg, #4e00ff, #00d0ff);
+      color: white;
+      box-shadow: 0 0 30rpx rgba(0, 208, 255, 0.6);
+    }
+
+    &.mode-btn {
+      background: linear-gradient(45deg, #00c3ff, #ffff1c);
+      color: #222;
+      box-shadow: 0 0 30rpx rgba(0, 195, 255, 0.4);
+      margin-top: 20rpx;
+    }
+
+    &.info-btn {
+      background: linear-gradient(45deg, #ffb347, #ffcc33);
+      color: #222;
+      box-shadow: 0 0 30rpx rgba(255, 195, 0, 0.3);
+      margin-top: 20rpx;
+    }
+
+    &.want-btn {
+      background: linear-gradient(45deg, #ff7eb3, #ff758c);
+      color: #fff;
+      box-shadow: 0 0 30rpx rgba(255, 117, 140, 0.3);
+      margin-top: 20rpx;
+    }
+  }
+
+  .status {
+    text-align: center;
+    z-index: 10;
+    position: absolute;
+    top: 30%;
+    right: 1%;
+    transform: translateY(-50%);
+    border: 2rpx solid #00ffff;
+    border-radius: 20rpx;
+    padding: 10rpx 20rpx;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10rpx);
+    min-width: 200rpx;
+    min-height: 120rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .mode-text {
+      display: block;
+      font-size: 32rpx;
+      color: #66ccff;
+      margin-bottom: 10rpx;
+      text-shadow: 0 0 20rpx #00ffff;
+      white-space: nowrap;
+    }
+
+    .status-text {
+      display: block;
+      font-size: 32rpx;
+      color: #00ffff;
+      margin-bottom: 10rpx;
+      text-shadow: 0 0 20rpx #00ffff;
+      white-space: nowrap;
+    }
+
+    .burn-progress {
+      display: block;
+      font-size: 24rpx;
+      color: #888;
+      white-space: nowrap;
+    }
+
+    .cloud-status {
+      display: block;
+      font-size: 24rpx;
+      color: #888;
+      margin-top: 10rpx;
+      white-space: nowrap;
+
+      &.active {
+        color: #00ff00;
       }
     }
   }
 
-  .yi {
+  .info-popup-content {
+    padding: 40rpx 30rpx 30rpx 30rpx;
+    background: #fff;
+    border-radius: 24rpx;
+    min-width: 480rpx;
+    max-width: 90vw;
     text-align: center;
+  }
+
+  .info-title {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 40rpx;
+  }
+
+  .info-desc {
     font-size: 28rpx;
-    color: #666;
-    line-height: 26px;
-    margin-top: 40rpx;
+    color: #555;
+    margin-bottom: 32rpx;
+    text-align: left;
+    line-height: 1.8;
   }
 
-  .off {
-    text-align: right;
-    padding: 15px;
-    box-sizing: border-box;
-    position: absolute;
-    right: -7%;
-    // bottom: -20%;
+  .info-btns {
+    display: flex;
+    justify-content: center;
   }
 
+  .info-close-btn {
+    background: linear-gradient(45deg, #00c3ff, #ffff1c);
+    color: #222;
+    border-radius: 16rpx;
+    padding: 16rpx 48rpx;
+    font-size: 30rpx;
+    font-weight: bold;
+    box-shadow: 0 0 20rpx rgba(0, 195, 255, 0.2);
+    cursor: pointer;
+  }
+}
 
+.cigarette-popup-content {
+  padding: 40rpx 30rpx 30rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  text-align: center;
+
+  .info-title {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 40rpx;
+  }
+
+  .cigarette-form {
+    margin-bottom: 32rpx;
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24rpx;
+
+      .form-label {
+        width: 150rpx;
+        font-size: 28rpx;
+        color: #333;
+        text-align: right;
+        margin-right: 16rpx;
+      }
+
+      ::v-deep.uni-input-placeholder {
+        padding-left: 20rpx;
+      }
+
+      ::v-deep.uni-input-input {
+        padding-left: 20rpx;
+      }
+
+      .form-input {
+        flex: 1;
+        font-size: 28rpx;
+        padding: 12rpx 16rpx;
+        padding-left: 16rpx;
+        border: 1rpx solid #ddd;
+        border-radius: 12rpx;
+        background-color: #f9f9f9;
+        box-sizing: border-box;
+      }
+
+      .form-unit {
+        margin-left: 12rpx;
+        font-size: 26rpx;
+        color: #999;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .info-btns {
+    display: flex;
+    justify-content: center;
+    margin-top: 20rpx;
+
+    .info-close-btn {
+      padding: 18rpx 40rpx;
+      font-size: 28rpx;
+      border-radius: 12rpx;
+      background-color: #eee;
+      color: #666;
+      transition: all 0.3s;
+
+      &:active {
+        opacity: 0.7;
+      }
+
+      &.confirm {
+        background: linear-gradient(45deg, #00ffb4, #00c3ff);
+        color: #fff;
+        margin-left: 24rpx;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// 模式切换动画样式
+.mode-transition-animation {
+  position: absolute;
+  width: 80%;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20rpx 40rpx;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 30rpx;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.5);
+  
+  .mode-transition-text {
+   
+    color: #00ffff;
+    font-size: 60rpx;
+    font-weight: bold;
+    text-shadow: 0 0 10rpx #00ffff;
+  }
+}
+
+// 淡入动画
+.fade-in {
+  animation: fadeIn 1s ease-in forwards;
+}
+
+// 淡出动画
+.fade-out {
+  animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes smokeFloat {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translateY(-450rpx) scale(2.5);
+    opacity: 0.2;
+  }
+}
+
+@keyframes ashFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(200rpx) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <view class="recharge">
-    <u-navbar title="充值" back-icon-color="#fff" title-color="#fff"
-      :background="{ backgroundColor: '#222333' }"></u-navbar>
+    <uni-nav-bar title="充值" color="#333" leftIcon="left" backgroundColor="#fff" :border="false" :statusBar="true"
+      :fixed="true" @clickLeft="back()"></uni-nav-bar>
     <view class="top_money">
       账户余额：<image style="width: 40rpx;height: 40rpx;" mode=""></image>
       <text>{{ userInfo.money }}</text>
@@ -12,7 +12,8 @@
           :class="MonetType == item.id ? 'money_item item_active' : 'money_item'" v-for="(item, index) in moneyList"
           :key="index">
           <view class="item_top">
-            <image src="../../static/mine/coin.png" mode=""></image>
+            <image src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01tXMf6P24NdcmZikNI_!!2200676927379.png"
+              mode=""></image>
             <text>{{ item.money }}</text>
           </view>
           <view class="item_bottom">
@@ -22,20 +23,31 @@
       </view>
     </view>
     <view class="pay_type">
-      <radio-group @change="changeRadio">
-        <view class="pay_type_list_item" v-for="(item, index) in moneyTypeList" :key="index">
-          <view class="item_left">
-            <view class="icon">
-              <image :src="item.icon"></image>
+      <view v-if="filteredMoneyTypeList.length === 0" class="no-payment-tip">
+        当前系统已关闭支付方式
+      </view>
+      <view v-else>
+        <radio-group @change="changeRadio">
+          <view class="pay_type_list_item" v-for="(item, index) in filteredMoneyTypeList" :key="index">
+            <view class="item_left">
+              <view class="icon">
+                <image :src="item.icon"></image>
+              </view>
+              <text>{{ item.name }}</text>
             </view>
-            <text>{{ item.name }}</text>
-          </view>
 
-          <radio :checked="moneyType === item.id" style="transform:scale(0.9)" color="#6853d6" :value="item.id" />
+            <radio :checked="moneyType === item.id" style="transform:scale(0.9)" color="#6853d6" :value="item.id" />
+          </view>
+        </radio-group>
+        <view class="protocol">
+          <u-checkbox-group>
+            <u-checkbox v-model="protocol" activeColor="#6853d6" shape="circle" label="明月">我已满18岁，已阅读并同意<text
+                @click="goToAgreement" class="link">《支付服务协议》</text></u-checkbox>
+          </u-checkbox-group>
         </view>
-      </radio-group>
-      <view class="submit" @click="submit()">
-        提交充值
+        <view class="submit" @click="submit()">
+          提交充值
+        </view>
       </view>
     </view>
     <view class="bottom">
@@ -43,25 +55,25 @@
         温馨提示：
       </view>
       <view class="b_text">
-        <text>1、充值的余额可用于开盲盒和在发货时支付运费</text>
+        <text>1、充值的余额可用于泡泡机和在发货时支付运费</text>
         <text>2、充值的余额不会过期，支付后的剩余余额不支持赠送不支持提现</text>
         <text>3、未成年人消费需事先取得家人或法定监护人的陪同及监管下进行消费;</text>
         <text>4、充值前请您仔细阅读《支付服务协议》，成功充值即代表您对本协议无异议。</text>
       </view>
-      <view class="protocol">
-        <u-checkbox-group>
-          <u-checkbox v-model="protocol" activeColor="#6853d6" shape="circle" label="明月">我已满18岁，已阅读并同意<text
-              @click.stop="$.to('/pages/my/agreement?type=wfashuiming')">《支付服务协议》</text></u-checkbox>
-        </u-checkbox-group>
 
-      </view>
     </view>
-
+    <loginPopup :show.sync="loginVisible"></loginPopup>
+    <!-- 支付宝弹窗 -->
+    <AliPay :show.sync="aliShow" :orderData="orderData" :isPaying="isPaying" :aliUrl="aliUrl"></AliPay>
   </view>
 </template>
 
 <script>
+import AliPay from '@/components//dialogs/AliPay.vue'
 export default {
+  components: {
+    AliPay
+  },
   data () {
     return {
       MonetType: '',
@@ -79,30 +91,33 @@ export default {
       ],
       // 支付方式
       moneyTypeList: [
-        // #ifdef H5 || MP
         {
           id: '3',
-          icon: '../../static/mine/wechat.png',
+          icon: 'https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01mfiDjv24NdXdrF5yS_!!2200676927379.png',
           name: '微信支付'
         },
-        // #endif
-        // #ifdef APP-PLUS || H5
-        // {
-        //   id: '4',
-        //   icon: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01A3bNW324NdW9QBJvc_!!2200676927379.png',
-        //   name: '支付宝支付',
-        //   type: 'alipay'
-        // }
-        // #endif
-        // #ifndef MP-WEIXIN
-        // {icon:'../../../static/image/zhifubao.png',name:'支付宝支付',id:'1',type:'alipay'},
-        // #endif
+        {
+          id: '4',
+          icon: 'https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01A3bNW324NdW9QBJvc_!!2200676927379.png',
+          name: '支付宝支付',
+          type: 'alipay'
+        }
       ],
       // #ifdef H5
       checkTimer: null,
       cancelTimer: null,
       // #endif
-      is_epay: 0
+      is_epay: 0,
+      is_wx_epay: 0,
+      is_ali_epay: 0,
+      is_ali_pay: 0,
+      is_wx_pay: 0,
+      isPaying: false,
+      aliShow: false,
+      ali_code: '',
+      aliUrl: '',  // 二维码地址
+      orderData: {},
+      loginVisible: false
     }
   },
   onLoad () {
@@ -122,15 +137,55 @@ export default {
     })
     this.$store.dispatch('getAppConfig').then((res) => {
       console.log(res);
-      this.is_epay = res.data.is_epay
+      const { is_epay, is_wx_epay, is_ali_epay, is_ali_pay, is_wx_pay } = res.data
+      this.is_epay = is_epay
+      this.is_wx_epay = is_wx_epay
+      this.is_ali_epay = is_ali_epay
+      this.is_ali_pay = is_ali_pay
+      this.is_wx_pay = is_wx_pay
     })
+  },
+  onHide () {
+    this.loginVisible = false
   },
   onUnload () {
     this.cancelCheckPayStatus()
     clearInterval(this.checkTimer)
     clearInterval(this.cancelTimer)
+    this.loginVisible = false
+  },
+  computed: {
+    filteredMoneyTypeList () {
+      const list = [];
+
+      if (this.is_epay == 1) {
+        // 聚合微信
+        if (this.is_wx_epay == 1) {
+          list.push(3);
+        }
+        // 聚合支付宝
+        if (this.is_ali_epay == 1) {
+          list.push(4);
+        }
+      } else {
+        // 官方微信
+        if (this.is_wx_pay == 1) {
+          list.push(3);
+        }
+        // 官方支付宝
+        if (this.is_ali_pay == 1) {
+          list.push(4);
+        }
+      }
+      return this.moneyTypeList.filter(item => list.includes(Number(item.id)));
+    }
   },
   methods: {
+    goToAgreement () {
+      uni.navigateTo({
+        url: '/pages/mine/agreement?type=pay'
+      })
+    },
     checkPayStatus () {
       const _this = this
       const order_info = uni.getStorageSync('order_info_recharge')
@@ -171,11 +226,11 @@ export default {
     },
     cancelCheckPayStatus () {
       uni.removeStorageSync('order_info_recharge')
-      this.$common.toast({
-        title: '支付超时',
-        icon: 'none',
-        duration: 500
-      })
+      // this.$common.toast({
+      //   title: '支付超时',
+      //   icon: 'none',
+      //   duration: 500
+      // })
       if (this.checkTimer) {
         clearTimeout(this.checkTimer)
       }
@@ -214,6 +269,17 @@ export default {
       console.log(222);
     },
     submit () {
+      if (!this.userInfo.id) {
+        this.loginVisible = true
+        return;
+      }
+      if (this.filteredMoneyTypeList.length === 0) {
+        uni.showToast({
+          title: '当前系统已关闭支付方式',
+          icon: 'none'
+        });
+        return;
+      }
       if (!this.protocol) {
         this.$common.toast({
           title: '请阅读并同意支付服务协议'
@@ -239,6 +305,7 @@ export default {
           id = item.id
         }
       })
+      this.isPaying = true;
       this.req({
         url: '/v1/user/recharge/gopay',
         data: {
@@ -248,18 +315,18 @@ export default {
         },
         success: res => {
           console.log(res);
-          if (res.msg == '充值成功!') {
-            this.$common.toast({
-              title: '充值成功',
-              duration: 500
-            })
-            this.$store.dispatch('getUserInfo').then(res => {
-              console.log(res);
-              this.userInfo = res.data
-            })
-            return
-          }
-
+          // if (res.msg == '充值成功!') {
+          //   this.$common.toast({
+          //     title: '充值成功',
+          //     duration: 500
+          //   })
+          //   this.$store.dispatch('getUserInfo').then(res => {
+          //     console.log(res);
+          //     this.userInfo = res.data
+          //   })
+          //   return
+          // }
+          this.orderData = res.data
           // #ifdef H5
           const order_info = { order_sn: res.data.order_sn }
 
@@ -274,9 +341,64 @@ export default {
             if (res1 == 'success') {
 
             }
+            if (res1.data.pay_type == 'alipay') {
+              this.aliShow = true
+
+              let ali_code = res1.data.data.qr_code
+              // #ifdef H5
+              this.generateQRCode(ali_code)
+              // #endif
+              // #ifdef MP
+              this.generateWXCode(ali_code)
+              // #endif
+            }
           })
+        },
+        fail: () => {
+          this.$common.toast({ title: '下单失败', icon: 'none' });
+        },
+        complete: () => {
+          this.isPaying = false
         }
       })
+    },
+    generateWXCode (text) {
+      UQrcode.make({
+        canvasId: 'wxcode',   //切记canvasId 里边的内容需要跟canvas里边canvas-id=wxcode"的名字一样
+        componentInstance: this,
+        text: text,  //需要转成二维码的内容
+        size: 350,
+        margin: 0,
+        backgroundColor: '#ffffff',
+        foregroundColor: '#000000',
+        fileType: 'jpg',
+        errorCorrectLevel: UQrcode.errorCorrectLevel.H,
+        success: res => { }
+      })
+    },
+    generateQRCode (url) {
+      this.aliUrl = url;
+      // 确保组件渲染完成后再生成二维码
+      // this.$nextTick(() => {
+      //   try {
+      //     this.$refs.qrcode.remake({
+      //       success: () => {
+      //         console.log('二维码生成成功');
+      //       },
+      //       fail: (err) => {
+      //         console.error('二维码生成失败', err);
+      //       }
+      //     });
+      //   } catch (error) {
+      //     console.error('二维码生成异常', error);
+      //   }
+      // });
+    },
+    back () {
+      uni.switchTab({
+        url: '/pages/tabBar/my',
+      });
+
     }
   }
 }
@@ -284,15 +406,10 @@ export default {
 
 <style lang="scss" scoped>
 .recharge {
-  // background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
-  // background-size: 100% 100%;
-  background-color: #222333;
-  min-height: calc(100vh - 50px);
 
   .top_money {
     padding: 20rpx;
     font-size: 32rpx;
-    color: #fff;
 
     image {
       vertical-align: bottom;
@@ -305,7 +422,7 @@ export default {
   }
 
   .center_body {
-    margin-top: 40rpx;
+    margin-top: 0rpx;
     padding: 20rpx;
     border-top: 1px solid #eeeeee;
     border-bottom: 1px solid #eeeeee;
@@ -318,18 +435,15 @@ export default {
       justify-content: flex-start;
 
       .item_active {
-        background: #354fc8 !important;
+        background: #ff9d00 !important;
         color: #fff;
-        border: 1px solid #fff !important;
       }
 
       .money_item {
         width: calc(33.33% - 20rpx);
         // height: 120rpx;
         padding: 25rpx 0;
-        background: #354fc8;
-        border: 1px solid transparent;
-        color: #fff;
+        background: #f0f0f0;
         margin: 0 10rpx;
         margin-bottom: 40rpx;
         border-radius: 10rpx;
@@ -348,7 +462,6 @@ export default {
             width: 40rpx;
             height: 40rpx;
             vertical-align: bottom;
-            margin-right: 10rpx;
           }
         }
 
@@ -382,13 +495,11 @@ export default {
       padding: 20rpx 0;
       text-align: center;
       border-radius: 10rpx;
-      background: #9948d3;
+      background: #ff9d00;
       font-size: 32rpx;
       color: #fff;
       margin: 0rpx auto;
-      margin-top: 60rpx;
-      background: url("../../static/mine/btn-bg.png") no-repeat;
-      background-size: 100% 100%;
+      margin-top: 20rpx;
     }
 
     .pay_type_list_item {
@@ -402,15 +513,14 @@ export default {
         height: 55rpx;
 
         .icon {
-          width: 55rpx !important;
-          height: 55rpx;
+          width: 50rpx !important;
+          height: 50rpx;
           vertical-align: bottom;
         }
 
         text {
           font-size: 32rpx;
           margin-left: 10rpx;
-          color: #fff;
         }
       }
 
@@ -432,28 +542,123 @@ export default {
     }
 
     .b_text {
-      color: #9c9c9c;
-      font-size: 24rpx;
+      margin-top: 20rpx;
+      color: #666;
+      font-size: 26rpx;
       display: flex;
       flex-direction: column;
     }
 
-    .protocol {
-      margin-top: 40rpx;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      color: #fff;
 
-      ::v-deep .u-checkbox__label {
-        color: #fff;
-      }
+  }
+}
 
-      text {
-        margin-left: 10rpx;
-        color: #6d84ec;
-      }
+.protocol {
+  margin: 40rpx 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  // text{
+  // 	margin-left: -30rpx;
+  // }
+}
+
+.alipay {
+  height: 100%;
+  position: relative;
+  padding-top: 80rpx;
+
+  .alipay-tutorial {
+    padding-top: 30rpx;
+    padding-right: 20rpx;
+    color: #4197ef;
+    font-size: 18px;
+    text-align: right;
+    display: inline-block;
+    position: absolute;
+    right: 20rpx;
+    top: 0;
+  }
+
+  .alipay-title {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10rpx;
+    margin-top: 20rpx;
+  }
+
+  .alipay-price {
+    font-size: 20px;
+    margin-bottom: 40rpx;
+
+    .alipay-price-text {
+      font-size: 28px;
     }
   }
+
+  .ali-item {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20rpx;
+  }
+
+  .ali-qrcode {
+    margin-top: 40rpx;
+    display: flex;
+    justify-content: center;
+
+    .ali-qrcode-img {
+      width: 350px;
+      height: 350px;
+    }
+  }
+
+  .ali-tip {
+    text-align: center;
+    color: #999;
+    margin: 20rpx 0;
+    margin-bottom: 30rpx;
+  }
+
+  .btn-wrap {
+    display: flex;
+    justify-content: center;
+
+    .btn {
+      width: 90%;
+      font-size: 16px;
+      font-weight: 700;
+      background: #3f95ee;
+      color: #fff;
+      padding: 20rpx 0;
+      text-align: center;
+      border-radius: 40rpx;
+    }
+  }
+
+  .ali-tip-2 {
+    text-align: center;
+    color: #999;
+    margin-top: 10rpx;
+  }
+}
+
+.link {
+  color: #FF6B6B;
+  margin-left: 4rpx;
+  text-decoration: underline;
+}
+
+.no-payment-tip {
+  padding: 40rpx 20rpx;
+  text-align: center;
+  color: #FF6B6B;
+  font-weight: 700;
+  font-size: 28rpx;
+  background-color: #f0f0f0;
+  border-radius: 16rpx;
+  margin: 30rpx 20rpx;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
 }
 </style>

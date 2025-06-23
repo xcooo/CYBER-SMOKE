@@ -1,6 +1,6 @@
 /*
  * @Date: 2022-10-11 10:15:12
- * @LastEditTime: 2025-04-25 11:02:10
+ * @LastEditTime: 2025-06-05 09:47:04
  * @Description: content
  */
 import Vue from 'vue'
@@ -46,12 +46,14 @@ let imgURL = ""
 if (process.env.NODE_ENV === 'development') {
   //console.log('开发环境')
   // #ifdef H5
-  baseURL = "http://www.mh-v16.com"
-  imgURL = "http://www.mh-v16.com"
+  baseURL = "http://www.smoke.com"
+  imgURL = "http://www.smoke.com"
+  baseURL = "http://www.paopao-v3.xcooo.cn"
+  imgURL = "http://www.paopao-v3.xcooo.cn"
   // #endif
   // #ifdef MP
-  baseURL = "https://www.test500.xcooo.cn";
-  imgURL = "https://www.test500.xcooo.cn";
+  baseURL = "http://www.paopao-v3.com";
+  imgURL = "http://www.paopao-v3.com";
   // #endif
   // baseURL = "https://www.mh-v6.xcooo.cn";
   // imgURL = "https://www.mh-v6.xcooo.cn";
@@ -66,7 +68,7 @@ if (process.env.NODE_ENV === 'development') {
   imgURL = "http://www.mh-v7.xcooo.cn";
   // #endif
 }
-
+Vue.prototype.baseUrl = baseURL
 Vue.prototype.siteBaseUrl = baseURL + '/api'
 Vue.prototype.imgBaseUrl = imgURL + '/static/index'
 Vue.prototype.imgBaseUrl1 = function () {

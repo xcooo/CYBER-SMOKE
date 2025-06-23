@@ -7,30 +7,11 @@
 import Draw from '@/uni_modules/sakura-canvas/js_sdk/index'
 export default {
   props: {
-    shareUrl: {
-      type: String,
-      default: function () {
-        return ''
-      }
-    },
-    localPosterCover: {
-      type: String,
-      default: function () {
-        return ''
-      }
-    },
-    h5LocalPosterCover: {
-      type: String,
-      default: function () {
-        return ''
-      }
-    },
-    h5Url: {
-      type: String,
-      default: function () {
-        return ''
-      }
-    }
+    shareUrl: String,
+    localPosterCover: String,
+    h5LocalPosterCover: String,
+    h5Url: String,
+    invite_code: String,
   },
   data () {
     return {
@@ -40,96 +21,81 @@ export default {
       },
       showPoster: false,
       posterImage: '',
-      canvasId: 'autoHeight'
+      canvasId: 'autoHeight',
+      qrCode: '',  // 小程序码
+      qrCodeFetched: false // 用于标记二维码是否已获取
     }
   },
   mounted () {
     this.createDraw()
   },
   methods: {
-    createDraw() {
-		
+    // 获取小程序二维码
+    async fetchQrCode (invite_code) {
+      if (this.qrCodeFetched) return; // 如果已获取过二维码，则不再重新获取
+      this.qrCodeFetched = true;
+      if (this.qrCode == '') {
+        this.req({
+          url: '/v1/share/getMiniQrcode',
+          data: { invite_code },
+          success: res => {
+            if (res.code == 200) {
+              this.qrCode = res.data
+            }
+          }
+        })
+      }
+    },
+    createDraw () {
+      if (this.draw) return; // 防止重复创建 Draw 实例
+
       const draw = new Draw({
         width: 750,
         height: 600,
         canvasId: this.canvasId,
         _this: this,
-        // 绘制单位 px/rpx
         unit: 'rpx',
-        // default: 默认绘制模式 2d: 2d绘制模式(只在下小程序上使用, H5/APP会自定转成default)
         type: 'default',
-        // 设置默认字体样式
         fontStyle: {
-          size: 32
+          size: 32,
         },
         background: {
           type: 'color',
           color: '#ffffff',
-          // 宽度, 不填默认为画布的宽度
           w: 750,
-          // 高度，不填默认为画布的高度
-          // 像这种不知道绘制出来的图片具体高度的直接填写一个较大的值
-          h: 99999
+          h: 99999,
         },
-        // 绘制时的延迟时间
         drawDelayTime: 200,
-        // 导出图片时的延迟时间
-        exportImageDelayTime: 400
-      })
-      this.draw = draw
-      // 目前绘制需要先监听draw抛出的监听事件
-      // init: 初始化完成可以绘制画布背景(现在画布背景需要自行调用方法绘制)
+        exportImageDelayTime: 400,
+      });
+
+      this.draw = draw;
       draw.$on('init', async () => {
-        // 绘制画布背景
-        await draw.drawBackground()
-        // 当需要直接绘制内容是就这里/background的监听回调里面调用
-        // await this.drawPoster()
-      })
-      // background: 绘制画布背景完成，会具体返回背景的宽度高度和一个style(不需要监听时可以不监听)
-      // 用于当背景为图片(mode: widthFix/heightFix)时不确定的宽度/高度，可以动态修改画布的宽高
-      // draw.$on('background', async result => {
-      // 	// console.log(result)
-      // 	await drawPoster()
-      // })
-      // drawComplete: 用于监听绘制完成事件, 可以返回当前画布的宽度高度和已经绘制完成内容的高度, 用于当前的情况，不确定画布高度时，动态修改画布的高度
+        await draw.drawBackground();
+        await this.drawPoster();
+      });
       draw.$on('drawComplete', async (result) => {
-        const { width, height, contentHeight } = result
-        this.canvasStyle.width = width + draw.unit
-        this.canvasStyle.height = contentHeight + 48 + draw.unit
-        // tips:
-        // setCanvasStyle在2d里面有些许绘制慢,因为2d绘制需要重新在绘制一遍内容才行(插件内部会执行)，所以如果是需要动态设置高度的不建议使用2d绘制。 普通绘制只需要修改一下画布的宽高就行，不需要重新绘制。
-        // setCanvasStyle: 设置canvas宽高
-        await draw.setCanvasStyle(width, contentHeight + 48)
-      })
+        const { width, contentHeight } = result;
+        this.canvasStyle.width = width + draw.unit;
+        this.canvasStyle.height = contentHeight + 48 + draw.unit;
+        await draw.setCanvasStyle(width, contentHeight + 48);
+      });
     },
-    async drawPoster() {
-		console.log(this.h5Url)
+    async drawPoster () {
+      if (this.posterImage) {
+        this.$emit('handleSuccess', { showPoster: true, posterImage: this.posterImage });
+        this.showPoster = true;
+        return;
+      }
+      console.log(this.draw)
       const res = await this.draw.drawPoster(({ ctxObj, bgObj }) => {
-		  // console.log(ctxObj,bgObj);
+        // console.log(ctxObj,bgObj);
         // ctxObj: 画布的宽高
         // bgObj: 背景的宽高
         const { width, height } = ctxObj
-        const startX = 24
         // 随机图片
         const randomImage = () => {
-		  console.log('这里打印全部', this.localPosterCover, this.h5LocalPosterCover)
-          // #ifdef MP-WEIXIN
-		  console.log('这里是小程序', this.localPosterCover)
-          return this.localPosterCover;
-          // #endif
-          // #ifdef H5
-		  console.log('这里是h5', this.h5LocalPosterCover)
           return this.h5LocalPosterCover
-          // #endif
-          // // 字节跳动小程序不知道为啥子不能绘制本地图片。。。
-          // // #ifndef MP-TOUTIAO
-          // const images = ['/static/car.jpg', '/static/img.jpg', '/static/logo.png', '/static/head.jpg']
-          // const randomNum = Math.floor(Math.random() * images.length)
-          // return images[randomNum]
-          // // #endif
-          // // #ifdef MP-TOUTIAO
-          // return 'https://api.chuyiwang.com.cn/public/upload/2022/0715/2022071517518621.jpg'
-          // // #endif
         }
 
         // 不确定高度的图片
@@ -153,7 +119,7 @@ export default {
           textIndent: 40,
           name: 'title',
           type: 'text',
-          text: '心跳开盲盒',
+          text: '心动开盲盒',
           color: '#000',
           callback: (before) => {
             return {
@@ -232,32 +198,49 @@ export default {
 
         // #ifdef MP-WEIXIN
         // 小程序二维码图
+        // const qcCode = {
+        //   name: 'qcCode',
+        //   type: 'qrcode',
+        //   mode: 'widthFix',
+        //   drawType: 'rect',
+        //   src: this.qrCode,
+        //   size: 200,
+        //   callback: (before, all) => {
+        //     console.log(all, '1')
+        //     const { sx, ex } = all.find((item) => item.name === 'image')
+        //     const { ey } = all.find((item) => item.name === 'image')
+        //     return {
+        //       // w: width / 3,
+        //       // x: ex / 2 + 80,
+        //       // y: ey + 50
+        //       w: width / 3,
+        //       x: ex - 250,
+        //       y: ey + 50
+        //     }
+        //   }
+        // }
         const qcCode = {
-          name: 'image',
+          name: 'qcCode',
           type: 'image',
-          mode: 'widthFix',
-          drawType: 'rect',
-          src: this.shareUrl,
+          src: this.qrCode, // 直接使用 Base64 数据
+          w: width / 3,
           callback: (before, all) => {
-            console.log(all, '1')
-            const { sx, ex } = all.find((item) => item.name === 'image')
+            const { ex } = all.find((item) => item.name === 'image')
             const { ey } = all.find((item) => item.name === 'image')
             return {
-              w: width / 3,
-              x: ex / 2 + 80,
-              y: ey + 50
+              x: ex - 270,
+              y: ey + 10
             }
           }
         }
+        console.log('123', qcCode)
         // #endif
         return [image, title, subtitle, qcCode]
       })
-	  console.log(res);
       if (!res.success) return
       this.$emit('handleSuccess', { showPoster: true, posterImage: res.data })
       this.showPoster = true
       this.posterImage = res.data
-      console.log(this.posterImage, 'this.posterImage')
     }
   }
 }
@@ -274,5 +257,57 @@ export default {
   width: 750rpx;
   height: 500rpx;
   background-color: red;
+}
+
+.poster_tool {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 99999999999;
+  width: 100vw;
+  height: 210rpx;
+  border-top-left-radius: 30rpx;
+  border-top-right-radius: 30rpx;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: env(safe-area-inset-bottom);
+
+  .poster_tool_item {
+    width: 150rpx;
+    height: 150rpx;
+    background-color: #e6e6e652;
+    border-radius: 15rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 23rpx;
+    color: #666666b8;
+
+    button {
+      width: 150rpx;
+      height: 150rpx;
+      background-color: #f5f5f552;
+      border-radius: 15rpx;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 23rpx;
+      color: #666666b8;
+      padding: 0;
+    }
+
+    button::after {
+      border: none;
+      outline: none;
+    }
+  }
+
+  .poster_tool_item:hover {
+    background-color: #dfdfdf52;
+  }
 }
 </style>

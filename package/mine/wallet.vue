@@ -29,13 +29,13 @@
         <view class="money-card-item">
           <view class="num">{{ userInfo.coin }}</view>
 
-          <view class="title">积分</view>
+          <view class="title">子弹</view>
 
-          <view @click="$common.to({ type: 2, url: '/package/index/score-list' })" class="btn">
+          <!-- <view @click="$common.to({ type: 2, url: '/package/index/score-list' })" class="btn">
             积分商城
 
             <uni-icons type="right" color="#fff" size="12" />
-          </view>
+          </view> -->
         </view>
 
         <view class="money-card-item">
@@ -109,7 +109,7 @@ export default {
         },
         {
           id: 2,
-          name: '积分明细'
+          name: '子弹明细'
         },
         {
           id: 3,

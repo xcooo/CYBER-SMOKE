@@ -1,11 +1,14 @@
 <!--
  * @Date: 2022-04-15 09:05:47
- * @LastEditTime: 2025-04-27 11:06:18
+ * @LastEditTime: 2025-06-12 10:02:30
  * @Description: content
 -->
 <script>
 export default {
   onLaunch: function () {
+    uni.hideTabBar({
+      animation: true
+    });
     this.$store.commit('setDrawMusic')
     console.log('App Launch')
     // #ifdef H5
@@ -111,6 +114,10 @@ export default {
   }
 }
 </script>
+
+<style>
+@import url("/static/css/home.css");
+</style>
 
 <style lang="scss">
 @import '@/style/common.scss';

@@ -145,11 +145,12 @@ export default {
 
 <style lang="scss">
 .page-wrap {
-  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
-  background-size: 100vw 100%;
-  background-repeat: no-repeat;
+  // background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
+  // background-size: 100vw 100%;
+  // background-repeat: no-repeat;
   // min-height: calc(100vh - 50px);
   min-height: 100vh;
+  background: #222333;
 
   padding: 0 0 30rpx;
 

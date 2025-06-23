@@ -97,7 +97,7 @@ export default {
         },
         // empty: {
         //   use: true, // 是否显示空布局
-        //   icon: "../../static/home/empty.png", // 图标路径
+        //   icon: "https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01j9LvjN24NdcpT0y4i_!!2200676927379.png", // 图标路径
         //   tip: '这里什么都没有~', // 提示
         //   fixed: false, // 是否使用fixed定位,默认false; 配置fixed为true,以下的top和zIndex才生效 (transform会使fixed失效,最终会降级为absolute)
         //   top: "100rpx", // fixed定位的top值 (完整的单位值,如 "10%"; "100rpx")

@@ -50,6 +50,7 @@ export default {
   background-size: 100% 100%;
   min-height: calc(100vh - 50px);
   background: #222333;
+  background: #fff;
 
 
   .content {
@@ -58,6 +59,7 @@ export default {
     padding: 10rpx;
     font-size: 18px;
     color: #fff;
+    color: #333;
   }
 }
 </style>

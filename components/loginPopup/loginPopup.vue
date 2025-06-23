@@ -1,6 +1,6 @@
 <template>
   <!-- 登录弹窗 -->
-  <uni-popup ref="loginPopup" type="center">
+  <u-popup  v-model="localShow" mode="center" border-radius="20">
     <view class="tiploginShow-view">
       <view class="tiploginShow-view-0">
         您还未登录
@@ -11,31 +11,39 @@
       <view class="tiploginShow-view-2" @click="$common.to({ url: '/pages/mine/login' })">
         前往登录
       </view>
-      <view class="tiploginShow-view-3" @click="$refs.loginPopup.close()">
+      <view class="tiploginShow-view-3" @click="close()">
         暂不登录
       </view>
-
     </view>
-  </uni-popup>
+  </u-popup>
 </template>
 
 <script>
 export default {
   name: 'LoginPopup',
-  components: {
-
+  props:{
+    show: {
+      type: Boolean,
+      default: false
+    },
+    
+  },
+  watch: {
+    show (val) {
+      this.localShow = val
+    },
+    localShow (val) {
+      this.$emit('update:show', val)
+    }
   },
   data () {
     return {
-
+      localShow: this.show,
     }
   },
   methods: {
-    open () {
-      this.$refs.loginPopup.open('center');
-    },
     close () {
-      this.$refs.loginPopup.close();
+      this.localShow = false
     }
   },
 }

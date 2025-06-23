@@ -1,11 +1,14 @@
 <template>
-  <view>
-    <u-navbar title="邀请有奖" back-icon-color="#fff" title-color="#fff"
-      :background="{ backgroundColor: '#222333' }"></u-navbar>
+  <view class="invite-bg">
+    <uni-nav-bar title="邀请有奖" color="#fff" leftIcon="left" backgroundColor="transparent" :border="false" :statusBar="true"
+      :fixed="true" @clickLeft="$common.back()"></uni-nav-bar>
+    <view class="animation-wrapper">
+      <view class="particle particle-1"></view>
+      <view class="particle particle-2"></view>
+      <view class="particle particle-3"></view>
+      <view class="particle particle-4"></view>
+    </view>
     <view class="invite">
-      <!-- <image class="bg"
-				:src="mainbg"
-				mode="widthFix"></image> -->
       <view class="invite-earnings">
 
         <view class="earnings-list">
@@ -13,46 +16,51 @@
         </view>
         <view class="earnings-list">
           <view class="earnings-list-text">{{ userInfo.nickName }}</view>
-          <view class="earnings-list-text">用户ID{{ userInfo.id }}</view>
-          <view class="earnings-list-text">推广链接:</view>
-          <view class="earnings-list-url">
-            <view class="url-text">
-              {{ userInfo.h5_share_url }}
-            </view>
-            <view class="copy-text" @click="copyUrl(userInfo.h5_share_url)">复制</view>
-          </view>
+          <view class="earnings-list-text">用户ID: <text style="margin-left: 5px;">{{ userInfo.id }}</text></view>
+          <view class="earnings-list-text">总收益:<text class="gold">{{ userInfo.gold }}</text></view>
         </view>
       </view>
       <view class="invite-step">
         <view class="self-user" v-if="userInfo.total_xjnum">
           <text>已邀请用户：{{ userInfo.total_xjnum.total_num }}人</text>
         </view>
-        <view class="btn-ground-right" @click="$common.to({ url: 'share' })">立即邀请</view>
+        <!-- #ifdef APP-PLUS || H5  || MP-WEIXIN   -->
+        <view class="btn-ground-right" style="background: #6b57dd;" @click="sharePoster">立即邀请</view>
+        <!-- #endif -->
+        <!-- #ifdef MP-WEIXIN  -->
+        <!-- <view class="btn-ground-right" style="background: #6b57dd;" @click="handleInvite">
+          生成分享海报
+        </view> -->
+        <!-- #endif -->
 
       </view>
       <view class="invite-info">
         <text class="info-title">我的推广</text>
-        <view class="info-date" @click="openDate()">
-          <uni-datetime-picker v-model="range" type="daterange" @maskClick="maskClick" />
+        <view class="info-date">
+          <uni-datetime-picker v-model="range" type="daterange" />
         </view>
       </view>
       <view class="invite-content">
-        <uni-table ref="table" :loading="loading" border stripe emptyText="暂无更多数据">
-          <uni-tr>
-            <uni-th width="50rpx" align="center">日期</uni-th>
-            <uni-th width="50rpx" align="center">人数</uni-th>
-            <uni-th width="50rpx" align="center">消费金额</uni-th>
-            <uni-th width="50rpx" align="center">充值金额</uni-th>
-          </uni-tr>
-          <uni-tr v-for="(item, index) in tableData" :key="index">
-            <uni-td>{{ index }}</uni-td>
-            <uni-td>{{ item.num }}</uni-td>
-            <uni-td align="center">{{ item.money }}</uni-td>
-            <uni-td align="center">{{ item.recharge_money }}</uni-td>
-          </uni-tr>
-        </uni-table>
+        <view class="custom-table">
+          <!-- 表头 -->
+          <view class="table-row table-header">
+            <view class="table-cell"> 日期</view>
+            <view class="table-cell">人数</view>
+            <view class="table-cell">消费金额</view>
+            <view class="table-cell">充值金额</view>
+          </view>
 
+          <!-- 数据行 -->
+          <view class="table-row" v-for="(item, index) in tableData" :key="index">
+            <view class="table-cell">{{ index }}</view>
+            <view class="table-cell">{{ item.num }}</view>
+            <view class="table-cell">{{ item.money }}</view>
+            <view class="table-cell">{{ item.recharge_money }}</view>
+          </view>
+        </view>
       </view>
+
+
     </view>
     <!-- <view class="btn-ground"> -->
     <!-- <view class="btn-ground-left" @click="$common.to({ url: 'withdrawal' })">立即提现</view> -->
@@ -102,8 +110,8 @@
 
       </view>
     </u-popup>
-    <PosterCanvas ref="childCanvas" @handleSuccess='canvasSuccess' :localPosterCover="localPosterCover"
-      :shareUrl="codeShareUrl" />
+    <PosterCanvas ref="childCanvas" @handleSuccess='canvasSuccess' :h5LocalPosterCover="h5LocalPosterCover"
+      :h5Url="userInfo.h5_share_url" :share_url="userInfo.share_url" />
   </view>
 </template>
 
@@ -121,7 +129,6 @@ export default {
       share_ma: '',
       url: '',
       share_bg: '',
-      userInfo: null,
       show: false,
       showPoster: false,
       posterImage: '',
@@ -148,18 +155,6 @@ export default {
     PosterCanvas,
   },
   onLoad () {
-    // this.$store.dispatch('getAppConfig').then((res) => {
-    //   console.log(res);
-    //   uni.getImageInfo({
-    //     src: res.data.poster_bg,
-    //     success: (image) => {
-    //       this.localPosterCover = image.path;
-    //     },
-    //     fail (err) {
-    //       console.log(err);
-    //     }
-    //   });
-    // })
     this.getMyTeam()
   },
   onShow () {
@@ -172,13 +167,16 @@ export default {
       )
     }
     this.$store.dispatch('getAppConfig').then((res) => {
-      console.log(res);
       this.sysConfig = res.data;
-      this.mainbg = res.data.share_bg
+      let poster_bg = res.data.poster_bg || '';
+      // 判断是否已包含 http:// 或 https://  否则不是oss图片链接
+      let imageUrl = poster_bg.startsWith('http://') || poster_bg.startsWith('https://')
+        ? poster_bg
+        : this.baseUrl + poster_bg;
       uni.getImageInfo({
-        src: res.data.poster_bg,
+        src: imageUrl,
         success: (image) => {
-          this.localPosterCover = image.path;
+          this.h5LocalPosterCover = image.path;
         },
       });
     })
@@ -186,22 +184,28 @@ export default {
       console.log(res)
       this.userInfo = res.data
       this.codeShareUrl = res.data.codeShareUrl
-      this.share_ma = res.data.invite_code
+      this.invite_code = res.data.invite_code
       this.url = res.data.share_url
+      // #ifdef MP-WEIXIN
+      this.$refs.childCanvas.fetchQrCode(this.invite_code).then(() => {
+        if (!this.$refs.childCanvas.posterImage) {
+          this.$refs.childCanvas.createDraw();
+        }
+      });
+      // #endif
     })
   },
   methods: {
-    // 复制
-    copyUrl (e) {
-      this.$copy({
-        content: e,
-        success (res) {
-          uni.showToast({
-            title: '推广链接已复制',
-            icon: 'success'
-          })
-        }
+    handleInvite () {
+      this.$refs.poster.show(this.share_ma);
+    },
+    sharePoster () {
+      this.$refs.childCanvas.drawPoster().then(() => {
+        uni.hideLoading()
       })
+    },
+    handleInvite () {
+      this.$refs.poster.show(this.share_ma);
     },
     openDate () {
       this.timeShow = true
@@ -233,12 +237,6 @@ export default {
             // })
           }
         }
-      })
-    },
-    sharePoster () {
-      this.show = false
-      this.$refs.childCanvas.drawPoster().then(() => {
-        uni.hideLoading()
       })
     },
     canvasSuccess (param) {
@@ -297,7 +295,7 @@ export default {
       }
       return {
         title: '邀请好友得豪礼',
-        path: '/pages/box/box?invite_code=' + this.share_ma
+        path: '/pages/tabBar/home?invite_code=' + this.share_ma
       }
     },
   }
@@ -305,147 +303,165 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-page {
-  background-color: #222333;
-}
+.invite-bg {
+  background: linear-gradient(rgba(58, 92, 196, 0.7) 0%, rgb(8, 23, 74) 40%, rgba(0, 11, 54, 0.7) 60%, rgba(58, 92, 196, 0.7) 80%, rgb(244, 245, 248) 100%);
 
-.invite {
-  width: 100%;
-  position: relative;
-  background-color: #fff;
-  // background: url('https://www.img.xcooo.cn/uploads/2024/03/9b87da3b50474ff9.jpg') no-repeat;
-  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
-  background-size: 100% 100%;
-  background: #222333;
-
-  .bg {
+  .invite {
     width: 100%;
-    position: absolute;
-    top: 0;
-    z-index: 1;
-  }
-
-  &-earnings {
-    width: 100%;
-    left: 30rpx;
-    box-sizing: border-box;
-    top: 0;
-    z-index: 9;
-    display: flex;
-  }
-
-  ::v-deep .uni-table {
-    background-color: #222333 !important;
-
-    .uni-table-th {
-      color: #fff;
-    }
-
-    .uni-table-tr {
-      background-color: #222333 !important;
-    }
-
-    .uni-table-td {
-      color: #fff;
-    }
-  }
-
-  .earnings-list {
-    // text-align: center;
-    margin-top: 20rpx;
-    margin-left: 30rpx;
-
-    &-text {
-      padding-top: 15rpx;
-      font-size: 31rpx;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    &-url {
-      display: flex;
-
-      .url-text {
-        font-size: 16px;
-        color: #fff;
-        font-weight: 400;
-        word-wrap: break-word;
-      }
-
-      .copy-text {
-        padding: 0.5px 5px;
-        background-color: #b778ce;
-        color: #fff;
-        border: 1px solid;
-        border-radius: 10rpx;
-        display: inline;
-        flex-shrink: 0;
-        margin: 0 20rpx;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-
-    &-image {
-      width: 150rpx;
-      height: 150rpx;
-      border-radius: 30rpx;
-    }
-
-  }
-
-  .invite-step {
-
-    // position: absolute;
-    // box-sizing: border-box;
-    // top: 0;
-    margin: 40rpx 0;
-
-    z-index: 9;
-    // margin-top: 1620rpx;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    position: relative;
+    // background-color: #fff;
+    // background: url('https://www.img.xcooo.cn/uploads/2024/03/9b87da3b50474ff9.jpg') no-repeat;
+    // background-size: 100% 100%;
     color: #fff;
+    z-index: 1;
 
-    image {
+
+    .bg {
       width: 100%;
-    }
-  }
-
-  .invite-info {
-    border-top: 1rpx solid #ccc;
-    padding-top: 10rpx;
-    display: flex;
-
-    width: 100%;
-    height: 100rpx;
-    justify-content: space-around;
-
-    // align-items: center;
-    .info-date {
-      width: 550rpx;
-      height: 20rpx;
+      position: absolute;
+      top: 0;
+      z-index: 1;
     }
 
-    .info-title {
-      line-height: 70rpx;
-      font-size: 32rpx;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    .invite-content {
+    &-earnings {
+      // position: absolute;
       width: 100%;
+      height: 200rpx;
+      left: 30rpx;
+      box-sizing: border-box;
+      top: 0;
+      z-index: 9;
+      display: flex;
+    }
+
+    .earnings-list {
+      // text-align: center;
+      margin-top: 20rpx;
+      margin-left: 50rpx;
+
+      &-text {
+        padding-top: 15rpx;
+        font-size: 31rpx;
+        color: #fff;
+        font-weight: bold;
+      }
+
+      &-image {
+        width: 150rpx;
+        height: 150rpx;
+        border-radius: 30rpx;
+      }
+
+      .gold {
+        margin-left: 15rpx;
+        color: orange;
+      }
 
     }
-  }
 
+    .invite-step {
+      margin: 40rpx 0;
+      z-index: 9;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      image {
+        width: 100%;
+      }
+
+    }
+
+    .invite-info {
+      display: flex;
+      align-items: center; // 垂直居中
+      justify-content: space-between; // 左右分布
+      width: 100%;
+      padding: 20rpx;
+      border-top: 1rpx solid #ccc;
+
+      .info-title {
+        font-size: 32rpx;
+        font-weight: bold;
+        white-space: nowrap; // 防止多语言换行撑开
+        margin-right: 20rpx;
+        max-width: 40%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .info-date {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+
+        ::v-deep .uni-datetime-picker {
+          width: 100%;
+          max-width: 500rpx;
+        }
+      }
+    }
+
+  }
 }
 
-.btn-ground-right {
-  background: #6f5bd6 !important;
+.invite-content {
+  width: 100%;
+
+  .custom-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 16rpx;
+    overflow: hidden;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.06);
+    border: 1rpx solid #e0e0e0;
+
+    .table-row {
+      display: flex;
+      width: 100%;
+      background: #ffffff;
+
+      &:nth-child(even) {
+        background: #f7fafe;
+      }
+
+      .table-cell {
+        flex: 1;
+        padding: 24rpx 16rpx;
+        font-size: 26rpx;
+        color: #333;
+        text-align: center;
+        box-sizing: border-box;
+
+        // 自动换行
+        white-space: normal;
+        word-break: break-word;
+
+        // 竖线边框
+        border-right: 1rpx solid #dcdfe6;
+
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+
+    .table-header {
+      background: linear-gradient(90deg, #3a7bd5 0%, #00d2ff 100%);
+      color: #ffffff;
+      font-weight: bold;
+
+      .table-cell {
+        font-size: 30rpx;
+        border-right: 1rpx solid rgba(255, 255, 255, 0.3); // 表头的竖线柔和些
+
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
 }
 
 .btn-ground {

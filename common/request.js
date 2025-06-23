@@ -1,6 +1,6 @@
 /*
  * @Date: 2022-10-17 14:32:11
- * @LastEditTime: 2024-03-09 21:25:12
+ * @LastEditTime: 2025-05-27 12:30:04
  * @Description: content
  */
 import Vue from 'vue'
@@ -603,14 +603,14 @@ const request = function (param, backpage, backtype) {
           // 签名错误不抛错
         } else if (res.data.code == 1001) {
           // #ifdef H5
-          let pages = getCurrentPages()
-          Vue.prototype.$common.to({
-            type: 2,
-            url: '/pages/mine/login',
-            query: Vue.prototype.$common.getOptions({
-              page: `/${pages[pages.length - 1].route}`
-            })
-          })
+          // let pages = getCurrentPages()
+          // Vue.prototype.$common.to({
+          //   type: 2,
+          //   url: '/pages/mine/login',
+          //   query: Vue.prototype.$common.getOptions({
+          //     page: `/${pages[pages.length - 1].route}`
+          //   })
+          // })
           // #endif
         } else if (res.data.code == 1002) {
           // 需要登录
@@ -636,6 +636,11 @@ const request = function (param, backpage, backtype) {
           //     page: `/${pages[pages.length - 1].route}`
           //   })
           // })
+
+          // uni.reLaunch({
+          //   url: '/pages/tabBar/index'
+          // });
+
           // #endif
           // #ifdef MP
           // let wxpages = getCurrentPages()

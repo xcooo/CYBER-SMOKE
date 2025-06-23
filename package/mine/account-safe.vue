@@ -1,11 +1,11 @@
 <!--
  * @Date: 2022-11-23 11:45:21
- * @LastEditTime: 2025-04-27 17:01:05
+ * @LastEditTime: 2025-06-12 10:54:14
  * @Description: content
 -->
 <template>
   <view class="page-wrap">
-    <uni-nav-bar title="账号与安全" color="#fff" leftIcon="left" backgroundColor="#222333" :border="false" :statusBar="true"
+    <uni-nav-bar title="账号与安全"  color="#333" leftIcon="left"  backgroundColor="#fff" :border="false" :statusBar="true"
       :fixed="true" @clickLeft="$common.back()"></uni-nav-bar>
 
     <view class="page-wrap-bd">
@@ -305,16 +305,10 @@ export default {
 
 <style lang="scss">
 .page-wrap {
-  background: url("https://img.alicdn.com/imgextra/i4/2200676927379/O1CN01unkdtT24NdWplMdw8_!!2200676927379.png") no-repeat;
-  background-size: 100vw 100%;
-  background-repeat: no-repeat;
-  min-height: calc(100vh - 50px);
-  background: #222333;
-
   &-bd {
     width: 690rpx;
     margin: 30rpx auto 0;
-    // background: #fff;
+    background: #fff;
     border-radius: 10rpx;
 
     .row {
@@ -327,11 +321,11 @@ export default {
         font-size: 26rpx;
         font-family: PingFang SC;
         font-weight: 500;
-        color: #fff;
+        color: #666666;
       }
 
       .right {
-        color: #fff;
+        color: #666666;
 
         .avatar {
           width: 70rpx;

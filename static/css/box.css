@@ -43,7 +43,7 @@
 .kefu {
   width: 90rpx;
   height: 90rpx;
-  background: url('@/static/image/so.png') no-repeat;
+  background: url('https://img.alicdn.com/imgextra/i3/2200676927379/O1CN01wTk0sq24Ndco6WJMd_!!2200676927379.png') no-repeat;
   background-size: 100% 100%;
   border: none;
   outline: none;
@@ -111,7 +111,6 @@ button::after {
 
 .maxyou {
   display: inline-block;
-  background: url('@/static/image/youhuitit.png') no-repeat;
   padding: 8rpx 30rpx 16rpx;
   background-size: 100% 100%;
   text-align: center;
