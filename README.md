@@ -45,41 +45,14 @@
 - ✅ 头条小程序
 - ✅ App (iOS/Android)
 
-### 文件结构
-```
-pages/tabBar/home.vue          # 主页面
-utils/smokeParticleSystem.js   # 烟雾粒子系统
-utils/audioManager.js          # 音效管理器
-static/sounds/                 # 音效文件目录
-```
 
 ## 使用方法
 
 ### 1. 基本操作
-1. 打开页面，点击"点燃"按钮开始体验
-2. 触摸屏幕并拖动手指控制烟雾方向
-3. 点击"吸一口"按钮触发吸一口动画
-4. 点击"重置"按钮重新开始
+1. 打开页面，点击"点火"按钮开始体验
+3. 点击"切换模式"按钮触发切换模式动画
+4. 点击"再来一根"按钮重新开始
 
-### 2. 设置调节
-1. 点击右上角"⚙️ 设置"按钮打开设置面板
-2. 调节燃烧速度滑块控制燃烧快慢
-3. 调节烟雾强度滑块控制烟雾浓度
-4. 调节火星数量滑块控制火星密度
-5. 点击音效按钮开关音效
-
-### 3. 手势控制
-- **触摸拖动**: 控制烟雾飘散方向
-- **长按**: 持续控制烟雾方向
-- **快速拖动**: 产生更强的风向效果
-
-## 音效文件
-
-需要在 `static/sounds/` 目录下放置以下音效文件：
-- `ignite.mp3` - 点燃音效
-- `puff.mp3` - 吸一口音效
-- `extinguish.mp3` - 熄灭音效
-- `spark.mp3` - 火星音效
 
 ## 性能优化
 
@@ -98,30 +71,6 @@ static/sounds/                 # 音效文件目录
 - Canvas API 统一封装
 - 音效播放兼容不同平台
 
-## 自定义配置
-
-### 烟雾粒子系统配置
-```javascript
-const smokeSystem = new SmokeParticleSystem('canvasId', {
-  maxParticles: 150,           // 最大粒子数量
-  particleSize: { min: 8, max: 30 },  // 粒子大小范围
-  particleLife: { min: 3000, max: 6000 },  // 粒子生命周期
-  particleSpeed: { min: 0.8, max: 3 },  // 粒子速度范围
-  particleAlpha: { min: 0.2, max: 0.7 },  // 透明度范围
-  turbulence: 0.15,           // 湍流强度
-  gravity: -0.08              // 重力效果
-})
-```
-
-### 燃烧配置
-```javascript
-config: {
-  burnSpeed: 0.5,        // 燃烧速度 (%/秒)
-  sparkCount: 8,         // 火星数量
-  smokeIntensity: 50,    // 烟雾强度
-  puffIntensity: 20      // 吸一口增加的烟雾强度
-}
-```
 
 ## 注意事项
 
