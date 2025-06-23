@@ -153,23 +153,20 @@ config: {
 ## ☕ 赞助支持
 如果你喜欢这个项目，欢迎通过以下方式打赏支持：
 
-<table align="center">
+<table align="center" style="border-collapse: collapse; margin-top: 20px;">
   <tr>
-    <td align="center">
+    <td align="center" style="padding-right: 20px;">
       <img src="./static/donate-wechat.jpg" width="180" height="180" />
     </td>
-    <td style="width: 40px;"></td> <!-- 间距 -->
-    <td align="center">
+    <td align="center" style="padding-left: 20px;">
       <img src="./static/donate-alipay.jpg" width="180" height="180" />
     </td>
   </tr>
   <tr>
     <td align="center"><strong>微信扫码打赏</strong></td>
-    <td></td>
     <td align="center"><strong>支付宝扫码打赏</strong></td>
   </tr>
 </table>
-
 
 
 
