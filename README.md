@@ -1,6 +1,12 @@
-# 虚拟赛博吸烟效果
+# 🧪 虚拟赛博吸烟模拟器 · Cyber Smoke Simulator
 
-一个基于 Vue2 + UniApp 实现的虚拟赛博吸烟效果页面，包含逼真的香烟燃烧、烟雾粒子系统和交互功能。
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Vue 2](https://img.shields.io/badge/Vue-2.x-brightgreen.svg)](https://vuejs.org/)
+[![UniApp](https://img.shields.io/badge/UniApp-H5%20%7C%20小程序%20%7C%20APP-orange.svg)](https://uniapp.dcloud.io/)
+
+> 一个高拟真度的虚拟香烟体验页面，支持香烟燃烧、烟雾扩散、火星飞溅等多种交互效果。纯娱乐用途，**拒绝真实吸烟行为**！
+
+---
 
 ## 功能特性
 
@@ -143,6 +149,11 @@ config: {
 ## 许可证
 
 本项目仅供学习和娱乐使用，请勿用于商业用途。
+
+## ☕ 赞助支持
+如果你喜欢这个项目，欢迎通过以下方式打赏支持：
+
+<div align="center"> <img src="./static/donate-wechat.jpg" width="180" /> <img src="./static/donate-alipay.jpg" width="180" /> <br/> <strong>微信 / 支付宝 扫码打赏</strong> </div>
 
 ## 贡献
 
