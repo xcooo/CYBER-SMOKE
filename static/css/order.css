@@ -1,0 +1,55 @@
+page{
+	background-color: #F4F4FC;
+}
+.orderList{
+	padding: 20rpx;
+	box-sizing: border-box;
+}
+.orderList .list{
+	margin-bottom: 20rpx;
+	background-color: #fff;
+	padding: 20rpx;
+	box-sizing: border-box;
+}
+.tit{
+	padding-bottom: 20rpx;
+	border-bottom: 1rpx solid #f4f4f5;
+}
+.tit .state{
+	color: #999;
+}
+.list .goods{
+	padding: 20rpx 0;
+	display: flex;
+	border-bottom: 1rpx solid #f4f4f5;
+}
+.list .goods image{
+	width: 200rpx;
+	height: 200rpx;
+	flex-shrink: 0;
+}
+.goods .info{
+	margin-left: 20rpx;
+	width: 100%;
+}
+.goods .peice{
+	margin-top: 20rpx;
+}
+.goods .peice .p{
+	font-size: 34rpx;
+	font-weight: bold;
+}
+.goods .peice .num{
+	color: #999;
+}
+.total{
+	margin-top: 20rpx;
+	text-align: right;
+}
+.shu {
+	color: #999;
+}
+.total .pri{
+	font-weight: bold;
+	font-size: 40rpx;
+}

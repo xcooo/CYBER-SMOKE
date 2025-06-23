@@ -1,0 +1,207 @@
+page {
+	background-color: #F3F8FC;
+}
+
+.head {
+	background: url('https://www.img.xcooo.cn/uploads/2024/02/1b325ca1c71ecb1e.png') no-repeat;
+	background-size: 100%;
+	/* height: 500rpx; */
+	width: 750rpx;
+	padding-top: 44rpx;
+}
+
+.topbtn {
+	display: flex;
+	/* #ifdef MP-WEIXIN */
+	margin-top: 40rpx;
+	/* #endif */
+	justify-content: flex-end;
+}
+
+.topbtn .xiao {
+	width: 50rpx;
+	height: 50rpx;
+	position: relative;
+	margin-right: 30rpx;
+}
+
+.topbtn image {
+	width: 50rpx;
+	height: 50rpx;
+	padding: 10rpx;
+}
+
+.userInfo {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 40rpx;
+	box-sizing: border-box;
+	width: 750rpx;
+	margin-top: 10rpx;
+}
+
+.userInfo .left {
+	display: flex;
+	align-items: center;
+
+}
+
+.userInfo .left image {
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+	margin-right: 20rpx;
+}
+
+.userInfo .left .name {
+	display: flex;
+	align-items: center;
+}
+
+.userInfo .left .name .userName {
+	font-size: 32rpx;
+  color: #fff;
+}
+
+.userInfo .left .name .denglu {
+	color: #fff;
+	font-size: 24rpx;
+	margin-top: 10rpx;
+}
+
+.userInfo .edit {
+	display: flex;
+	align-items: center;
+	border-radius: 60rpx;
+	height: 60rpx;
+	border: 1rpx solid #000;
+	padding: 0 20rpx;
+}
+
+.userInfo .edit image {
+	width: 40rpx;
+	height: 40rpx;
+}
+
+.jinebox {
+	width: 710rpx;
+	padding: 30rpx 20rpx;
+	box-sizing: border-box;
+	border-radius: 16rpx;
+	/* background: url(https://img.50api.cn/dingdang/xt.png); */
+	background: #fff;
+	background-size: 100%;
+	/* height: 192rpx; */
+	margin: 20rpx auto;
+	margin-top: 40rpx;
+}
+
+.jinebox .mx {
+	text-align: right;
+	color: #fff;
+}
+
+.jinebox .box11 {
+	display: flex;
+	margin-top: 10rpx;
+}
+
+.box11 .yue {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50%;
+}
+
+.box11 .yue image {
+	width: 60rpx;
+	height: 60rpx;
+	margin-left: -20rpx;
+	margin-right: 20rpx;
+}
+
+.orderbox {
+	display: flex;
+	width: 710rpx;
+	height: 81rpx;
+	justify-content: space-between;
+	margin: 20rpx auto;
+}
+
+.orderbox .obox {
+	width: 49%;
+	border-radius: 10rpx;
+	background-color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.orderbox .obox image {
+	width: 70rpx;
+	height: 70rpx;
+}
+.myOrder,.myapp{
+	background-color: #fff;
+	border-radius: 16rpx;
+	padding: 20rpx;
+	width: 710rpx;
+	margin: 20rpx auto;
+	box-sizing: border-box;
+}
+.myOrder .allorder{
+	font-size: 26rpx;
+	color: #999;
+}
+.myOrder .orderList{
+	margin-top: 20rpx;
+	padding: 0 20rpx;
+	box-sizing: border-box;
+}
+.myOrder .orderList .list{
+	text-align: center;
+	position: relative;
+}
+.myOrder .orderList image,.myapp .list image{
+	width: 55rpx;
+	height: 55rpx;
+}
+.myapp .list{
+	margin-top: 30rpx;
+	text-align: center;
+	width: 25%;
+	font-size: 28rpx;
+	line-height: 1.5;
+	padding: 0;
+}
+.kefu{
+	background: none;
+}
+button::after {
+	border: none;
+}
+.cdkbox{
+	width: 500rpx;
+	background-color: #fff;
+	padding: 30rpx;
+	box-sizing: border-box;
+}
+.cdkbox .tit{
+	text-align: center;
+	margin-bottom: 35rpx;
+}
+.cdkbox .inp{
+	border-radius: 16rpx;
+	border: 1rpx solid #333;
+	height: 60rpx;
+}
+.cdkbox button{
+	border-radius: 8rpx;
+	color: #fff;
+	background-color: #00E1DB;
+	height: 70rpx;
+	line-height: 70rpx;
+	margin-top: 25rpx;
+	font-size: 28rpx;
+}
