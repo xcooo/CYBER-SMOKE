@@ -26,6 +26,17 @@
         <!-- 烟身 -->
         <view class="body" :style="{ height: cigaretteLength + 'vh' }">
           <view class="cigarette-paper">
+            <!-- 新增火焰元素 -->
+            <view class="flame" :class="{ igniting: isIgniting }" v-if="isIgniting"
+              :style="{ top: `calc(${burnProgress}% - 40rpx)` }">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </view>
             <!-- 烧焦边缘 -->
             <view class="burn-edge" v-if="isBurning" :style="{ top: burnProgress + '%' }"></view>
 
@@ -118,7 +129,7 @@
           <view>2. 解决公共场所或上班状态不能吸烟的痛楚！</view>
           <view>3. 对着充电口吹气，燃烧速度更快哦！</view>
           <view>4. 赛博畅吸市面上的香烟或特供香烟！</view>
-          <view>5. 商业玩法合作加V: xcooo88</view>
+          <view>5. 赛博经济商业玩法合作加V: xcooo88</view>
         </view>
         <view class="info-btns">
           <view class="info-close-btn" @click="showInfoPopup = false">我知道了</view>
@@ -159,8 +170,11 @@ export default {
   },
   data () {
     return {
+      // 原有数据...
       isBurning: true,
       isActivelyBurning: false,
+      isIgniting: false, // 新增：点火时的火焰状态
+      ignitionTimer: null, // 新增：点火动画定时器
       smokeParticles: [],
       stars: [],
       animationFrameId: null,
@@ -176,14 +190,22 @@ export default {
       cigaretteBrand: '中华',
       cigaretteWidth: 80,
       cigaretteLength: 60,
-      // 云雾效果控制
-      cloudEffectTimer: null,
       isCloudEffectActive: false,
-      // 模式切换动画控制
       showModeTransition: false,
       isFadingIn: false,
       isFadingOut: false,
-      modeTransitionTimer: null
+      modeTransitionTimer: null,
+
+      // 吹气检测相关数据
+      isBlowDetecting: false,
+      blowStrength: 0,       // 吹气强度 (0-1)
+      blowSpeedMultiplier: 1, // 吹气速度倍率
+      audioContext: null,
+      analyser: null,
+      microphone: null,
+      dataArray: null,
+      blowTimeout: null,
+      lastBlowTime: 0
     }
   },
   mounted () {
@@ -191,33 +213,34 @@ export default {
     this.generateTriggerPoints();
     this.startAnimationLoop();
     this.initAudioManager();
+
+    // 初始化吹气检测
+    this.initBlowDetection();
   },
   beforeDestroy () {
     cancelAnimationFrame(this.animationFrameId);
     this.stopCloudEffect();
     this.clearModeTransitionTimer();
+    this.stopBlowDetection(); // 停止吹气检测
+    if (this.ignitionTimer) clearTimeout(this.ignitionTimer);
   },
   methods: {
+    // 原有方法...
     generateTriggerPoints () {
       this.burnTriggerPoints = [];
       this.triggeredPoints.clear();
 
-      // 生成3-6个随机触发点，分布在15%-85%之间
-      const numPoints = 3 + Math.floor(Math.random() * 4); // 3-6个点
-
-      // 将进度范围分成几个区间，每个区间随机生成一个触发点
-      const progressRange = 70; // 85% - 15% = 70%
+      const numPoints = 3 + Math.floor(Math.random() * 4);
+      const progressRange = 70;
       const intervalSize = progressRange / numPoints;
 
       for (let i = 0; i < numPoints; i++) {
         const minProgress = 15 + (i * intervalSize);
         const maxProgress = minProgress + intervalSize;
-        // 在每个区间内随机生成，但避免边界
         const triggerPoint = minProgress + 5 + Math.random() * (intervalSize - 10);
         this.burnTriggerPoints.push(triggerPoint);
       }
 
-      // 按进度排序
       this.burnTriggerPoints.sort((a, b) => a - b);
 
       console.log('生成的触发点:', this.burnTriggerPoints.map(p => p.toFixed(2)));
@@ -267,9 +290,15 @@ export default {
     },
     updateBurnProgress () {
       if (this.isActivelyBurning && this.burnProgress < 100) {
-        const base = 0.15;
+        // 根据吹气强度调整燃烧速度
+        const baseSpeed = this.smokeMode === 'continuous' ? 0.25 : 0.15;
+        const speedMultiplier = this.isBlowDetecting && this.blowStrength > 0.3
+          ? 1 + this.blowStrength * 3 // 最大4倍速度
+          : 1;
+        this.blowSpeedMultiplier = speedMultiplier;
+
         const jitter = (Math.random() - 0.5) * 0.2;
-        this.burnProgress += base + jitter;
+        this.burnProgress += (baseSpeed * speedMultiplier) + jitter;
 
         if (this.burnProgress >= 100) {
           this.burnProgress = 100;
@@ -284,13 +313,11 @@ export default {
           }
         }
 
-        // 检查是否到达任何触发点
         this.burnTriggerPoints.forEach((triggerPoint, index) => {
           if (this.burnProgress >= triggerPoint && !this.triggeredPoints.has(index)) {
             this.triggeredPoints.add(index);
             if (this.audioManager) this.audioManager.play('cloud');
 
-            // 启动云雾效果
             this.startCloudEffect();
 
             console.log(`燃烧进度到达触发点 ${index + 1}: ${triggerPoint.toFixed(2)}%`);
@@ -340,7 +367,7 @@ export default {
       this.isActivelyBurning = false;
     },
     startBurning () {
-      if (this.burnProgress == 100) {
+      if (this.burnProgress === 100) {
         uni.showToast({
           title: '本只已抽完，请再来一根',
           icon: 'none',
@@ -349,14 +376,26 @@ export default {
         return
       }
       if (this.audioManager) this.audioManager.play('startBurning');
+
+      // 新增：显示点火火焰动画
+      this.showIgnitionFlame();
       if (this.smokeMode === 'segment') {
         this.startSegmentSmoking();
       } else {
         this.startContinuousSmoking();
       }
     },
+    // 新增：点火火焰动画
+    showIgnitionFlame () {
+      this.isIgniting = true;
+
+      // 火焰动画持续1.5秒后消失
+      this.ignitionTimer = setTimeout(() => {
+        this.isIgniting = false;
+      }, 1500);
+    },
     cigarettePopupClose () {
-      if (this.cigaretteBrand == '') {
+      if (this.cigaretteBrand === '') {
         this.cigaretteBrand = '中华'
       }
     },
@@ -390,10 +429,8 @@ export default {
         this.smokeMode = 'segment';
       }
 
-      // 显示模式切换动画
       this.showModeTransitionAnimation();
 
-      // 自动开始吸烟
       if (this.isBurning && this.burnProgress < 100) {
         this.startSmoking();
       }
@@ -403,12 +440,15 @@ export default {
         audios: {
           startBurning: new Audio(require('@/static/sounds/startBurning.mp3')),
           cloud: new Audio(require('@/static/sounds/cloud.mp3')),
+          blowDetected: new Audio(require('@/static/sounds/blowDetected.mp3')) // 新增吹气音效
         },
         play (name) {
           const audio = this.audios[name];
           if (audio) {
             audio.currentTime = 0;
-            audio.play();
+            audio.play().catch(err => {
+              console.error(`音频播放失败 (${name}):`, err);
+            });
           }
         },
         stop (name) {
@@ -423,13 +463,10 @@ export default {
     applyCigaretteStyle () {
       this.showCigarettePopup = false;
     },
-    // 启动云雾效果
     startCloudEffect () {
-      // 如果云雾效果已经在运行，延长持续时间而不是重新启动
       if (this.isCloudEffectActive && this.cloudEffectTimer) {
         clearTimeout(this.cloudEffectTimer);
 
-        // 延长云雾效果持续时间（额外2-4秒）
         const extendedDuration = 2000 + Math.random() * 2000;
 
         this.cloudEffectTimer = setTimeout(() => {
@@ -440,22 +477,17 @@ export default {
         return;
       }
 
-      // 启动新的云雾效果
       this.isCloudEffectActive = true;
       this.$refs.cloudBackgroundBlack.start();
 
-      // 设置云雾效果持续时间（3-6秒随机）
       const cloudDuration = 3000 + Math.random() * 3000;
 
-      // 定时停止云雾效果
       this.cloudEffectTimer = setTimeout(() => {
         this.stopCloudEffect();
       }, cloudDuration);
 
       console.log(`云雾效果启动，持续时间: ${(cloudDuration / 1000).toFixed(1)}秒`);
     },
-
-    // 停止云雾效果
     stopCloudEffect () {
       this.isCloudEffectActive = false;
       this.$refs.cloudBackgroundBlack.stop();
@@ -465,25 +497,19 @@ export default {
       }
       console.log('云雾效果已停止');
     },
-
-    // 显示模式切换动画
     showModeTransitionAnimation () {
       this.clearModeTransitionTimer();
 
-      // 重置动画状态
       this.showModeTransition = true;
       this.isFadingIn = true;
       this.isFadingOut = false;
 
-      // 淡入动画 (1秒)
       setTimeout(() => {
         this.isFadingIn = false;
 
-        // 保持显示 (3秒)
         setTimeout(() => {
           this.isFadingOut = true;
 
-          // 淡出动画 (1秒)
           setTimeout(() => {
             this.showModeTransition = false;
             this.isFadingOut = false;
@@ -491,18 +517,134 @@ export default {
         }, 3000);
       }, 1000);
     },
-
-    // 清除模式切换动画定时器
     clearModeTransitionTimer () {
       if (this.modeTransitionTimer) {
         clearTimeout(this.modeTransitionTimer);
         this.modeTransitionTimer = null;
       }
+    },
+
+    // ===== 吹气检测相关方法 =====
+    initBlowDetection () {
+      // 检查浏览器是否支持Web Audio API
+      if (!window.AudioContext && !window.webkitAudioContext) {
+        console.error('当前不支持Web Audio API，吹气检测功能不可用');
+        uni.showToast({
+          title: '不支持吹气功能',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
+
+      // 申请充电口权限并初始化音频分析
+      this.requestMicrophonePermission();
+    },
+
+    requestMicrophonePermission () {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          this.setupAudioContext(stream);
+          this.isBlowDetecting = true;
+          uni.showToast({
+            title: '已启用吹气检测，对着手机充电口吹气',
+            icon: 'success',
+            duration: 2000
+          });
+        })
+        .catch(err => {
+          this.handleMicrophoneError(err);
+        });
+    },
+
+    setupAudioContext (stream) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      this.audioContext = new AudioContext();
+      this.analyser = this.audioContext.createAnalyser();
+      this.microphone = this.audioContext.createMediaStreamSource(stream);
+
+      this.microphone.connect(this.analyser);
+      this.analyser.fftSize = 256;
+
+      this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+
+      // 开始实时分析音频数据
+      this.startAudioAnalysis();
+    },
+
+    startAudioAnalysis () {
+      if (!this.audioContext || !this.analyser || !this.dataArray) return;
+
+      const analyze = () => {
+        if (this.audioContext.state === 'closed') return;
+
+        this.analyser.getByteFrequencyData(this.dataArray);
+        this.detectBlowStrength();
+        requestAnimationFrame(analyze);
+      };
+
+      analyze();
+    },
+
+    detectBlowStrength () {
+      if (!this.dataArray || this.dataArray.length === 0) return;
+
+      // 计算音频数据的最大值作为吹气强度
+      const maxVolume = Math.max(...this.dataArray);
+      this.blowStrength = maxVolume / 255; // 标准化为0-1范围
+
+      // 检测到有效吹气（强度>0.3）
+      if (this.blowStrength > 0.3) {
+        this.lastBlowTime = Date.now();
+
+        // 播放吹气音效（避免频繁播放）
+        if (Date.now() - this.lastBlowSoundTime > 1000) {
+          this.audioManager.play('blowDetected');
+          this.lastBlowSoundTime = Date.now();
+        }
+
+        // 更新状态显示
+        this.statusText = `正在吹气，燃烧速度: ${(this.blowSpeedMultiplier * 100).toFixed(0)}%`;
+      } else if (Date.now() - this.lastBlowTime > 1500) {
+        // 停止吹气一段时间后恢复正常状态
+        this.statusText = this.isActivelyBurning
+          ? '香烟已点燃'
+          : '香烟已熄灭';
+      }
+    },
+
+    stopBlowDetection () {
+      this.isBlowDetecting = false;
+      this.blowStrength = 0;
+      this.blowSpeedMultiplier = 1;
+
+      if (this.audioContext) {
+        if (this.microphone) this.microphone.disconnect();
+        this.audioContext.close();
+        this.audioContext = null;
+      }
+    },
+
+    handleMicrophoneError (err) {
+      console.error('麦克风权限申请失败:', err);
+      this.isBlowDetecting = false;
+
+      let errorMsg = '无法访问麦克风，吹气功能不可用';
+      if (err.name === 'NotAllowedError') {
+        errorMsg = '请在浏览器设置中允许麦克风访问';
+      } else if (err.name === 'NotFoundError') {
+        errorMsg = '未检测到麦克风设备';
+      }
+
+      uni.showToast({
+        title: errorMsg,
+        icon: 'none',
+        duration: 3000
+      });
     }
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .cyber-smoke-container {
@@ -604,7 +746,7 @@ export default {
     //     #e8e8e8 70%,
     //     #e0e0e0 100%);
     border-radius: 12rpx 12rpx 0 0;
-    overflow: hidden;
+    // overflow: hidden;
     // border: 2rpx solid #d0d0d0;
     // box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2), 0 2rpx 4rpx rgba(0, 0, 0, 0.1),
     //   inset 0 2rpx 4rpx rgba(255, 255, 255, 0.8),
@@ -626,6 +768,7 @@ export default {
       z-index: 3;
     }
 
+
     .cigarette-paper {
       position: absolute;
       width: 100%;
@@ -636,6 +779,131 @@ export default {
           #f8f8f8 4rpx,
           #f8f8f8 8rpx);
       border-radius: 12rpx 12rpx 0 0;
+
+      .flame {
+        position: absolute;
+        width: 100%;
+        height: 120rpx;
+        left:50%;
+
+        z-index: 7;
+        pointer-events: none;
+        transform-origin: center bottom;
+        opacity: 0;
+
+        /* 点火时淡入效果 */
+        &.igniting {
+          animation: fadeIn 0.3s forwards;
+        }
+
+        /* 主火焰层 */
+        &::before {
+          content: "";
+          position: absolute;
+          top: -30rpx;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 130%;
+          height: 100%;
+          background: radial-gradient(ellipse at center,
+              rgba(255, 30, 0, 0.9) 0%,
+              rgba(255, 90, 0, 0.8) 30%,
+              rgba(255, 150, 0, 0.6) 60%,
+              transparent 85%);
+          border-radius: 45% 45% 30% 30% / 70% 70% 30% 30%;
+          animation: flameMain 0.8s infinite alternate cubic-bezier(0.4, 0, 0.6, 1);
+          filter: blur(2rpx);
+        }
+
+        /* 中间火焰层 */
+        &::after {
+          content: "";
+          position: absolute;
+          top: -40rpx;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100%;
+          height: 80%;
+          background: radial-gradient(ellipse at center,
+              rgba(255, 200, 0, 0.95) 0%,
+              rgba(255, 180, 0, 0.8) 40%,
+              rgba(255, 150, 0, 0.6) 70%,
+              transparent 90%);
+          border-radius: 50%;
+          animation: flameMiddle 0.6s infinite alternate cubic-bezier(0.3, 0, 0.7, 1);
+          filter: blur(3rpx);
+          opacity: 0.9;
+        }
+
+        /* 明亮核心层 */
+        & span:nth-child(1) {
+          content: "";
+          position: absolute;
+          top: -50rpx;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60%;
+          height: 50%;
+          background: radial-gradient(ellipse at center,
+              rgba(255, 255, 180, 1) 0%,
+              rgba(255, 230, 0, 0.9) 50%,
+              rgba(255, 200, 0, 0.7) 80%,
+              transparent 100%);
+          border-radius: 50%;
+          animation: flameCore 0.4s infinite alternate cubic-bezier(0.5, 0, 0.5, 1);
+          filter: blur(4rpx);
+          z-index: 10;
+        }
+
+        /* 随机火焰粒子 */
+        & span:nth-child(n+2) {
+          content: "";
+          position: absolute;
+          top: -40rpx;
+          left: 50%;
+          width: 15rpx;
+          height: 25rpx;
+          background: radial-gradient(circle at center,
+              rgba(255, 200, 0, 0.8) 0%,
+              rgba(255, 150, 0, 0.6) 50%,
+              transparent 80%);
+          border-radius: 50%;
+          opacity: 0;
+          filter: blur(2rpx);
+          animation: flameParticle 2s infinite ease-in;
+        }
+
+        /* 生成多个随机位置的粒子 */
+        & span:nth-child(2) {
+          animation-delay: 0.2s;
+          left: 30%;
+        }
+
+        & span:nth-child(3) {
+          animation-delay: 0.7s;
+          left: 70%;
+        }
+
+        & span:nth-child(4) {
+          animation-delay: 1.2s;
+          left: 40%;
+        }
+
+        & span:nth-child(5) {
+          animation-delay: 1.7s;
+          left: 60%;
+        }
+
+        & span:nth-child(6) {
+          animation-delay: 0.5s;
+          left: 25%;
+        }
+
+        & span:nth-child(7) {
+          animation-delay: 1.1s;
+          left: 75%;
+        }
+      }
 
       .burn-edge {
         position: absolute;
@@ -727,6 +995,76 @@ export default {
     }
   }
 
+  /* 淡入动画 */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* 主火焰动画 */
+  @keyframes flameMain {
+    0% {
+      transform: translateX(-50%) scale(1) rotate(-2deg);
+      height: 100%;
+      border-radius: 45% 45% 30% 30% / 70% 70% 30% 30%;
+    }
+
+    100% {
+      transform: translateX(-50%) scale(1.05) rotate(2deg);
+      height: 110%;
+      border-radius: 45% 45% 30% 30% / 80% 80% 20% 20%;
+    }
+  }
+
+  /* 中间火焰动画 */
+  @keyframes flameMiddle {
+    0% {
+      transform: translateX(-50%) scale(0.95) rotate(1deg);
+      opacity: 0.85;
+    }
+
+    100% {
+      transform: translateX(-50%) scale(1.05) rotate(-1deg);
+      opacity: 0.95;
+    }
+  }
+
+  /* 核心火焰动画 */
+  @keyframes flameCore {
+    0% {
+      transform: translateX(-50%) scale(0.9) translateY(0);
+      opacity: 0.9;
+    }
+
+    100% {
+      transform: translateX(-50%) scale(1.1) translateY(-5rpx);
+      opacity: 1;
+    }
+  }
+
+  /* 火焰粒子动画 */
+  @keyframes flameParticle {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 0) scale(0.3);
+    }
+
+    20% {
+      opacity: 0.8;
+    }
+
+    100% {
+      opacity: 0;
+      transform: translate(calc(-50% + var(--x, 0)), calc(-100% + var(--y, 0))) scale(1);
+    }
+  }
+
+
   @keyframes emberFlicker {
     from {
       opacity: 0.3;
@@ -749,7 +1087,7 @@ export default {
         #b8860b 70%,
         #a67c00 100%);
     border-radius: 0 0 12rpx 12rpx;
-    border: 2rpx solid #9a6b1f;
+    // border: 2rpx solid #9a6b1f;
     box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2), 0 2rpx 4rpx rgba(0, 0, 0, 0.1),
       inset 0 2rpx 4rpx rgba(255, 255, 255, 0.6),
       inset 0 -2rpx 4rpx rgba(0, 0, 0, 0.2);
