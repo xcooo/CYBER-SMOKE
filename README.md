@@ -4,7 +4,7 @@
 [![Vue 2](https://img.shields.io/badge/Vue-2.x-brightgreen.svg)](https://vuejs.org/)
 [![UniApp](https://img.shields.io/badge/UniApp-H5%20%7C%20小程序%20%7C%20APP-orange.svg)](https://uniapp.dcloud.io/)
 
-> 一个高拟真度的虚拟香烟体验页面，支持香烟燃烧、烟雾扩散、火星飞溅等多种交互效果。纯娱乐用途，**拒绝真实吸烟行为**！
+> 一个高拟真度的虚拟香烟项目，支持香烟燃烧、烟雾扩散、火星飞溅等多种交互效果。纯娱乐用途，**拒绝真实吸烟行为**！
 
 ---
 
