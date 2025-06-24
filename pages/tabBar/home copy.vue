@@ -29,12 +29,13 @@
             <!-- 烧焦边缘 -->
             <view class="burn-edge" v-if="isBurning" :style="{ top: burnProgress + '%' }"></view>
 
+            <!-- 火光 -->
             <view class="ember" v-if="isBurning" :style="{ top: `calc(${burnProgress}% - 10rpx)` }"></view>
 
             <!-- 竖纹 -->
             <view class="thread-pattern"></view>
 
-            <!-- 烟灰 -->
+            <!-- 已经燃烧过的烟身区域 -->
             <view class="burned-ash" v-if="burnProgress > 0" :style="{ height: burnProgress + '%', top: 0 }">
             </view>
           </view>
@@ -104,7 +105,8 @@
     </view>
 
     <!-- 模式切换动画提示 -->
-    <view class="mode-transition-animation" v-if="showModeTransition" :class="{ 'fade-in': isFadingIn, 'fade-out': isFadingOut }">
+    <view class="mode-transition-animation" v-if="showModeTransition"
+      :class="{ 'fade-in': isFadingIn, 'fade-out': isFadingOut }">
       <view class="mode-transition-text">{{ smokeMode === 'segment' ? '已切换到节俭模式' : '已切换到土豪模式' }}</view>
     </view>
 
@@ -384,14 +386,17 @@ export default {
       this.stopSmoking();
       if (this.smokeMode === 'segment') {
         this.smokeMode = 'continuous';
-        this.startContinuousSmoking();
       } else {
         this.smokeMode = 'segment';
-        this.startSegmentSmoking();
       }
 
       // 显示模式切换动画
       this.showModeTransitionAnimation();
+
+      // 自动开始吸烟
+      if (this.isBurning && this.burnProgress < 100) {
+        this.startSmoking();
+      }
     },
     initAudioManager () {
       this.audioManager = {
@@ -460,24 +465,24 @@ export default {
       }
       console.log('云雾效果已停止');
     },
-    
+
     // 显示模式切换动画
-    showModeTransitionAnimation() {
+    showModeTransitionAnimation () {
       this.clearModeTransitionTimer();
-      
+
       // 重置动画状态
       this.showModeTransition = true;
       this.isFadingIn = true;
       this.isFadingOut = false;
-      
+
       // 淡入动画 (1秒)
       setTimeout(() => {
         this.isFadingIn = false;
-        
+
         // 保持显示 (3秒)
         setTimeout(() => {
           this.isFadingOut = true;
-          
+
           // 淡出动画 (1秒)
           setTimeout(() => {
             this.showModeTransition = false;
@@ -486,9 +491,9 @@ export default {
         }, 3000);
       }, 1000);
     },
-    
+
     // 清除模式切换动画定时器
-    clearModeTransitionTimer() {
+    clearModeTransitionTimer () {
       if (this.modeTransitionTimer) {
         clearTimeout(this.modeTransitionTimer);
         this.modeTransitionTimer = null;
@@ -592,18 +597,18 @@ export default {
     position: relative;
     width: 100%;
     height: 60vh;
-    background: linear-gradient(135deg,
-        #ffffff 0%,
-        #f8f8f8 30%,
-        #f0f0f0 50%,
-        #e8e8e8 70%,
-        #e0e0e0 100%);
+    // background: linear-gradient(135deg,
+    //     #ffffff 0%,
+    //     #f8f8f8 30%,
+    //     #f0f0f0 50%,
+    //     #e8e8e8 70%,
+    //     #e0e0e0 100%);
     border-radius: 12rpx 12rpx 0 0;
     overflow: hidden;
-    border: 2rpx solid #d0d0d0;
-    box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2), 0 2rpx 4rpx rgba(0, 0, 0, 0.1),
-      inset 0 2rpx 4rpx rgba(255, 255, 255, 0.8),
-      inset 0 -2rpx 4rpx rgba(0, 0, 0, 0.1);
+    // border: 2rpx solid #d0d0d0;
+    // box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2), 0 2rpx 4rpx rgba(0, 0, 0, 0.1),
+    //   inset 0 2rpx 4rpx rgba(255, 255, 255, 0.8),
+    //   inset 0 -2rpx 4rpx rgba(0, 0, 0, 0.1);
 
     &::before {
       content: "";
@@ -678,18 +683,17 @@ export default {
         top: 0;
         left: 0;
         width: 100%;
-        background: radial-gradient(circle at 20% 40%,
-            #4f4f4f 0%,
-            transparent 60%),
-          radial-gradient(circle at 60% 60%, #6e6e6e 0%, transparent 60%),
-          radial-gradient(circle at 80% 30%, #2f2f2f 0%, transparent 70%),
-          linear-gradient(to bottom, #a9a9a9 0%, #6e6e6e 50%, #2f2f2f 100%);
+        background:
+          radial-gradient(circle at 30% 20%, #3a3a3a 0%, transparent 50%),
+          radial-gradient(circle at 70% 60%, #555 0%, transparent 60%),
+          linear-gradient(to bottom, #7e7e7e 0%, #2e2e2e 100%);
         background-blend-mode: multiply;
         border-radius: 12rpx 12rpx 0 0;
         z-index: 2;
-        transition: height 0.1s ease-out;
+        transition: height 0.2s ease-out;
         height: 0;
 
+        // 加“碎裂质感”的图层
         &::before {
           content: "";
           position: absolute;
@@ -697,17 +701,14 @@ export default {
           left: 0;
           width: 100%;
           height: 100%;
-          background-image: repeating-linear-gradient(45deg,
-              rgba(0, 0, 0, 0.1),
-              rgba(0, 0, 0, 0.1) 2rpx,
-              transparent 2rpx,
-              transparent 4rpx),
-            repeating-linear-gradient(-45deg,
-              rgba(255, 255, 255, 0.05),
-              rgba(255, 255, 255, 0.05) 3rpx,
-              transparent 3rpx,
-              transparent 6rpx);
+
+          background-image:
+            repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.05) 0, rgba(0, 0, 0, 0.05) 1rpx, transparent 1rpx, transparent 3rpx),
+            repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 2rpx, transparent 2rpx, transparent 4rpx),
+            url('https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01epPC1S24NddXJpNir_!!2200676927379.png'); // 可选：碎灰贴图（你可以用 PNG 贴图替代）
+          background-size: cover;
           opacity: 0.4;
+          pointer-events: none;
         }
 
         &::after {
@@ -716,14 +717,13 @@ export default {
           bottom: 0;
           left: 0;
           width: 100%;
-          height: 8rpx;
-          background: radial-gradient(ellipse at center,
-              #000 0%,
-              transparent 80%);
-          filter: blur(4rpx);
+          height: 10rpx;
+          background: radial-gradient(ellipse at center, #000 0%, transparent 80%);
+          filter: blur(6rpx);
           opacity: 0.3;
         }
       }
+
     }
   }
 
@@ -789,33 +789,38 @@ export default {
     }
 
     .brand-label {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 36rpx; /* 修改宽度为文字高度 */
-  background: linear-gradient(to bottom, #b40000 0%, #8b0000 100%);
-  border-radius: 18rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 4;
-  border: 2rpx solid #8b0000;
-  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3),
-    inset 0 1rpx 2rpx rgba(255, 255, 255, 0.2);
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36rpx;
+      /* 修改宽度为文字高度 */
+      background: linear-gradient(to bottom, #b40000 0%, #8b0000 100%);
+      border-radius: 18rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 4;
+      border: 2rpx solid #8b0000;
+      box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3),
+        inset 0 1rpx 2rpx rgba(255, 255, 255, 0.2);
 
-  .brand-text {
-    color: #ffd700;
-    font-size: 22rpx;
-    font-weight: bold;
-    font-family: "STKaiti", "KaiTi", "SimKai", serif;
-    text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.8);
-    letter-spacing: 8rpx; /* 增加字间距 */
-    writing-mode: vertical-rl; /* 垂直排列，从右到左 */
-    text-orientation: upright; /* 文字保持直立 */
-    padding: 10rpx 0; /* 上下内边距 */
-  }
-}
+      .brand-text {
+        color: #ffd700;
+        font-size: 22rpx;
+        font-weight: bold;
+        font-family: "STKaiti", "KaiTi", "SimKai", serif;
+        text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.8);
+        letter-spacing: 8rpx;
+        /* 增加字间距 */
+        writing-mode: vertical-rl;
+        /* 垂直排列，从右到左 */
+        text-orientation: upright;
+        /* 文字保持直立 */
+        padding: 10rpx 0;
+        /* 上下内边距 */
+      }
+    }
 
     .brand-text-eng {
       position: absolute;
@@ -1165,9 +1170,9 @@ export default {
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.5);
-  
+
   .mode-transition-text {
-   
+
     color: #00ffff;
     font-size: 60rpx;
     font-weight: bold;
@@ -1190,6 +1195,7 @@ export default {
     opacity: 0;
     transform: translateX(-50%) scale(0.8);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) scale(1);
@@ -1201,6 +1207,7 @@ export default {
     opacity: 1;
     transform: translateX(-50%) scale(1);
   }
+
   to {
     opacity: 0;
     transform: translateX(-50%) scale(0.8);
