@@ -12,6 +12,7 @@
 
 <p align="center">
   <img src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01uMt7gV24NddULy3L1_!!2200676927379.png" alt="项目效果图" width="200" height="350" />
+  <img src="https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01eyQcdW24NddXCtFkN_!!2200676927379.png" alt="项目效果图" width="200" height="350" />
 </p>
 
 
