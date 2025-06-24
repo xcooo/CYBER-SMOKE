@@ -1,4 +1,4 @@
-# 🧪 虚拟赛博吸烟模拟器 · Cyber Smoke Simulator
+# 🧪 虚拟赛博吸烟 · Cyber Smoke
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Vue 2](https://img.shields.io/badge/Vue-2.x-brightgreen.svg)](https://vuejs.org/)
