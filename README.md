@@ -11,7 +11,6 @@
 ## 效果图
 
 <p align="center">
-  <img src="https://img.alicdn.com/imgextra/i1/2200676927379/O1CN01uMt7gV24NddULy3L1_!!2200676927379.png" alt="项目效果图1" width="200" style="max-width: 100%; margin: 4px;" />
   <img src="https://img.alicdn.com/imgextra/i2/2200676927379/O1CN01eyQcdW24NddXCtFkN_!!2200676927379.png" alt="项目效果图2" width="200" style="max-width: 100%; margin: 4px;" />
 </p>
 
