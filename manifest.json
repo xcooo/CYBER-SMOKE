@@ -185,7 +185,7 @@
             "https" : false
         },
         "router" : {
-            "base" : "/h5/",
+            "base" : "",
             "mode" : "hash"
         },
         "domain" : "http://www.dxgw.com/",
